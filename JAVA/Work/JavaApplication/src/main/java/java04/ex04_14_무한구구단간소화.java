@@ -11,9 +11,9 @@ public class ex04_14_무한구구단간소화 {
         int sum  = 0;
         int temp = 0;
         
-        for(int i = 1; true ; i=i+1){
+        for(int p = 1; true ; p=p+1){
             System.out.print("시작단을 입력 : ");
-            i= keybo.nextInt();
+            int i= keybo.nextInt();
             System.out.print("종료단을 입력 : ");
             int j = keybo.nextInt();
             
