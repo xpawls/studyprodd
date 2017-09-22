@@ -12,6 +12,21 @@ public class ex03_10_LowerUpper {
         
         char c = s.charAt(0);
         
+        int i = (int)c;
+        
+        if(i>=65 && i<=90) { 
+            i = i+32;
+            char ch = (char)i;
+            
+            System.out.println("ch to lowerCase: "+ch);
+        } else if (i>=97 && i<=122) {
+            i = i-32;
+            char ch = (char)i;
+            
+            System.out.println("ch to upperCase: "+ch);
+        } else {
+            System.out.println("에러");
+        }
         
         
     }
