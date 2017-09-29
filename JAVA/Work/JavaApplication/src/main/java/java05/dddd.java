@@ -1,4 +1,4 @@
-package java5;
+package java05;
 
 public class dddd {
     public static void main(String[] args){

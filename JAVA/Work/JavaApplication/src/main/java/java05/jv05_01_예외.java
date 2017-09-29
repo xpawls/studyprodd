@@ -1,4 +1,4 @@
-package java5;
+package java05;
 
 public class jv05_01_예외 {
     

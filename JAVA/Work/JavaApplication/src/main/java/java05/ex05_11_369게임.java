@@ -1,4 +1,4 @@
-package java5;
+package java05;
 
 public class ex05_11_369게임 {
     
