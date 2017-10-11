@@ -1,0 +1,20 @@
+sql
+
+mysql은 from을 생략할 수 있지만
+oracle은 from을 생략할 수 없다 > 가상의 테이블이라도 만들어야 함(from dual;)
+
+-쿼리구문-
+>
+select
+	from 테이블명
+	where 검색조건
+	order by 정렬조건
+	group by
+	having
+<
+
+
+자바
+
+constructor(생성자)를 만들때
+인자가 없는 constructor는 무조건 만들어야 한다.
