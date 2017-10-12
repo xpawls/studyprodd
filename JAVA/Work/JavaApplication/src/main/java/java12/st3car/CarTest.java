@@ -1,4 +1,4 @@
-package java11.st2;
+package java12.st3car;
 
 public class CarTest {
     public static void main(String[] args){
