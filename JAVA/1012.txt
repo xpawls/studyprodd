@@ -7,3 +7,4 @@
 
 static은 static 끼리만 논다
 (메서드 사용할때참고)
+class이름.static메서드

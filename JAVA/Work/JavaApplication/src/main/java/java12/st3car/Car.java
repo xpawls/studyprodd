@@ -7,6 +7,11 @@ public class Car {
     private int    speed = 100;
     private int    gear  = 4;
     
+    private int    carid = 0;
+    
+    // 실체화된 Car 객체의 개수를 위한 정적 변수
+    private static int numberOfCars = 0;
+    
     // 동작 : 메서드
     void speedUp(int s){
         this.speed = speed + s;
@@ -48,8 +53,13 @@ public class Car {
     
     // constructor(생성자)
 
+    public static int getNumberOfCars() {
+        return numberOfCars;
+    }
+
     public Car() {
         super();
+        carid = ++numberOfCars;
     }// 디폴트생성자
 
     public Car(String color, int speed, int gear) {
@@ -57,13 +67,17 @@ public class Car {
         this.color = color;
         this.speed = speed;
         this.gear = gear;
+        carid = ++numberOfCars;
     }
     // toString()
 
     @Override
     public String toString() {
         return "Car [color=" + color + ", speed=" + speed + ", gear=" + gear
-                + "]";
+                + ", carid=" + carid + "]";
     }
+
+    
+    
     
 }
