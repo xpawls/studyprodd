@@ -24,5 +24,9 @@ public class CarTest {
         System.out.println(myCar.toString()+"numberofCars = "+myCar.getNumberOfCars());
         System.out.println(yourCar.toString()+"numberofCars = "+yourCar.getNumberOfCars());
         System.out.println(otherCar.toString()+"numberofCars = "+otherCar.getNumberOfCars());
+        
+        System.out.println("------------------------");
+        System.out.println(Car.getNumberOfCars());
+        System.out.println(Car.numberOfCars);
     }
 }

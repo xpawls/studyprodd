@@ -1,3 +1,12 @@
+
+select 6-실행
+from 1
+where 2
+group by 3
+having 4
+order by 5
+
+
 메서드 만들때 여러기능을 섞지 않는것이 좋다
 단순화가 중요
     접근지정자 필드타입 필드이름

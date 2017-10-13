@@ -10,7 +10,7 @@ public class Car {
     private int    carid = 0;
     
     // 실체화된 Car 객체의 개수를 위한 정적 변수
-    private static int numberOfCars = 0;
+    public static int numberOfCars = 0;
     
     // 동작 : 메서드
     void speedUp(int s){
