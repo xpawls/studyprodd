@@ -90,24 +90,24 @@ select replace('abcdefg','de','  d ');
 -- @@@@@@@@@@
 
 -- 현재 날짜와 시간을 출력하시오
-
+select now();
 -- 현재 날짜를 출력하시오
-
+select curdate();
 -- 현재  시간을 출력하시오
-
+select curtime();
 -- 현재 날짜를 'YYYY/MM/DD' 포맷으로 출력하시오
-
+select now(), date_format(now(), '%Y/%m/%d');
 -- 현재 날짜를 'YYYY-MM-DD' 포맷으로 출력하시오
-
+select now(), date_format(now(), '%Y-%m-%d');
 
 
 -- 현재 시간를 'hh:mm:ss' 포맷으로 출력하시오
-
+select now(), date_format(now(), '%H:%i:%s');
 
 -- 이번달의 첫째날 요일 구하기
-
+select now(), dayofweek(now());
 -- 오늘은 이번달의 몇 주차인가?
-
+select now(), 
 -- 지금부터 '2014-01-01'까지의 개월 수 구하기
 
 -- 오늘 날짜에 6개월 추가하기
@@ -182,22 +182,31 @@ select replace('abcdefg','de','  d ');
 -- 미션
 -- @@@@@@@@@@@@@@
 -- 미션 1. substring 함수를 사용하여 9월에 입사한 사원을 출력하기. 1개
-
+select now(), substring(now(), 6,2);
 
 -- 미션 2. SUBSTR 함수를 이용하여 2003년도에 입사한 사원을 검색하기. 2개
+select hiredate, substring(hiredate, 3,2) from emp where substring(hiredate, 3,2)='03';
 
+-- 9월에 입사한 직원을 찾아서 출력
+select * from emp where substring(hiredate, 6,2)='09';
 -- 미션 3. 이름(ename)이 '기'로 끝나는 사원을 검색하시오. 2개
-
+select * from emp where ename like '__기';
 
 -- 미션 4. 이름의 두 번째 글자에 '동'이 있는 사원을 검색하기. 2개
-
+select * from emp where ename like '_동%';
 
 -- 미션 5. 직급(job)에 따라 직급에 따라 급여를 인상하시오.
 -- '부장'인 사원은 5% 인상 
 -- '과장'인 사원은 10% 인상
 -- '대리'인 사원은 15% 인상 
 -- '사원'인 사원은 20% 인상
-
+select job, ename, sal , CASE WHEN job='부장' THEN sal*1.05
+										WHEN job='과장' THEN sal*1.1
+										WHEN job='대리' THEN sal*1.15
+										WHEN job='사원' THEN sal*1.2
+										ELSE sal*1
+									END 급여인상
+									from emp;
 
 -- 미션 6. 입사일을 연도는 2자리(YY), 
 --         월은 숫자로 표시하고 

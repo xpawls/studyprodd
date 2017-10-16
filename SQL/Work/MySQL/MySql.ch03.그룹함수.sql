@@ -161,7 +161,7 @@ select hiredate, ename from emp order by hiredate desc limit 0,10;
 
 select hiredate, ename from emp order by hiredate desc limit 0,1;
 
-
+select hiredate, ename from( select max(hiredate)from emp );
 -- @@@@@@@@@@@@@@
 -- 미션
 -- @@@@@@@@@@@@@@
