@@ -15,13 +15,13 @@ public class EmployeeTest2 {
         
         for(int i=0; i<3; i++){
             employees[i]=new Employee();
-            System.out.print("이름을 입력하세요 : ");
+            System.out.println("이름을 입력하세요 : ");
             n = key.next();            
-            System.out.print("월급을 입력하세요 : ");
+            System.out.println("월급을 입력하세요 : ");
             s = key.nextInt();            
-            System.out.print("주소를 입력하세요 : ");
+            System.out.println("주소를 입력하세요 : ");
             a = key.next();            
-            System.out.print("주민번호를 입력하세요 : ");
+            System.out.println("주민번호를 입력하세요 : ");
             r = key.next();
             
             employees[i].setName(n);
