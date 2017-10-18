@@ -1,0 +1,9 @@
+SQL 에서 넣는다는 = 컬럼명
+SQL프로그래밍에서는 넣는다 := @변수명
+select @empno := max(empno)+1 from emp;
+
+자바
+
+override
+
+메서드의 갯수, 타입, 
