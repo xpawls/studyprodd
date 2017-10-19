@@ -1,6 +1,6 @@
 package java16.st2interface;
 
-public class Television implements RemoteControl{
+public class Television implements RemoteControl, SerialCommunication{
 
     @Override
     public void turnOn() {
@@ -20,6 +20,16 @@ public class Television implements RemoteControl{
     @Override
     public void moveRight() {
         System.out.println("Television.moveRight");
+    }
+
+    @Override
+    public void send() {
+        
+    }
+
+    @Override
+    public void receive() {
+        
     }
     
 }
