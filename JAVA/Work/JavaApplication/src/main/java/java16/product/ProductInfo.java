@@ -8,7 +8,7 @@ public class ProductInfo {
         Scanner key = new Scanner(System.in);
         
         int n = 0, s = 0, id = 0, price = 0, is = 0;
-        int book =0, cd =0, conbook=0;
+        int bookn =0, cd =0, conbook=0;
         String pe, pr, name = null, au = null, lang = null;
         
         Book[] boo = new Book[10];
@@ -47,8 +47,8 @@ public class ProductInfo {
                     }
                     
                     if(s==1){
-                        boo[book] =new Book(id, pe, pr, price, is, au, name);
-                        book++;
+                        boo[bookn] =new Book(id, pe, pr, price, is, au, name);
+                        bookn++;
                     } else if (s==2) {
                         com[cd] = new CompactDisc(id, pe, pr, price, name, au);
                         cd++;
@@ -63,44 +63,44 @@ public class ProductInfo {
                 System.out.println("더 이상 상품을 추가할 수 없습니다.");
                 continue;
             } else if (n==2) {//모든상품조회
-                if (book>0){
-                    for(int i=0; i<=book; i++){
-                    System.out.println("상품ID>>"+boo[i].getId());
-                    System.out.println("상품설명>>"+boo[i].getPe());
-                    System.out.println("생산자>>"+boo[i].getPr());
-                    System.out.println("가격>>"+boo[i].getPrice());
-                    System.out.println("저자>>"+boo[i].getAuthor());
-                    System.out.println("책제목>>"+boo[i].getBookname());
-                    System.out.println("ISBN>>"+boo[i].getIsbn());
+                if (bookn>0){
+                    for(int i=1; i<=bookn; i++){
+                    System.out.println("상품ID>>"+boo[i-1].getId());
+                    System.out.println("상품설명>>"+boo[i-1].getPe());
+                    System.out.println("생산자>>"+boo[i-1].getPr());
+                    System.out.println("가격>>"+boo[i-1].getPrice());
+                    System.out.println("저자>>"+boo[i-1].getAuthor());
+                    System.out.println("책제목>>"+boo[i-1].getBookname());
+                    System.out.println("ISBN>>"+boo[i-1].getIsbn());
                     }
                 } else {
-                    continue;
+                    
                 }
                 if (cd>0){
-                    for(int i=0; i<=cd; i++){
-                    System.out.println("상품ID>>"+com[i].getId());
-                    System.out.println("상품설명>>"+com[i].getPe());
-                    System.out.println("생산자>>"+com[i].getPr());
-                    System.out.println("가격>>"+com[i].getPrice());
-                    System.out.println("가수이름>>"+com[i].getSingername());
-                    System.out.println("앨범제목>>"+com[i].getAlbumname());                    
+                    for(int i=1; i<=cd; i++){
+                    System.out.println("상품ID>>"+com[i-1].getId());
+                    System.out.println("상품설명>>"+com[i-1].getPe());
+                    System.out.println("생산자>>"+com[i-1].getPr());
+                    System.out.println("가격>>"+com[i-1].getPrice());
+                    System.out.println("가수이름>>"+com[i-1].getSingername());
+                    System.out.println("앨범제목>>"+com[i-1].getAlbumname());                    
                     }
                 } else {
-                    continue;
+                    
                 }
                 if (conbook>0){
-                    for(int i=0; i<=conbook; i++){
-                    System.out.println("상품ID>>"+cvb[i].getId());
-                    System.out.println("상품설명>>"+cvb[i].getPe());
-                    System.out.println("생산자>>"+cvb[i].getPr());
-                    System.out.println("가격>>"+cvb[i].getPrice());
-                    System.out.println("저자>>"+cvb[i].getAuthor());
-                    System.out.println("책제목>>"+cvb[i].getBookname());
-                    System.out.println("언어명>>"+cvb[i].getLang());
-                    System.out.println("ISBN>>"+cvb[i].getIsbn());
+                    for(int i=1; i<=conbook; i++){
+                    System.out.println("상품ID>>"+cvb[i-1].getId());
+                    System.out.println("상품설명>>"+cvb[i-1].getPe());
+                    System.out.println("생산자>>"+cvb[i-1].getPr());
+                    System.out.println("가격>>"+cvb[i-1].getPrice());
+                    System.out.println("저자>>"+cvb[i-1].getAuthor());
+                    System.out.println("책제목>>"+cvb[i-1].getBookname());
+                    System.out.println("언어명>>"+cvb[i-1].getLang());
+                    System.out.println("ISBN>>"+cvb[i-1].getIsbn());
                     }
                 } else {
-                    continue;
+                    
                 }
             } else if (n==3) {//끝내기
                 break;
