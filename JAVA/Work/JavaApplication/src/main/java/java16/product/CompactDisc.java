@@ -26,6 +26,12 @@ public class CompactDisc extends Product {
     public CompactDisc() {
         super();
     }
+    @Override
+    public String toString() {
+        return "상품ID>>" + getId()+ "\n상품설명>>" + getPe() + "\n생산자>>"
+                +  getPr() + "\n가격>>" + getPrice() + "\n가수이름>>" + singername
+                + "\n앨범제목>>" + albumname ;
+    }
     
     
 }

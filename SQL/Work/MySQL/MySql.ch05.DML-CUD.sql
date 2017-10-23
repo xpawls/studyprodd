@@ -137,20 +137,69 @@ select * from emp;
 -- '과장'인 사원은 10% 인상
 -- '대리'인 사원은 15% 인상 
 -- '사원'인 사원은 20% 인상
-
+select ename, sal, case when job='부장' then sal*1.05
+								when job='과장' then sal*1.1
+								when job='대리' then sal*1.15
+								when job='사원' then sal*(1+0.2)
+								end 인상급여
+								from emp;
+update emp
+	set sal = case when job='부장' then sal*1.05
+								when job='과장' then sal*1.1
+								when job='대리' then sal*1.15
+								when job='사원' then sal*(1+0.2)
+								end
+								;
+								
+select * from emp;
 -- 미션 2. 급여(sal)가 500이상인 직원만 급여를 10% 인상하도록 수정하시오.
-
+update emp
+	set sal = sal*(1+0.1)
+-- select *,sal*(1+0.1) from emp 
+ where sal>=500;
 -- 미션 3. 2005년에 입사한 모든 직원의 입사일을 오늘 날짜로 수정하시오.
+-- date를 문자로 변환.
+-- MySQL  : convert(컬럼명, 'yyyy')
+-- Oracle : to_char(컬럼명, 'yyyy')
 
+
+update emp
+	set hiredate = curdate()
+-- select * from emp
+where substring(hiredete, 0, 4) = '2005';
+
+select * from emp where convert(hiredete, nchar(4))='2005';
 -- 미션 4. 50번 부서의 부서의 위치(loc)를 40번 부서의 위치(loc)로 바꾸시오.
+-- 용인에 있는 개발팀을 수원으로 옮긴다.
 -- 단, 값 대신에 sql 쿼리를 사용하시오.
+select loc from dept where deptno =40;
 
+update dept
+	set loc = '수원'
+-- select * from dept
+where deptno=31;
+
+update dept
+	set loc = ( select loc from dept where deptno =40 ) 
+-- select * from dept
+where deptno=31;
 
 -- 미션 5. emp 테이블에서 급여가 500미만인 사원들의 급여를 50%씩 인상(업데이트)하시오.
-
+update emp
+	set sal = sal + sal*0.5
+-- select * from emp
+	where sal<500;
 
 -- 미션 6. emp 테이블에 아이린 과 강민경, 이해리 를 추가하시오.
+-- MySQL   : sql 변수를 사용. insert 내에서 서브쿼리 지원하지 않음.
+-- Oracle : 서브쿼리를 사용.
+select @maxemp := max(empno) from emp ;
+insert into emp( empno, ename) values(@maxemp+1, '아이린');
+insert into emp( empno, ename) values(@maxemp+2, '강민경');
+insert into emp( empno, ename) values(@maxemp+3, '이해리');
 
+select * from emp;			
+			
 
 -- 미션 7. emp 테이블에서 직급(job)이 정해지지 않은 직원을 삭제하시오.
 

@@ -17,6 +17,11 @@ public class ShapeTest2 {
         s = r; //클래스 형변환 발생: Rectangle ---> Shape
         System.out.println("s" + s.toString());
         
+        s.x = 10;
+        s.y = 15;
+        ((Rectangle)s).setWidth(500);
+        System.out.println("s" + s.toString());
+        System.out.println("r" + r.toString());
         
         
     }

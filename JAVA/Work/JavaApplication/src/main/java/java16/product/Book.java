@@ -34,6 +34,12 @@ public class Book extends Product {
     public Book() {
         super();
     }
+    @Override
+    public String toString() {
+        return "상품ID>>" + getId()+ "\n상품설명>>" + getPe() + "\n생산자>>"
+                +  getPr() + "\n가격>>" + getPrice() + "\n저자>>" + author
+                + "\n책제목>>" + bookname+ "\nISBN>>" +  isbn ;
+    }
     
     
 }
