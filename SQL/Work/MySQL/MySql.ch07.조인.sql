@@ -1,102 +1,125 @@
 
 -- ########################
--- Á¶ÀÎÀº 2°³ ÀÌ»óÀÇ Å×ÀÌºíÀ» ¿¬°áÇÒ ¶§
--- 
--- 
+-- ì¡°ì¸ì€ 2ê°œ ì´ìƒì˜ í…Œì´ë¸”ì„ ì—°ê²°í•  ë•Œ
+-- inner join
+-- left join
 -- ########################
 
  
- -- emp Å×ÀÌºí¿¡ p ¶ó´Â º°Äª ºÎ¿©ÇÏ½Ã¿À.
- 
- 
- -- emp Å×ÀÌºí¿¡ p ¶ó´Â º°Äª ºÎ¿©ÇÏ°í enameÀº ÀÌ¸§À¸·Î, job Àº Á÷¾÷À¸·Î Ãâ·ÂÇÏ½Ã¿À.
+ -- emp í…Œì´ë¸”ì— p ë¼ëŠ” ë³„ì¹­ ë¶€ì—¬í•˜ì‹œì˜¤.
+select * from emp; -- select emp.* from emp;
+select p.* from emp p; -- select emp.* from emp;
 
--- emp Å×ÀÌºí¿¡¼­ ÀÌ¸§(enam)ÀÌ 'ÀÌ¹®¼¼'ÀÎ »ç¶÷À» Ãâ·ÂÇÏ½Ã¿À.
+ -- emp í…Œì´ë¸”ì— p ë¼ëŠ” ë³„ì¹­ ë¶€ì—¬í•˜ê³  enameì€ ì´ë¦„ìœ¼ë¡œ, job ì€ ì§ì—…ìœ¼ë¡œ ì¶œë ¥í•˜ì‹œì˜¤.
+select ename ì´ë¦„ , job ì§ì—… from emp p;
+-- emp í…Œì´ë¸”ì—ì„œ ì´ë¦„(ename)ì´ 'ì´ë¬¸ì„¸'ì¸ ì‚¬ëžŒì„ ì¶œë ¥í•˜ì‹œì˜¤.
 
--- dept Å×ÀÌºí¿¡¼­ deptno °¡ 10 ÀÎ ºÎ¼­¸¦ Ãâ·ÂÇÏ½Ã¿À.
+-- dept í…Œì´ë¸”ì—ì„œ deptno ê°€ 10 ì¸ ë¶€ì„œë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.
 
--- ¼­ºêÄõ¸®¸¦ ÀÌ¿ëÇØ¼­ 'ÀÌ¹®¼¼'ÀÇ µ¥ÀÌÅÍ¿Í ºÎ¼­¸íÀ» ÇÔ²² Ãâ·ÂÇÏ½Ã¿À.
-
-
-
--- ¼­ºêÄõ¸®¸¦ ÀÌ¿ëÇØ¼­ 'ÀÌ¹®¼¼'ÀÇ Á¤º¸¿Í ºÎ¼­¸í ±×¸®°í À§Ä¡¸¦ Ãâ·ÂÇÏ½Ã¿À.
-
--- ¼­ºêÄõ¸®¸¦ ÀÌ¿ëÇØ¼­ ¿©·¯ ÄÃ·³À» Ç¥½ÃÇÒ ¶§ ¹®Á¦ ¹ß»ýµÊ.
--- ÀÌ·± °æ¿ì¿¡´Â Á¶ÀÎÀ» ÀÌ¿ëÇÏ¿© ½±°Ô ÇØ°áÀÌ °¡´ÉÇÑ´Ù.
+-- ì„œë¸Œì¿¼ë¦¬ë¥¼ ì´ìš©í•´ì„œ 'ì´ë¬¸ì„¸'ì˜ ë°ì´í„°ì™€ ë¶€ì„œëª…ì„ í•¨ê»˜ ì¶œë ¥í•˜ì‹œì˜¤.
 
 
--- Á¶ÀÎÀ» ÀÌ¿ëÇØ¼­ 'ÀÌ¹®¼¼'ÀÇ Á¤º¸¿Í ºÎ¼­¸í ±×¸®°í À§Ä¡¸¦ Ãâ·ÂÇÏ½Ã¿À.
 
+-- ì„œë¸Œì¿¼ë¦¬ë¥¼ ì´ìš©í•´ì„œ 'ì´ë¬¸ì„¸'ì˜ ì •ë³´ì™€ ë¶€ì„œëª… ê·¸ë¦¬ê³  ìœ„ì¹˜ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.
+select *
+		, (select dname from dept where deptno = emp.DEPTNO )
+		, (select loc from dept where deptno = emp.deptno )
+ from emp
+ where ename = 'ì´ë¬¸ì„¸';
+-- ì„œë¸Œì¿¼ë¦¬ë¥¼ ì´ìš©í•´ì„œ ì—¬ëŸ¬ ì»¬ëŸ¼ì„ í‘œì‹œí•  ë•Œ ë¬¸ì œ ë°œìƒë¨.
+-- ì´ëŸ° ê²½ìš°ì—ëŠ” ì¡°ì¸ì„ ì´ìš©í•˜ì—¬ ì‰½ê²Œ í•´ê²°ì´ ê°€ëŠ¥í•œë‹¤.
+
+
+-- ì¡°ì¸ì„ ì´ìš©í•´ì„œ 'ì´ë¬¸ì„¸'ì˜ ì •ë³´ì™€ ë¶€ì„œëª… ê·¸ë¦¬ê³  ìœ„ì¹˜ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.
+select * from emp inner join dept
+						on emp.deptno=dept.deptno
+ where emp.ename = 'ì´ë¬¸ì„¸';
 
 
 -- @@@@@@@ 
 -- inner join 
--- emp ¿Í dept Å×ÀÌºí inner join ÇÏ±â
+-- emp ì™€ dept í…Œì´ë¸” inner join í•˜ê¸°
 -- @@@@@@@ 
 
--- Á÷¿ø Á¤º¸¿Ü ¼Ò¼ÓµÈ ºÎ¼­¸íÀ» Ãâ·ÂÇÏ½Ã¿À.
-  
--- À§ÀÇ SQLÀ» ¼öÁ¤ÇÏ½Ã¿À. 
--- dept Å×ÀÌºí¿¡ d¶ó´Â º°ÄªÀ», emp Å×ÀÌºí¿¡´Â e¶ó´Â º°ÄªÀ» ºÎ¿©ÇÏµµ·Ï ¼öÁ¤ÇÏ½Ã¿À.
+-- ì§ì› ì •ë³´(emp)ì™€ ì†Œì†ëœ ë¶€ì„œëª…(dept.dname)ì„ ì¶œë ¥í•˜ì‹œì˜¤.
+select emp.* , dept.dname from emp join dept on emp.deptno = dept.deptno;
 
+
+-- ìœ„ì˜ SQLì„ ìˆ˜ì •í•˜ì‹œì˜¤. 
+-- dept í…Œì´ë¸”ì— dë¼ëŠ” ë³„ì¹­ì„, emp í…Œì´ë¸”ì—ëŠ” eë¼ëŠ” ë³„ì¹­ì„ ë¶€ì—¬í•˜ë„ë¡ ìˆ˜ì •í•˜ì‹œì˜¤.
+select e.* , d.dname from emp e join dept d on e.deptno = d.deptno;
 -- @@@@@@@ 
 -- equi join 
 -- @@@@@@@ 
-  
--- À§ÀÇ SQL¿¡¼­ Å×ÀÌºí¿¡ º°ÄªÀ» ºÎ¿©ÇÏµµ·Ï ¼öÁ¤ÇÏ½Ã¿À. 
+-- equi join ì„ ì´ìš©í•˜ì—¬ ì§ì›ì˜ ëª¨ë“  ì •ë³´ì™€ ì†Œì†ëœ ë¶€ì„œëª…ë§Œì„ ì¶œë ¥í•˜ì‹œì˜¤.
+-- ìœ„ì˜ SQLì—ì„œ í…Œì´ë¸”ì— ë³„ì¹­ì„ ë¶€ì—¬í•˜ë„ë¡ ìˆ˜ì •í•˜ì‹œì˜¤. 
 -- dept --> d , emp-->e .
-
+select e.*, d.DNAME
+ from dept d, emp e
+ where d.deptno = e.DEPTNO;
 
 -- @@@@@@@ 
 -- left join
 -- @@@@@@@ 
 
--- dept Å×ÀÌºíÀ» ±âÁØÀ¸·Î emp Å×ÀÌºíÀÇ µ¥ÀÌÅÍ¸¦ ÇÕÄ¡½Ã¿À.
-
--- dept - emp ÀÇ Â÷ÁýÇÕÀ» ±¸ÇÏ½Ã¿À. 3°³ÀÇ Ãâ·Â
-
+-- dept í…Œì´ë¸”ì„ ê¸°ì¤€ìœ¼ë¡œ emp í…Œì´ë¸”ì˜ ë°ì´í„°ë¥¼ í•©ì¹˜ì‹œì˜¤.
+select * from dept left join emp
+			on dept.DEPTNO=emp.deptno;
+-- dept - emp ì˜ ì°¨ì§‘í•©ì„ êµ¬í•˜ì‹œì˜¤. 3ê°œì˜ ì¶œë ¥
+select * from dept left join emp
+			on dept.DEPTNO=emp.deptno
+			where emp.empno is null;
 
 
 -- @@@@@@@ 
 -- right join 
 -- @@@@@@@    
 
--- emp Å×ÀÌºíÀ» ±âÁØÀ¸·Î dept Å×ÀÌºíÀÇ µ¥ÀÌÅÍ¸¦ ÇÕÄ¡½Ã¿À.
+-- emp í…Œì´ë¸”ì„ ê¸°ì¤€ìœ¼ë¡œ dept í…Œì´ë¸”ì˜ ë°ì´í„°ë¥¼ í•©ì¹˜ì‹œì˜¤.
+
+
+select * from dept right join emp
+			on emp.DEPTNO = dept.DEPTNO;
+
+select * from emp right join dept
+			on emp.DEPTNO = dept.DEPTNO;
+			
+-- emp í…Œì´ë¸”ì— í™ë³´íŒ€ ì†Œì†ì˜ ì‚¬ì› ì†¡ì¤‘ê¸°ë¥¼ ì¶”ê°€í•˜ì‹œì˜¤
+select @empno := max(empno) from emp;
+insert into emp (empno, ename, job, deptno)
+				values( @empno+1 , 'ì†¡ì¤‘ê¸°', 'ì‚¬ì›', 50);
+
+-- ----------
+-- auth(ë¶€ëª¨í…Œì´ë¸”), book(ìžì‹í…Œì´ë¸”) í…Œì´ë¸”ì—ì„œ left join êµ¬í•˜ê¸°
+-- ----------
+
+-- left join í•˜ê¸° : auth í…Œì´ë¸”ì„ ê¸°ì¤€ìœ¼ë¡œ book í…Œì´ë¸”ì˜ ë°ì´í„°ë¥¼ í•©ì¹˜ì‹œì˜¤.
+-- auth - book ì˜ ì°¨ì§‘í•© 
 
 
 
 
 -- ----------
--- auth(ºÎ¸ðÅ×ÀÌºí), book(ÀÚ½ÄÅ×ÀÌºí) Å×ÀÌºí¿¡¼­ left join ±¸ÇÏ±â
+-- auth(ë¶€ëª¨í…Œì´ë¸”), book(ìžì‹í…Œì´ë¸”) í…Œì´ë¸”ì—ì„œ right join êµ¬í•˜ê¸°
 -- ----------
 
--- left join ÇÏ±â : auth Å×ÀÌºíÀ» ±âÁØÀ¸·Î book Å×ÀÌºíÀÇ µ¥ÀÌÅÍ¸¦ ÇÕÄ¡½Ã¿À.
--- auth - book ÀÇ Â÷ÁýÇÕ 
-
-
-
-
--- ----------
--- auth(ºÎ¸ðÅ×ÀÌºí), book(ÀÚ½ÄÅ×ÀÌºí) Å×ÀÌºí¿¡¼­ right join ±¸ÇÏ±â
--- ----------
-
--- right join : book Å×ÀÌºíÀ» ±âÁØÀ¸·Î auth Å×ÀÌºíÀÇ µ¥ÀÌÅÍ¸¦ ÇÕÄ¡½Ã¿À.
--- book - auth ÀÇ Â÷ÁýÇÕ 
+-- right join : book í…Œì´ë¸”ì„ ê¸°ì¤€ìœ¼ë¡œ auth í…Œì´ë¸”ì˜ ë°ì´í„°ë¥¼ í•©ì¹˜ì‹œì˜¤.
+-- book - auth ì˜ ì°¨ì§‘í•© 
 
 
    
 -- ----------
 -- full join = left join union right join
--- auth(ºÎ¸ðÅ×ÀÌºí), book(ÀÚ½ÄÅ×ÀÌºí) Å×ÀÌºí¿¡¼­ full join ÇÏ±â
--- oracleÀº full joinÀ» Áö¿øÇÔ.
--- mysqlÀº full joinÀ» Áö¿øÇÏÁö ¾ÊÀ½.
+-- auth(ë¶€ëª¨í…Œì´ë¸”), book(ìžì‹í…Œì´ë¸”) í…Œì´ë¸”ì—ì„œ full join í•˜ê¸°
+-- oracleì€ full joinì„ ì§€ì›í•¨.
+-- mysqlì€ full joinì„ ì§€ì›í•˜ì§€ ì•ŠìŒ.
 -- ----------
 
 
 
 -- @@@@@@@ 
 -- cross join
---    on ÀýÀ» »ý·«
+--    on ì ˆì„ ìƒëžµ
 -- @@@@@@@ 
 
 
@@ -104,71 +127,71 @@
 
 
 -- @@@@@@@ 
--- self join :  ÀÚ½Å¿¡°Ô ÀÚ±â¸¦ Á¶ÀÎÀ» ÇÏ´Â ¹æ¹ý
+-- self join :  ìžì‹ ì—ê²Œ ìžê¸°ë¥¼ ì¡°ì¸ì„ í•˜ëŠ” ë°©ë²•
 -- @@@@@@@ 
 
--- inner joinÀ» ÀÌ¿ëÇÏ¿© ´ã´ç ¸Å´ÏÀú Ã£±â. emp.mgr
+-- inner joinì„ ì´ìš©í•˜ì—¬ ë‹´ë‹¹ ë§¤ë‹ˆì € ì°¾ê¸°. emp.mgr
 
 
--- equi self joinÀ» ÀÌ¿ëÇÏ¿© ´ã´ç ¸Å´ÏÀú Ã£±â
+-- equi self joinì„ ì´ìš©í•˜ì—¬ ë‹´ë‹¹ ë§¤ë‹ˆì € ì°¾ê¸°
 
 
        
        
 -- @@@@@@@@@@
--- ¹Ì¼Ç 06. 
+-- ë¯¸ì…˜ 06. 
 -- @@@@@@@@@@
--- 1. °æ¸®ºÎ¼­¿¡ ±Ù¹«ÇÏ´Â »ç¿øÀÇ ÀÌ¸§°ú ÀÔ»çÀÏÀ» Ãâ·ÂÇÏ½Ã¿À. 3°³. ¼­ºêÄõ¸®
+-- 1. ê²½ë¦¬ë¶€ì„œì— ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ì˜ ì´ë¦„ê³¼ ìž…ì‚¬ì¼ì„ ì¶œë ¥í•˜ì‹œì˜¤. 3ê°œ. ì„œë¸Œì¿¼ë¦¬
 
 
 
 
--- 2. ÀÎÃµ¿¡¼­ ±Ù¹«ÇÏ´Â Á÷¿ø¸í(ename), ÀÔ»çÀÏ(hiredate), ±Þ¿©(sal) ±×¸®°í ºÎ¼­¸í(dname)À» Ãâ·ÂÇÏ´Â SQL¹®À» ÀÛ¼ºÇÏ½Ã¿À. 3°³. Á¶ÀÎ
+-- 2. ì¸ì²œì—ì„œ ê·¼ë¬´í•˜ëŠ” ì§ì›ëª…(ename), ìž…ì‚¬ì¼(hiredate), ê¸‰ì—¬(sal) ê·¸ë¦¬ê³  ë¶€ì„œëª…(dname)ì„ ì¶œë ¥í•˜ëŠ” SQLë¬¸ì„ ìž‘ì„±í•˜ì‹œì˜¤. 3ê°œ. ì¡°ì¸
 
 
--- 3. ÀÎÃµ¿¡¼­ ±Ù¹«ÇÏ´Â Á÷¿øÀÇ ¼ö¸¦ Ãâ·ÂÇÏ½Ã¿À. 6°³
-
-
-
-
--- 4. Á÷±Þ(emp.job)ÀÌ °úÀåÀÎ Á÷¿øÀÇ ÀÌ¸§(emp.ename), ºÎ¼­¸í(dept.dname)À» Ãâ·ÂÇÏ½Ã¿À. 3°³
-
-
--- 5. Á÷¼Ó »ó°üÀÌ "°¨¿ì¼º"ÀÎ Á÷¿øµéÀÇ ÀÌ¸§(ename),Á÷±Þ(job)¸¦ Ãâ·ÂÇÏ½Ã¿À. 6°³
+-- 3. ì¸ì²œì—ì„œ ê·¼ë¬´í•˜ëŠ” ì§ì›ì˜ ìˆ˜ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤. 6ê°œ
 
 
 
 
--- 6. "°¨¿ì¼º"°ú °°Àº ±Ù¹«Áö¿¡¼­ ÀÏÇÏ´Â Á÷±ÞÀÌ '»ç¿ø'ÀÎ Á÷¿ø¸¸ Ãâ·ÂÇÏ½Ã¿À.4°³
+-- 4. ì§ê¸‰(emp.job)ì´ ê³¼ìž¥ì¸ ì§ì›ì˜ ì´ë¦„(emp.ename), ë¶€ì„œëª…(dept.dname)ì„ ì¶œë ¥í•˜ì‹œì˜¤. 3ê°œ
 
 
-
--- 7. 'ÀÌ¹®¼¼'¿Í µ¿ÀÏÇÑ Á÷±ÞÀ» °¡Áø »ç¿øÀ» Ãâ·ÂÇÏ½Ã¿À. 4°³
-
-
-
-
--- 8. ºÎ¼­º°·Î °¡Àå ±Þ¿©¸¦ ¸¹ÀÌ ¹Þ´Â »ç¿øÀÇ 
---    »ç¿ø¹øÈ£, »ç¿øÀÌ¸§, ±Þ¿©, ºÎ¼­¹øÈ£, ºÎ¼­¸í¸¦ Ãâ·ÂÇÏ½Ã¿À. 8°³
-
--- 8.1 ¼­ºêÄõ¸® ¹æ½Ä
-
-
-
--- 8.2 join ¹æ½Ä
+-- 5. ì§ì† ìƒê´€ì´ "ê°ìš°ì„±"ì¸ ì§ì›ë“¤ì˜ ì´ë¦„(ename),ì§ê¸‰(job)ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤. 6ê°œ
 
 
 
 
--- 9. Á÷±Þ(job) °úÀåÀÌ ¼ÓÇØ ÀÖ´Â ºÎ¼­ÀÇ ºÎ¼­¹øÈ£¿Í ºÎ¼­¸í, À§Ä¡ 
---    ±×¸®°í ±× ºÎ¼­¿¡ ¼ÓÇÑ »ç¿øµéÀÇ Á¤º¸¸¦ Ãâ·ÂÇÏ½Ã¿À. 9°³
+-- 6. "ê°ìš°ì„±"ê³¼ ê°™ì€ ê·¼ë¬´ì§€ì—ì„œ ì¼í•˜ëŠ” ì§ê¸‰ì´ 'ì‚¬ì›'ì¸ ì§ì›ë§Œ ì¶œë ¥í•˜ì‹œì˜¤.4ê°œ
 
 
 
--- 10. °úÀåº¸´Ù ¸¹Àº ±Þ¿©(°°Àº °ÍÀº Á¦¿Ü)¸¦ ¹Þ´Â Á÷¿øµéÀÇ ÀÌ¸§, ºÎ¼­¸í, Á÷±Þ, ±Þ¿©¸¦ Ãâ·ÂÇÏµÇ
---     °úÀåÀº Ãâ·ÂÇÏÁö ¸¶½Ã¿À. 5°³ or 7°³
+-- 7. 'ì´ë¬¸ì„¸'ì™€ ë™ì¼í•œ ì§ê¸‰ì„ ê°€ì§„ ì‚¬ì›ì„ ì¶œë ¥í•˜ì‹œì˜¤. 4ê°œ
 
 
--- 11. ºÎ¼­º°·Î °úÀåº¸´Ù ¸¹Àº ±Þ¿©(°°Àº °ÍÀº Á¦¿Ü)¸¦ ¹Þ´Â °°Àº ºÎ¼­¿¡ ±Ù¹«ÇÏ´Â 
---     Á÷¿øµéÀÇ ÀÌ¸§, ºÎ¼­¸í, Á÷±Þ, ±Þ¿©¸¦ Ãâ·ÂÇÏµÇ °úÀåÀº Ãâ·ÂÇÏÁö ¸¶½Ã¿À. 1°³
+
+
+-- 8. ë¶€ì„œë³„ë¡œ ê°€ìž¥ ê¸‰ì—¬ë¥¼ ë§Žì´ ë°›ëŠ” ì‚¬ì›ì˜ 
+--    ì‚¬ì›ë²ˆí˜¸, ì‚¬ì›ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œë²ˆí˜¸, ë¶€ì„œëª…ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤. 8ê°œ
+
+-- 8.1 ì„œë¸Œì¿¼ë¦¬ ë°©ì‹
+
+
+
+-- 8.2 join ë°©ì‹
+
+
+
+
+-- 9. ì§ê¸‰(job) ê³¼ìž¥ì´ ì†í•´ ìžˆëŠ” ë¶€ì„œì˜ ë¶€ì„œë²ˆí˜¸ì™€ ë¶€ì„œëª…, ìœ„ì¹˜ 
+--    ê·¸ë¦¬ê³  ê·¸ ë¶€ì„œì— ì†í•œ ì‚¬ì›ë“¤ì˜ ì •ë³´ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤. 9ê°œ
+
+
+
+-- 10. ê³¼ìž¥ë³´ë‹¤ ë§Žì€ ê¸‰ì—¬(ê°™ì€ ê²ƒì€ ì œì™¸)ë¥¼ ë°›ëŠ” ì§ì›ë“¤ì˜ ì´ë¦„, ë¶€ì„œëª…, ì§ê¸‰, ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ë˜
+--     ê³¼ìž¥ì€ ì¶œë ¥í•˜ì§€ ë§ˆì‹œì˜¤. 5ê°œ or 7ê°œ
+
+
+-- 11. ë¶€ì„œë³„ë¡œ ê³¼ìž¥ë³´ë‹¤ ë§Žì€ ê¸‰ì—¬(ê°™ì€ ê²ƒì€ ì œì™¸)ë¥¼ ë°›ëŠ” ê°™ì€ ë¶€ì„œì— ê·¼ë¬´í•˜ëŠ” 
+--     ì§ì›ë“¤ì˜ ì´ë¦„, ë¶€ì„œëª…, ì§ê¸‰, ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ë˜ ê³¼ìž¥ì€ ì¶œë ¥í•˜ì§€ ë§ˆì‹œì˜¤. 1ê°œ
 

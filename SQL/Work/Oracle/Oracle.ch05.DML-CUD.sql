@@ -56,10 +56,19 @@
 -- 데이터 MERGE하기.
 -- a. MERGE 기본 문법
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
+-- 21번 부서의 사원(job) 송중기를 insert나 update 하는 merge문을 작성하시오.
+select * from emp;
 
+merge into emp
+using dual
+  on (empno =(select max(empno)+1 from emp)) -- where 절 
+when matched then
+  update set ename= '송중기' , deptno = 21 , job = '사원'
+when not matched then
+  insert (empno,                             ename, deptno, job)
+  values ( (select max(empno)+1 from emp) , '송중기', 21, '대리');
 
-
-
+select * from emp;
 
 
 

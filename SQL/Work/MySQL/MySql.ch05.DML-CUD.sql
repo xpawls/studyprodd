@@ -120,9 +120,16 @@ select * from emp;
 -- 데이터 MERGE하기.
 -- a. MERGE 기본 문법
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
+-- 50번 부서의 사원(job) 송중기를 insert나 update 하는 merge문을 작성하시오.
 
+select @empno:=max(empno) from emp;
+select * from emp where empno=@empno;
+insert into emp (empno, ename, deptno, job)
+			values (@empno , '송중기', 50, '사원')
+on duplicate key
+update ename = '송중기', deptno=50, job='사원';
 
-
+select * from emp where empno=@empno;
 
 
 
@@ -202,8 +209,12 @@ select * from emp;
 			
 
 -- 미션 7. emp 테이블에서 직급(job)이 정해지지 않은 직원을 삭제하시오.
-
+delete from emp
+-- select * from emp
+ where job ='' or job is null;
 
 -- 미션 8. emp 테이블에서 경리부에 소속된 사원들만 삭제하시오.
-
+delete from emp
+-- select * from emp
+ where deptno in(select deptno from dept where dname='경리부');
 
