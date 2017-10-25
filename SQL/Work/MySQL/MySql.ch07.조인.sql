@@ -94,6 +94,7 @@ insert into emp (empno, ename, job, deptno)
 -- ----------
 
 -- left join 하기 : auth 테이블을 기준으로 book 테이블의 데이터를 합치시오.
+select * from auth left join book;
 -- auth - book 의 차집합 
 
 
@@ -128,13 +129,20 @@ insert into emp (empno, ename, job, deptno)
 
 -- @@@@@@@ 
 -- self join :  자신에게 자기를 조인을 하는 방법
+-- inner join의 한 종류.
 -- @@@@@@@ 
 
+select ename, empno 사원번호, mgr 매니저번호 from emp;
+
 -- inner join을 이용하여 담당 매니저 찾기. emp.mgr
+select 나의.ENAME, 나의.EMPNO, 나의.MGR, 매니저.ENAME, 매니저.EMPNO  
+		from emp 나의 inner join emp 매니저
+				on 나의.MGR=매니저.EMPNO;
 
-
--- equi self join을 이용하여 담당 매니저 찾기
-
+-- equi self join을 이용하여 담당 매니저 찾기 (inner join문에서 'inner join' -> ','로 'on'->'where'로)
+select 나의.ENAME, 나의.EMPNO, 나의.MGR, 매니저.ENAME, 매니저.EMPNO  
+		from emp 나의 , emp 매니저
+				where 나의.MGR=매니저.EMPNO;
 
        
        
@@ -142,32 +150,69 @@ insert into emp (empno, ename, job, deptno)
 -- 미션 06. 
 -- @@@@@@@@@@
 -- 1. 경리부서에 근무하는 사원의 이름과 입사일을 출력하시오. 3개. 서브쿼리
+select ename, hiredate from emp where deptno in (select deptno from dept where dname='경리부');
 
-
-
+select emp.ename, dept.hiredate 
+ from emp inner join dept 
+	on emp.deptno=dept.deptno 
+	where dept.dname = '경리부'
 
 -- 2. 인천에서 근무하는 직원명(ename), 입사일(hiredate), 급여(sal) 그리고 부서명(dname)을 출력하는 SQL문을 작성하시오. 3개. 조인
-
+select ename, hiredate, sal, (select dname from dept where dept.deptno=emp.deptno)
+ from emp where deptno in(select deptno from dept where loc='인천');
+ 
+select e.ename, e.hiredate, e.sal, d.dname from emp e left join dept d on e.deptno=d.deptno where d.LOC='인천';
 
 -- 3. 인천에서 근무하는 직원의 수를 출력하시오. 6개
 
 
+select * from emp where deptno in (select deptno from dept where loc='인천');
+
 
 
 -- 4. 직급(emp.job)이 과장인 직원의 이름(emp.ename), 부서명(dept.dname)을 출력하시오. 3개
+select ename, (select dname from dept where dept.DEPTNO=emp.DEPTNO) dname
+ from emp where job = '과장';
 
+select emp.JOB, emp.ename, dept.dname from emp left join dept on emp.DEPTNO=dept.DEPTNO where emp.job='과장';
 
 -- 5. 직속 상관이 "감우성"인 직원들의 이름(ename),직급(job)를 출력하시오. 6개
+select ename, job from emp where mgr in (select empno from emp where ename = '감우성');
 
-
-
+-- join 방식
+select * from emp my inner join emp man on my.MGR=man.empno
+ where man.ename='감우성';
 
 -- 6. "감우성"과 같은 근무지에서 일하는 직급이 '사원'인 직원만 출력하시오.4개
 
 
+select * from emp where ename ='감우성';
+select * from dept where deptno in (select deptno from emp where ename ='감우성');
+select * from dept where loc='용인';
+
+select * from emp where deptno
+ in (select deptno from dept where loc
+  in (select loc from dept where deptno
+   in (select deptno from emp where ename = '감우성')))
+   and job='사원';
+
+select * from emp left join dept
+ on emp.deptno = dept.DEPTNO
+  where dept.deptno
+   in(select deptno from dept where loc
+	 in (select loc from dept where deptno
+	  in (select deptno from emp where ename='감우성')))
+	  and emp.job = '사원';
+
+select d.*
+	from emp a inner join dept b on a.DEPTNO=b.DEPTNO
+	inner join dept c on c.loc = b.loc
+	inner join emp d on d.deptno=c.deptno
+	where a.ename = '감우성' and d.job = '사원';
+
 
 -- 7. '이문세'와 동일한 직급을 가진 사원을 출력하시오. 4개
-
+select * from emp where job in (select job from emp where ename='이문세');
 
 
 
@@ -175,23 +220,35 @@ insert into emp (empno, ename, job, deptno)
 --    사원번호, 사원이름, 급여, 부서번호, 부서명를 출력하시오. 8개
 
 -- 8.1 서브쿼리 방식
-
+select empno, ename, sal, deptno, (select dname from dept where deptno=emp.deptno)
+	from emp 
+	group by deptno
+	having max(sal);
 
 
 -- 8.2 join 방식
-
+select e.empno, e.ename, e.sal, e.deptno, d.dname 
+	from emp e left join dept d
+	on e.deptno = d.DEPTNO
+	group by deptno
+	having max(sal);
 
 
 
 -- 9. 직급(job) 과장이 속해 있는 부서의 부서번호와 부서명, 위치 
 --    그리고 그 부서에 속한 사원들의 정보를 출력하시오. 9개
-
+select emp.DEPTNO, dept.dname, dept.LOC, emp.*
+ from emp left join dept
+ on emp.DEPTNO=dept.DEPTNO
+  where emp.deptno in(select deptno from emp where job='과장');
 
 
 -- 10. 과장보다 많은 급여(같은 것은 제외)를 받는 직원들의 이름, 부서명, 직급, 급여를 출력하되
 --     과장은 출력하지 마시오. 5개 or 7개
-
+select emp.ENAME, dept.DNAME, emp.JOB, emp.sal from emp left join dept on emp.DEPTNO=dept.DEPTNO
+ where emp.sal>(select max(sal) from emp where job = '과장') and job!='과장';
 
 -- 11. 부서별로 과장보다 많은 급여(같은 것은 제외)를 받는 같은 부서에 근무하는 
 --     직원들의 이름, 부서명, 직급, 급여를 출력하되 과장은 출력하지 마시오. 1개
-
+select emp.ENAME, dept.DNAME, emp.JOB, emp.sal from emp left join dept on emp.DEPTNO=dept.DEPTNO
+ where emp.deptno in (select deptno from emp where emp.sal>(select max(sal) from emp where job = '과장')) and job!='과장';

@@ -132,11 +132,12 @@ select deptno from emp where job='과장';
 select * from emp where deptno in(select deptno from emp where job='과장');
 
 -- 6. 평균 급여보다 더 많은 급여를 받는 사원 출력하기
-
+select * from emp where sal > (select avg(sal) from emp);
 -- 7. 이문세와 같은 부서에 근무하는 사원의 이름과 부서번호를 출력하는 SQL을 작성하시오.
-
+select ename, deptno from emp where deptno in (select deptno from emp where ename='이문세');
 -- 8. 이문세와 동일한 직급을 가진 사원을 출력하시오.
-
+select * from emp where job in (select job from emp where ename='이문세');
 -- 9. 이문세의 급여와 동일하거나 더 많이 받는 사원 명과 급여를 출력하시오.
-
+select ename, sal from emp where sal>=(select sal from emp where ename='이문세');
 -- 10. 직속 상관이 감우성인 사원의 이름과 급여를 출력하시오.
+select ename, sal from emp where mgr in (select empno from emp where ename='감우성');
