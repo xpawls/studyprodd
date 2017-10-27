@@ -1,80 +1,100 @@
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
--- µ¥ÀÌÅÍ Å¸ÀÔ
+-- ë°ì´í„° íƒ€ìž…
 -- 
--- ¹®ÀÚ¿­   : CHAR VS VARCHAR VS NVARCHAR
--- ¼ýÀÚ     : DECIMAL
--- ³¯Â¥     : DATETIME
--- ¹ÙÀÌ³Ê¸® : BLOB
+-- -----------------------------------------------------------------
+-- |      | MySQL         |  Oracle                   |    SQLite  |
+-- -----------------------------------------------------------------
+-- | ìˆ«ìž | INT           |  NUMBER( ìžë¦¬ìˆ˜,  0 )     |    INTEGER |
+-- |      | BOOLEAN       |                           |            |
+-- |      | NUMERIC       |                           |            |
+-- |      | REAL          |  NUMBER( ìžë¦¬ìˆ˜, ì†Œìˆ˜ì )  |    REAL    |
+-- |      | DOUBLE        |                           |            |
+-- |      | FLOAT         |                           |            |
+-- |      | DECIMAL(10,5) |                           |            |
+-- -----------------------------------------------------------------
+-- | ë¬¸ìž | CHAR          |  VARCHAR2                 |    TEXT    |
+-- |      | VARCHAR       |                           |            |
+-- |      | NCHAR         |                           |            |
+-- |      | NVARACHAR     |                           |            |
+-- |      | TEXT          |                           |            |
+-- -----------------------------------------------------------------
+-- | ë‚ ì§œ | DATE          |  DATE                     |    TEXT    |
+-- |      | DATETIME      |                           |            |
+-- -----------------------------------------------------------------
+-- |      | BLOB          |  BLOB                     |    NONE    |
+-- -----------------------------------------------------------------
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
 
 
 
 
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
--- ¿ÀºêÁ§Æ® Å¸ÀÔ
+-- ì˜¤ë¸Œì íŠ¸ íƒ€ìž…
 -- 
--- Å×ÀÌºí   ( TABLE     )
--- ºä       ( VIEW      )
--- ÀÎµ¦½º   ( INDEX     )
--- ½ÃÄö½º   ( SEQUENCE  )
--- ÇÁ·Î½ÃÀú ( PROCEDURE )
--- ÇÔ¼ö     ( FUNCTION  )
--- Æ®¸®°Å   ( TRIGGER   )
--- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+-- í…Œì´ë¸”   ( TABLE     )
+-- ë·°       ( VIEW      )
+-- ì¸ë±ìŠ¤   ( INDEX     )
+-- ì‹œí€€ìŠ¤   ( SEQUENCE  )
+-- í”„ë¡œì‹œì € ( PROCEDURE )
+-- í•¨ìˆ˜     ( FUNCTION  )
+-- íŠ¸ë¦¬ê±°   ( TRIGGER   )
+-- íŒ¨í‚¤ì§€   ( PACKAGE   ) : Oracle ì— ë§Œ ìžˆìŒ.
+--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
 
 
 
 
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
--- ¿ÀºêÁ§Æ® CUD Á¶ÀÛ : DDL
--- CREATE 
--- ALTER 
--- DROP
+-- ì˜¤ë¸Œì íŠ¸ CUD ì¡°ìž‘ : DDL
+-- C: CREATE 
+-- U: ALTER 
+-- D: DROP
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 
 
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
--- DDL(CREATE/ALTER/DROP) ÀÌ¶õ?
---    ¿ÀºêÁ§Æ®¸¦ Á¶ÀÛÇÏ±â À§ÇÑ SQL.
+-- DDL(CREATE/ALTER/DROP) ì´ëž€?
+--    ì˜¤ë¸Œì íŠ¸ë¥¼ ì¡°ìž‘í•˜ê¸° ìœ„í•œ SQL.
 -- 
--- CREATE  TABLE tb_ÀÌ¸§ | VIEW vw_ÀÌ¸§ | INDEX ix_ÀÌ¸§ | PROCEDURE usp_ÀÌ¸§ | FUNCTION udf_ÀÌ¸§ | SEQUENCE seq_ÀÌ¸§  | TRIGGER trg_ÀÌ¸§  
--- ALTER   TABLE tb_ÀÌ¸§ | VIEW vw_ÀÌ¸§ | INDEX ix_ÀÌ¸§ | PROCEDURE usp_ÀÌ¸§ | FUNCTION udf_ÀÌ¸§ | SEQUENCE seq_ÀÌ¸§  | TRIGGER trg_ÀÌ¸§  
--- DROP    TABLE tb_ÀÌ¸§ | VIEW vw_ÀÌ¸§ | INDEX ix_ÀÌ¸§ | PROCEDURE usp_ÀÌ¸§ | FUNCTION udf_ÀÌ¸§ | SEQUENCE seq_ÀÌ¸§  | TRIGGER trg_ÀÌ¸§  
+-- CREATE  TABLE tb_ì´ë¦„ | VIEW vw_ì´ë¦„ | INDEX ix_ì´ë¦„ | PROCEDURE usp_ì´ë¦„ | FUNCTION udf_ì´ë¦„ | SEQUENCE seq_ì´ë¦„  | TRIGGER trg_ì´ë¦„  
+-- ALTER   TABLE tb_ì´ë¦„ | VIEW vw_ì´ë¦„ | INDEX ix_ì´ë¦„ | PROCEDURE usp_ì´ë¦„ | FUNCTION udf_ì´ë¦„ | SEQUENCE seq_ì´ë¦„  | TRIGGER trg_ì´ë¦„  
+-- DROP    TABLE tb_ì´ë¦„ | VIEW vw_ì´ë¦„ | INDEX ix_ì´ë¦„ | PROCEDURE usp_ì´ë¦„ | FUNCTION udf_ì´ë¦„ | SEQUENCE seq_ì´ë¦„  | TRIGGER trg_ì´ë¦„  
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 -- ############
--- ºä¶õ? °¡»ó Å×ÀÌºíÀÌ´Ù. 
---       ÀÐ±â Àü¿ë select ¹®ÀÌ´Ù.
+-- ë·°ëž€? ê°€ìƒ í…Œì´ë¸”ì´ë‹¤. 
+--       ì½ê¸° ì „ìš© select ë¬¸ì´ë‹¤.
 -- 
--- ºä¸¦ ¿Ö »ç¿ëÇÏ´Â°¡?
---     1. º¸¾È
---     2. °£ÆíÇÑ »ç¿ë
+-- ë·°ë¥¼ ì™œ ì‚¬ìš©í•˜ëŠ”ê°€?
+--     1. ë³´ì•ˆìƒì˜ ì´ìœ ë¡œ ì»¬ëŸ¼ì„ ìˆ¨ê²¨ì•¼ í•  ë•Œ.
+--     2. ê°„íŽ¸í•œ ì‚¬ìš©
 -- ############
 
 
 
 -- ############
--- ÀÎµ¦½º´Â µ¥ÀÌÅÍ °Ë»ö½Ã ¼Óµµ Çâ»óÀ» À§ÇØ¼­ »ç¿ë.
--- ÀÎµ¦½º¸¦ ¿Ö »ç¿ëÇÏ´Â°¡?
---   Ã£´Â ¼Óµµ¸¦ ºü¸£°Ô ÇÏ±â À§ÇØ¼­.
+-- ì¸ë±ìŠ¤ëŠ” ë°ì´í„° ê²€ìƒ‰ì‹œ ì†ë„ í–¥ìƒì„ ìœ„í•´ì„œ ì‚¬ìš©.
+-- ì¸ë±ìŠ¤ë¥¼ ì™œ ì‚¬ìš©í•˜ëŠ”ê°€?
+--   ì°¾ëŠ” ì†ë„ë¥¼ ë¹ ë¥´ê²Œ í•˜ê¸° ìœ„í•´ì„œ.
 -- 
--- ÀÎµ¦½º »ý¼º ±ÔÄ¢
--- 	whereÀý¿¡¼­ »ç¿ëµÇ´Â ÄÃ·³¿¡´Â ÀÎµ¦½º Àû¿ëÀ» °í·ÁÇÑ´Ù..
--- 	whereÀý¿¡¼­ »ç¿ëµÇ´Â ¸ðµç ÄÃ·³¿¡ ÀÎµ¦½º¸¦ °É¶ó´Â ¸»¾¸Àº ¾Æ´Õ´Ï´Ù.
---    ÇØ´ç ÄÃ·³ µ¥ÀÌÅÍ Áßº¹·üÀÌ 10%ÀÌÇÏÀÏ ¶§´Â ÀÎµ¦½º¸¦ °ÍÀÌ À¯¸®ÇÏ´Ù.
+-- ì¸ë±ìŠ¤ ìƒì„± ê·œì¹™
+-- 	whereì ˆì—ì„œ ì‚¬ìš©ë˜ëŠ” ì»¬ëŸ¼ì—ëŠ” ì¸ë±ìŠ¤ ì ìš©ì„ ê³ ë ¤í•œë‹¤..
+-- 	whereì ˆì—ì„œ ì‚¬ìš©ë˜ëŠ” ëª¨ë“  ì»¬ëŸ¼ì— ì¸ë±ìŠ¤ë¥¼ ê±¸ë¼ëŠ” ë§ì”€ì€ ì•„ë‹™ë‹ˆë‹¤.
+--    í•´ë‹¹ ì»¬ëŸ¼ ë°ì´í„° ì¤‘ë³µë¥ ì´ 10%ì´í•˜ì¼ ë•ŒëŠ” ì¸ë±ìŠ¤ë¥¼ ê²ƒì´ ìœ ë¦¬í•˜ë‹¤.
 -- 
 -- ############
 
 
 -- ############
--- ½ÃÄö½º´Â ¿Ö »ç¿ëÇÏ´Â°¡?
--- 	ÀÚµ¿ Áõ°¡°ª ¸¸µé ¶§ »ç¿ë.
+-- ì‹œí€€ìŠ¤ëŠ” ì™œ ì‚¬ìš©í•˜ëŠ”ê°€?
+-- 	ìžë™ ì¦ê°€ê°’ ë§Œë“¤ ë•Œ ì‚¬ìš©.
 -- 
--- MySQL¿¡¼­´Â ½ÃÄö½º¸¦ ¾î¶»°Ô ¸¸µå´Â°¡?
---    Å×ÀÌºí »ý¼º½Ã auto_increment¸¦ »ç¿ëÇÏ¸é µÈ´Ù.
+-- Oracle ì—ëŠ” ì‹œí€€ìŠ¤ê°€ ìžˆì§€ë§Œ
+-- MySQLì—ëŠ” ì‹œí€€ìŠ¤ê°€ ì—†ë‹¤.
+-- MySQLì—ì„œëŠ” ì‹œí€€ìŠ¤ë¥¼ ì–´ë–»ê²Œ ë§Œë“œëŠ”ê°€?
+--    í…Œì´ë¸” ìƒì„±ì‹œ auto_incrementë¥¼ ì‚¬ìš©í•˜ë©´ ëœë‹¤.
 -- ############
-
 
 

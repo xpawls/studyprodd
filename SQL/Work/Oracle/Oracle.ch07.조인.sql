@@ -179,7 +179,9 @@ select emp.deptno, emp.ename, emp.sal, dept.dname
 -- 9. 직급(job) 과장이 속해 있는 부서의 부서번호와 부서명, 위치 
 --    그리고 그 부서에 속한 사원들의 정보를 출력하시오. 9개
 -- 9.1 서브쿼리 방식
-select deptno, (select dname from dept where  deptno=emp.deptno) 부서명, (select loc from dept where  deptno=emp.deptno) 지역, emp.* from emp where job='과장';
+select deptno, (select dname from dept where  deptno=emp.deptno) 부서명, (select loc from dept where  deptno=emp.deptno) 지역, emp.*
+from emp
+where deptno in (select deptno from emp where job='과장');
 -- 9.2 join 방식
 select e.deptno, d.dname, d.loc, e.* from emp e inner join dept d on e.deptno=d.deptno where e.job='과장';
 
@@ -191,8 +193,15 @@ select e.deptno, d.dname, d.loc, e.* from emp e inner join dept d on e.deptno=d.
 -- 11. 부서별로 과장보다 많은 급여(같은 것은 제외)를 받는 같은 부서에 근무하는 
 --     직원들의 이름, 부서명, 직급, 급여를 출력하되 과장은 출력하지 마시오. 1개
 -- 11.1 서브쿼리 방식
+select * from emp where deptno in
+select deptno, max(sal) from emp
+ where job = '과장'
+ group by deptno;
 -- 11.2 join 방식
-
+select emp.ENAME, dept.DNAME, emp.JOB, emp.sal
+ from emp left join dept on emp.DEPTNO=dept.DEPTNO
+  where emp.deptno in (select deptno from emp where emp.sal>(select max(sal) from emp where job = '과장'))
+   and job!='과장';
 
 
 -- @@@@@@@@@
