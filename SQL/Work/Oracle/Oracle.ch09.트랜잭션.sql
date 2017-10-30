@@ -32,18 +32,23 @@
 -- @@@@@
 
 -- 트랜잭션 시작
+transaction start;
 
 -- 작업 1. 이병헌 삭제하시오.
-
+savepoint tran1;
+delete from emp where ename ='이병헌';
 -- 작업 2. 대리를 과장으로 바꾸시오.
-
+savepoint tran2;
+update emp set job='과장' where job='대리';
 -- 작업 3. 추신수를 이사로 바꾸시오.
-
+savepoint tran3;
+update emp set job='이사' where ename='추신수';
 -- 부분 되돌리기. 추신수의 변경사항을 취소하시오
-
+rollback to tran3;
 -- 트랜잭션 완료. transaction 종료
-
+select * from emp;
+commit;
 -- 전체 되돌리기. transaction 종료
-
+rollback;
 
 

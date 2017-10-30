@@ -1,61 +1,131 @@
--- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
+-- ######################################2
 -- 테이블 CUD
 -- 테이블 추가           : CREATE TABLE  테이블명                   ;
 -- 테이블 변경           : ALTER  TABLE  테이블명                   ; 
 -- 테이블 삭제           : DROP   TABLE  테이블명                   ;
--- 테이블 이름 바꾸기     :  Mysql : rename 
-                           Oracle : rename  
--- 테이블 복제           :  Mysql : CREATE TABLE 새로만들테이블명 AS SELECT * FROM 복사할테이블명;
-                           Oracle : SELECT *  INTO 새테이블명 FROM 원본테이블;
--- 테이블 로우 제거      :  MySQL : 
+-- 테이블 이름 바꾸기    : Mysql : rename table 원본테이블명 to 새테이블명;
+--                         Oracle : rename  
+-- 테이블 복제           : Mysql : CREATE TABLE 새테이블명 AS SELECT * FROM 원본테이블;
+--                         Oracle : SELECT *  INTO 새테이블명 FROM 원본테이블;
+-- 테이블 로우 제거     :  MySQL : 
 --                      :  Oralce : TRUNCATE TABLE 테이블명                 ; // DELETE 보다 속도가 빠름.
---@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
+-- ######################################2
 
 
---@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
+-- ######################################2
 -- 테이블 컬럼 CUD
 -- 테이블 컬럼 추가      : ALTER  TABLE  테이블명 ADD          컬럼이름 컬럼타입 
 -- 테이블 컬럼 삭제      : ALTER  TABLE  테이블명 DROP  COLUMN 컬럼이름 
 -- 테이블 컬럼 변경 타입 : ALTER  TABLE  테이블명 ALTER COLUMN 컬럼이름 컬럼타입
 -- 테이블 제약 변경 조건 : ALTER  TABLE  테이블명 ALTER COLUMN 컬럼이름 컬럼타입
 -- 테이블 컬럼 변경 이름 : EXEC SP_RENAME '테이블이름.컬럼이름' , '새컬럼이름', 'COLUMN'
--- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
+-- ######################################2
 
 -- dept01 테이블을 삭제하시오.
-
--- dept01 테이블을 추가하시오.
+-- MySQL  : DROP TABLE if exits 테이블명 ;
+-- Oracle : BEGIN EXECUTE IMMEDIATE 'DROP TABLE dept01'; 
+--          EXCEPTION WHEN OTHERS THEN NULL; 
+--          END;
+--          /      -- 중요. 빠트리지 마시오. 줄바꿈을 해야 적용 됨.
+begin execute immediate 'drop table dept01';
+exception when others then null;
+end;
+/
+-- dept01 테이블을 DDL을 이용하여  추가하시오.
 -- 컬럼에는 
 -- ename     : 문자열
 -- job       : 문자열
 -- email     : 문자열 
 -- address   : 문자열
 -- sex       : F 또는 M  두개중에 한개만 저장될 수 있게.
--- phone     : 11자리~15자리
+-- phone     : 문자열. 11자리~15자리
 -- birthday  : 생일. 날짜만 저장.
 -- birthtime : 생시. 시간만 저장.
 -- age       : 정수. 999 까지만 저장가능하게. 
 -- height    : 실수. 정수부분은 3자리, 소수부분은 2자리까지.
+create table dept01(
+ ename NVARCHAR2(50)
+, job NVARCHAR2(50)
+, email NVARCHAR2(50)
+, address nvarchar2(50)
+, sex char(1)  check(sex in('F','M'))
+, phone varchar(15)
+, birthday date
+, birthtime date
+, age number(3,0)
+, height number(5,2)
+);
+select * from dept01;
 
+-- dept01 테이블을 삭제하시오.
+begin execute immediate 'drop table dept01';
+exception when others then null;
+end;
+/
+drop table dept01;
+-- @@@@@@
+-- dept01 테이블을 테이블 디자이너를 이용하여 추가하시오.
+-- 
+-- 
+-- 컬럼에는 
+-- ename     : 문자열
+-- job       : 문자열
+-- email     : 문자열 
+-- address   : 문자열
+-- sex       : F 또는 M  두개중에 한개만 저장될 수 있게.
+-- phone     : 문자열. 11자리~15자리
+-- birthday  : 생일. 날짜만 저장.
+-- birthtime : 생시. 시간만 저장.
+-- age       : 정수. 999 까지만 저장가능하게. 
+-- height    : 실수. 정수부분은 3자리, 소수부분은 2자리까지.
+-- @@@@@@
 
-
-
+CREATE TABLE "TESTER1"."DEPT01" 
+   (	"ENAME" VARCHAR2(20 BYTE), 
+	"JOB" VARCHAR2(20 BYTE), 
+	"EMAIL" VARCHAR2(20 BYTE), 
+	"ADDRESS" VARCHAR2(50 BYTE), 
+	"SEX" CHAR(1 BYTE), 
+	"PHONE" VARCHAR2(20 BYTE), 
+	"BIRTHDAY" DATE, 
+	"BIRTHTIME" DATE, 
+	"AGE" NUMBER(3,0), 
+	"HEIGHT" NUMBER(5,2)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  TABLESPACE "USERS" ;
+-- @@@@@@
 -- dept01 테이블을 수정하시오.
 -- email 컬럼에 not null 을 설정하시오.
-
--- dept01 테이블에 auto_increment(sequence)를 추가하시오.
-
-
--- insert를 이용하여 데이터를 입력하시오. 
--- ename: abc, 나머지 컬럼 값은 null로
-
-
+-- @@@@@@
+select * from user_tab_columns where table ='dept01';
+select column_name, comments from dept01;
+alter table dept01 modify email varchar2(20) not null;
+-- @@@@@@
+-- dept01 테이블에 insert를 이용하여 데이터를 입력하시오. 
+-- ename: abc, 나머지 컬럼 값은 null로 입력
+-- email 때문에 에러 발생
+-- @@@@@@
+insert into dept01(ename, email)
+          values('abc', 'null');
+-- @@@@@@
 -- 문제. dept01 테이블에 salary 컬럼을 추가하되
 -- 타입은 숫자형으로 하고 정수 10자리와 소수점 3자리,
 -- 그리고 not null 조건을 설정하시오.
+-- @@@@@@
+alter table dept01 add salary number(13,3) not null;
+-- @@@@@@
+-- 문제. 컬럼 타입 수정
+-- dept01 테이블의 addres 컬럼 타입을 nvarchar(1000)으로 바꾸시오.
+-- @@@@@@
 
--- 문제. dept01 테이블의 addres 컬럼 타입을 nvarchar(1000)으로 바꾸시오.
 
--- 문제. dept01 테이블에서 birthtime 컬럼을 삭제하시오.
+
+-- @@@@@@
+-- 문제. 컬럼 삭제
+-- dept01 테이블에서 birthtime 컬럼을 삭제하시오.
+-- @@@@@@
 
 
 -- 테이블 이름 바꾸기
@@ -88,20 +158,18 @@
 
 
 
-
-
---########################
+-- ########################
 -- Database 목록 조회
---########################
+-- ########################
 
 
 
---########################
+-- ########################
 -- 테이블 목록 조회 
---########################
+-- ########################
 
 
---########################
+-- ########################
 -- 컬럼 목록 조회
---########################
+-- ########################
 

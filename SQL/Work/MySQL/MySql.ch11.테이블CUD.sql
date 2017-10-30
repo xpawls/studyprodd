@@ -4,9 +4,9 @@
 -- 테이블 변경           : ALTER  TABLE  테이블명                   ; 
 -- 테이블 삭제           : DROP   TABLE  테이블명                   ;
 -- 테이블 이름 바꾸기     :  Mysql : rename 
-                           Oracle : rename  
+--                           Oracle : rename  
 -- 테이블 복제           :  Mysql : CREATE TABLE 새테이블명 AS SELECT * FROM 원본테이블;
-                           Oracle : SELECT *  INTO 새테이블명 FROM 원본테이블;
+--                           Oracle : SELECT *  INTO 새테이블명 FROM 원본테이블;
 -- 테이블 로우 제거      :  MySQL : 
 --                      :  Oralce : TRUNCATE TABLE 테이블명                 ; // DELETE 보다 속도가 빠름.
 --@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
@@ -109,48 +109,120 @@ alter table dept01 drop column birthtime;
 show columns from dept01;
 -- 테이블 이름 바꾸기
 -- dept01 을 dept_new로 바꾸시오.
+rename table dept01 to dept_new ;
 
+show tables;
 -- 테이블 구조와 데이터를 복제
 -- dept 테이블을 복제해서 dept02 테이블을 만드시오.
+
 -- 테이블이 없는 경우에 테이블과 데이터를 복제 하는 방법
 -- CREATE TABLE 새로만들테이블명 AS SELECT * FROM 복사할테이블명;
+create table dept02 as select * from dept;
 
+show columns from dept02;
+select * from dept02;
 -- 테이블 구조만 복제
--- dept 테이블 구조를 복제해서 dept03 테이블을 만드시오.
-
-
+-- dept 테이블 구조를 복제해서 dept03 테이블을 만드시오. 데이터는 복제하지 마시오.
+create table dept03 like dept;
+show tables;
+select * from dept03;
 -- 문제. dept 테이블에 auto_increment를 갖는 pid 컬럼 를 추가하시오.
+-- auto_increment 로 설정하려면 반드시 primary key 가 되어야 한다.
 -- primary key 삭제
--- pid 컬럼 추가.
+-- pid 컬럼에 key 추가.
 
--- 문제. dept 테이블을 복제해서 dept11 테이블을 만드시오.
--- 테이블 복제후 auto_increment 조건을 pid 컬럼에 설정하시오.
+alter table dept drop column pid;
+alter table dept add column pid int(11) not null auto_increment
+					, add unique key pid(pid);
+show columns from dept;
+-- 문제. emp 테이블의 구조와 데이터를 복제해서 dept11 테이블을 만드시오
+-- 테이블 목록 출력
+-- 컬럼 목록 출력
+-- 데이터 출력
+create table dept11 as select * from emp;
+show tables;
+show columns from dept11;
+select * from dept11;
+-- 문제. emp 테이블의 구조만 복제해서 dept12 테이블을 만드시오.
+-- 테이블 목록 출력
+-- 컬럼 목록 출력
+-- 데이터 출력
+create table dept12 like emp; 
+show tables;
+show columns from dept12;
+select * from dept12;
 
--- 문제. dept 테이블을 복제해서 dept12 테이블을 만드시오.
--- 테이블 복제후 auto_increment 조건을 pid 컬럼에 설정하시오.
 
--- 문제. dept11 테이블은 delete을 사용하여 데이터를 제거하시오.
+-- @@@@@@
+-- 테이블 데이터 삭제
+--  DELETE 		: 테이블 상태 유지 . auto_increment 정보가 유지됨.
+--  TRUNCATE	: 테이블 상태 초기화. auto_increment 정보가 초기화됨.
+-- @@@@@@
+-- tbtest 테이블을 만드시오.
+-- pid  : 정수 . not null, auto_increment
+-- value : 문자열.
+
+-- 아래와 같이 tbtest 테이블을 만들고 데이터를 입력하시오.
+-- pid : 정수 . not null, 자동 증가값
+-- val : 문자열.
+-- 
+-- tbtest 테이블에 데이터 insert
+-- -------------------
+-- | pid | val |
+-- -------------------
+-- | 1 | a |
+-- | 2 | b |
+-- | 3 | c |
+-- | 4 | d |
+-- -------------------
+create table tbtest(
+		pid int(11) not null auto_increment primary key
+		, val nvarchar(1000)
+
+);
+
+delete from tbtest;
+insert into tbtest (pid, val)
+				values (1,'a'),(2,'b'),(3,'c'),(4,'d');
+
+insert into tbtest ( val)
+				values ('e'),('f'),('g'),('h');
+select * from tbtest;
+delete from dept11;
+select * from dept11;
+-- 문제. tbtest테이블은 delete을 사용하여 데이터를 제거하시오.
 -- delete   방식:  auto_increment 컬럼 초기화 안됨
-
--- 문제. dept12 테이블은 truncate을 사용하여 데이터를 제거하시오.
+delete from tbtest;
+select * from tbtest;
+insert into tbtest (val)
+				values ('a1');
+select * from tbtest;
+-- 문제.tbtest 테이블은 truncate을 사용하여 데이터를 제거하시오.
 -- truncate 방식:  auto_increment 컬럼 초기화 됨
+truncate tbtest;
+insert into tbtest (val)
+				values ('a2');
+select * from tbtest;
 
 
 
 
-
---########################
+-- ########################
 -- Database 목록 조회
---########################
+-- ########################
+show databases ;
 
 
-
---########################
+-- ########################
 -- 테이블 목록 조회 
---########################
+-- MySQL : show tables;
+-- Oracle :
+-- ########################
+show test;
+show tables;
 
-
---########################
+-- ########################
 -- 컬럼 목록 조회
---########################
-
+-- MySQL : show columns from 테이블명;
+-- ########################
+show columns from dept;
