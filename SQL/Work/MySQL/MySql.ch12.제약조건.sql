@@ -80,10 +80,22 @@ show index from emp;
 -- | DEPTNO   | int(11)     | YES  |     | NULL    |       |
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
+CREATE TABLE `emp02` (
+	`empno`    INT(11) NULL DEFAULT NULL,
+	`ename`    VARCHAR(10) NULL DEFAULT NULL,
+	`job` 	  VARCHAR(9) NULL DEFAULT NULL,
+	`mgr`      INT(11) NULL DEFAULT NULL,
+	`hiredate` DATE NULL DEFAULT NULL,
+	`sal`      DOUBLE(7,2) NULL DEFAULT NULL,
+	`comm`     DOUBLE(7,2) NULL DEFAULT NULL,
+	`deptno`   INT(11) NULL DEFAULT NULL
+);
 
--- emp02 테이블의 모든 컬럼에 null 값으로 insert 하시오.
-
-
+-- emp02 테이블의 모든 컬럼에 값을 null 로 insert 하시오.
+insert into emp02(empno) values(null); 
+insert into emp02() values();
+insert into emp02 values();
+select * from emp02;
 -- #####
 -- emp03 테이블 생성 DDL 문을 작성하시오.
 -- empno 에 not null 조건 설정.
@@ -101,13 +113,16 @@ show index from emp;
 -- | DEPTNO   | int(11)     | YES  |     | NULL    |       |
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
-
+create table emp03 like emp02;
+alter table emp03 modify column empno int(11) not null;
+alter table emp03 modify ename varchar(10) not null;
+show columns from emp03;
 -- emp03 테이블 데이터 insert 테스트.
 -- 모든 값을 null 채워서 insert 하시오. 불가능. not null 조건 때문에.
-
+insert into emp03 () values();
 -- empno에 10, ename에 abcd를 insert 하시오.
-
-
+insert into emp03(empno, ename) values (10, 'abcd');
+select * from emp03;
 
 -- #####
 -- emp04 테이블 생성 DDL 문을 작성하시오.
@@ -127,13 +142,25 @@ show index from emp;
 -- | DEPTNO   | int(11)     | YES  |     | NULL    |       |
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
-
+create table emp04 (
+		 empno    int(11)     not null
+		,ename    varchar(10) not null
+		,job      varchar(9)  null
+		,mgr      int(11)     null
+		,hiredate date
+		,sal      double(7,2)
+		,comm     double(7,2) default 100
+		,deptno   int(11)
+);
+create table emp04 like emp03;
+alter table emp04 modify column comm double(7,2) default 100;
+show columns from emp04;
 -- emp04 테이블 데이터 insert 테스트.
 -- 모든 값을 null 채워서 insert 하시오. 불가능. not null 조건 때문에.
-
+insert into emp04 values();
 -- empno에 10, ename에 abcd를 insert 하시오.
-
-
+insert into emp04(empno, ename) values (10,'abcd');
+select * from emp04;
 
 
 -- #####
@@ -142,6 +169,7 @@ show index from emp;
 -- ename 에 not null 조건 설정.
 -- comm  에 default 조건 설정. default 값으로 100 사용.
 -- empno 에 primary key 조건 설정.
+
 -- +----------+-------------+------+-----+---------+-------+
 -- | Field    | Type        | Null | Key | Default | Extra |
 -- +----------+-------------+------+-----+---------+-------+
@@ -155,7 +183,17 @@ show index from emp;
 -- | DEPTNO   | int(11)     | YES  |     | NULL    |       |
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
-
+CREATE TABLE `emp06` (
+	`empno` INT(11) NOT NULL,
+	`ename` VARCHAR(10) NOT NULL,
+	`job` VARCHAR(9) NULL DEFAULT NULL,
+	`mgr` INT(11) NULL DEFAULT NULL,
+	`hiredate` DATE NULL DEFAULT NULL,
+	`sal` DOUBLE(7,2) NULL DEFAULT NULL,
+	`comm` DOUBLE(7,2) NULL DEFAULT '100.00',
+	`deptno` INT(11) NULL DEFAULT NULL,
+	PRIMARY KEY (`empno`)
+);
 
 
 -- #####
@@ -177,8 +215,20 @@ show index from emp;
 -- | DEPTNO   | int(11)     | YES  |     | NULL    |       |
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
+CREATE TABLE `emp07` (
+	`empno` INT(11) NOT NULL,
+	`ename` VARCHAR(10) NOT NULL,
+	`job` VARCHAR(9) NULL DEFAULT NULL,
+	`mgr` INT(11) NULL DEFAULT NULL,
+	`hiredate` DATE NULL DEFAULT NULL,
+	`sal` DOUBLE(7,2) NULL DEFAULT NULL,
+	`comm` DOUBLE(7,2) NULL DEFAULT '100.00',
+	`deptno` INT(11) NULL DEFAULT NULL
+	
+	,PRIMARY KEY (`empno`, `ename`)
 
-
+);
+show columns from emp07;
 -- #####
 -- emp08 테이블 생성 DDL 문을 작성하시오.
 -- empno 에 not null 조건 설정.
@@ -200,7 +250,19 @@ show index from emp;
 -- +----------+-------------+------+---------+---------+-------+
 -- #####
 
-
+CREATE TABLE `emp08` (
+	`empno` INT(11) NOT NULL,
+	`ename` VARCHAR(10) NOT NULL,
+	`job` VARCHAR(9) NULL DEFAULT NULL,
+	`mgr` INT(11) NULL DEFAULT NULL,
+	`hiredate` DATE NULL DEFAULT NULL,
+	`sal` DOUBLE(7,2) NULL DEFAULT NULL,
+	`comm` DOUBLE(7,2) NULL DEFAULT '100.00',
+	`deptno` INT(11) NULL DEFAULT NULL,
+	`phone` VARCHAR(13) NULL DEFAULT NULL,
+	PRIMARY KEY (`empno`, `ename`),
+	UNIQUE INDEX `phone` (`phone`)
+);
 
 -- #####
 -- emp09 테이블 생성 DDL 문을 작성하시오.
@@ -210,21 +272,45 @@ show index from emp;
 -- empno 와 ename  에 primary key 조건 설정.
 -- empno 에 unique  조건 설정.
 -- 
+
 -- emp09.deptno 와 dept.deptno 에 foreign key 조건 설정.
 -- +----------+-------------+------+---------+---------+-------+
 -- | Field    | Type        | Null | Key     | Default | Extra |
 -- +----------+-------------+------+---------+---------+-------+
--- | EMPNO    | int(11)     | NO   | PRI,UNI | NULL    |       |
+-- | EMPNO    | int(11)     | NO   | PRI     | NULL    |       |
 -- | ENAME    | varchar(10) | NO   | PRI     | NULL    |       |
 -- | JOB      | varchar(9)  | YES  |         | NULL    |       |
 -- | MGR      | int(11)     | YES  |         | NULL    |       |
 -- | HIREDATE | date        | YES  |         | NULL    |       |
 -- | SAL      | double(7,2) | YES  |         | NULL    |       |
 -- | COMM     | double(7,2) | YES  |         | 100     |       |
--- | DEPTNO   | int(11)     | YES  |         | NULL    |       |
+-- | DEPTNO   | int(11)     | YES  | UNI     | NULL    |       |
 -- +----------+-------------+------+---------+---------+-------+
 -- #####
 
+CREATE TABLE `emp09` (
+	`empno` INT(11) NOT NULL,
+	`ename` VARCHAR(10) NOT NULL,
+	`job` VARCHAR(9) NULL DEFAULT NULL,
+	`mgr` INT(11) NULL DEFAULT NULL,
+	`hiredate` DATE NULL DEFAULT NULL,
+	`sal` DOUBLE(7,2) NULL DEFAULT NULL,
+	`comm` DOUBLE(7,2) NULL DEFAULT '100.00',
+	`deptno` INT(11) NULL DEFAULT NULL,
+	`phone` VARCHAR(13) NULL DEFAULT NULL,
+	PRIMARY KEY (`empno`, `ename`),
+	UNIQUE INDEX `phone` (`phone`),
+	INDEX `FK_emp09_dept` (`deptno`),
+	CONSTRAINT `FK_emp09_dept` FOREIGN KEY (`deptno`) REFERENCES `dept` (`DEPTNO`)
+);
+
+-- emp09 테이블에서 empno=10, ename=abcd, deptno=100을 insert하시오.
+-- insert실패 발생 왜?
+-- 어떻게 하면 insert가 가능하겠는가? 
+
+insert into emp09 (empno, ename, deptno) values (10,'abcd', 100);
+insert into emp09 (empno, ename, deptno) values (10,'abcd', 20);
+select * from emp09;
 -- ######################  
 -- 미션. ERD를 이용해서 DB를 구축하시오
 -- 
@@ -239,7 +325,8 @@ show index from emp;
 -- | salary   | decimal(6,0) | YES  |     | NULL    |       |    
 -- | birthday | date         | YES  |     | NULL    |       |    
 -- +----------+--------------+------+-----+---------+-------+    
---                                                               
+--  
+                                 
 -- * project 테이블;                             
 -- +-------------+--------------+------+-----+---------+-------+ 
 -- | Field       | Type         | Null | Key | Default | Extra | 
@@ -249,7 +336,8 @@ show index from emp;
 -- | start_date  | date         | YES  |     | NULL    |       | 
 -- | finish_date | date         | YES  |     | NULL    |       | 
 -- +-------------+--------------+------+-----+---------+-------+ 
---                                                               
+-- 
+                                       
 -- * specialty 테이블;                           
 -- +-----------+--------------+------+-----+---------+-------+   
 -- | Field     | Type         | Null | Key | Default | Extra |   
@@ -258,6 +346,7 @@ show index from emp;
 -- | specialty | varchar(20)  | NO   | PRI |         |       |   
 -- +-----------+--------------+------+-----+---------+-------+   
 --                                                               
+
 -- * assign 테이블;                              
 -- +--------+--------------+------+-----+---------+-------+      
 -- | Field  | Type         | Null | Key | Default | Extra |      
@@ -269,9 +358,37 @@ show index from emp;
 
 -- 직원(employee) 테이블 기본 키에 제약조건 조건명 추가하시오. employee_pk_
 -- 프로젝트(project) 테이블에 기본 키를 추가하시오 제약조건 이름: project_pk 
--- 담당(assign) 테이블에 기본 키를 추가하기 제약조건 이름: assign_pk
+-- 담당(assign) 테이블에 기본 키를 추employee가하기 제약조건 이름: assign_pk
 -- 특기(specialty) 테이블에 외래 키를 추가하기 제약조건 이름: specialty_fk 
-
+create table employee (
+				emp_no decimal(4,0) not null default 0
+				, emp_name varchar(20)
+				, salary decimal(6,0)
+				,birthday date
+				,primary key employee_pk (emp_no)
+				 );                           
+				 
+create table project (
+				pro_no decimal(4,0) not null default 0
+				, pro_content varchar(100)
+				, start_date date
+				, finish_date date
+				, primary key project_pk  (pro_no)
+				);                       
+				
+create table specialty (
+				emp_no decimal(4,0) not null default 0
+				,specialty varchar(20) not null
+				, primary key assign_pk (emp_no,specialty)
+				);
+				
+create table assign(
+				emp_no decimal(4,0) not null default 0
+				,pro_no decimal(4,0) not null default 0
+				, primary key (emp_no, pro_no)
+				);
+suv1214
+show columns from employee;
 -- table relation 
 -- assign 테이블과 project 테이블 사이에 외래 키를 추가하기.제약조건명: specialty_fk
 -- 담당(assign) 테이블과 직원 테이블 사이에 외래키를 추가하기제약조건 이름: specialty_fk
@@ -282,7 +399,7 @@ show index from emp;
 -- | assign       | employee      | assign_employee_fk    |
 -- | assign       | project       | assign_project_fk     |
 -- +--------------+---------------+-----------------------+
-
+ 
 
 
 

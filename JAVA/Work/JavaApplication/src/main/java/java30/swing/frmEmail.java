@@ -7,11 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
 
 public class frmEmail extends JFrame {
     
@@ -20,7 +25,6 @@ public class frmEmail extends JFrame {
     private JTextField jobtext;
     private JTextField idtext;
     private JTextField emailText;
-    private JTextField addText;
     
     /**
      * Launch the application.
@@ -103,11 +107,6 @@ public class frmEmail extends JFrame {
         panel.add(emailText);
         emailText.setColumns(10);
         
-        addText = new JTextField();
-        addText.setBounds(12, 55, 292, 89);
-        panel.add(addText);
-        addText.setColumns(10);
-        
         JLabel lblMailFormat = new JLabel("Mail Format");
         lblMailFormat.setBounds(10, 154, 93, 15);
         panel.add(lblMailFormat);
@@ -124,17 +123,21 @@ public class frmEmail extends JFrame {
         rdbtnCustom.setBounds(162, 175, 121, 23);
         panel.add(rdbtnCustom);
         
+        JTextArea textArea = new JTextArea();
+        textArea.setBounds(20, 55, 284, 89);
+        panel.add(textArea);
+        
         JButton btnAdd = new JButton("Add");
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String email = emailText.getText();
-                addText.setText(email);
-                
-                
+                String em = emailText.getText();
+                String text = textArea.getText();
+                String cc = em + " \r\n"+text;
+                textArea.setText(cc);
                 
             }
         });
-        btnAdd.setBounds(313, 25, 85, 23);
+        btnAdd.setBounds(313, 25, 82, 23);
         panel.add(btnAdd);
         
         JButton btnEdit = new JButton("Edit");
@@ -142,20 +145,24 @@ public class frmEmail extends JFrame {
             public void actionPerformed(ActionEvent e) {
             }
         });
-        btnEdit.setBounds(316, 55, 82, 23);
+        btnEdit.setBounds(313, 55, 82, 23);
         panel.add(btnEdit);
         
         JButton btnRemove = new JButton("Remove");
-        btnRemove.setBounds(316, 88, 85, 23);
+        btnRemove.setBounds(313, 88, 82, 23);
         panel.add(btnRemove);
         
         JButton btnNewButton = new JButton("Default");
-        btnNewButton.setBounds(316, 121, 85, 23);
+        btnNewButton.setBounds(313, 121, 82, 23);
         panel.add(btnNewButton);
+        
         
         JButton btnNewButton_1 = new JButton("OK");
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                
+                JOptionPane.showMessageDialog(null, nametext.getText()+" \n"+jobtext.getText()+" \n"+idtext.getText());
+                
             }
         });
         btnNewButton_1.setBounds(216, 378, 97, 54);
