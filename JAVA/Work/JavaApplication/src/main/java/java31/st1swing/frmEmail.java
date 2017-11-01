@@ -1,4 +1,4 @@
-package java30.swing;
+package java31.st1swing;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

@@ -2,9 +2,9 @@
 -- 테이블 제약 조건
 -- 
 -- 컬럼에 제약 조건 설정 
--- 	  * NOT NULL 조건
+--    * NOT NULL 조건
 -- 
--- 	  * DEFAULT 조건
+--    * DEFAULT 조건
 -- 
 -- 
 -- 테이블에 제약 조건 설정
@@ -25,6 +25,7 @@
 --         ex) 주민번호, 핸드폰번호, 계좌번호, ....
 --     
 -- 기본키, 외래키, 유일키는 테이블에 적용되는 것이다.
+-- 유일키에는 null이 허용, 기본키에는 null값 허용 안됨
 -- 
 -- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -65,7 +66,7 @@
 
   
 -- #####
--- emp02 테이블 생성 DDL 문을 작성하시오.
+-- emp02 테이블 생성하시오. 디자이너를 사용하여.
 -- +----------+-------------+------+-----+---------+-------+
 -- | Field    | Type        | Null | Key | Default | Extra |
 -- +----------+-------------+------+-----+---------+-------+
@@ -80,11 +81,12 @@
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
 
--- emp02 테이블의 모든 컬럼에 null 값으로 insert 하시오.
+
+-- emp02 테이블의 모든 컬럼에 값을 null 로 insert 하시오.
 
 
 -- #####
--- emp03 테이블 생성 DDL 문을 작성하시오.
+-- emp03 테이블 생성하시오. 테이블 복제를 사용하여
 -- empno 에 not null 조건 설정.
 -- ename 에 not null 조건 설정.
 -- +----------+-------------+------+-----+---------+-------+
@@ -104,12 +106,12 @@
 -- emp03 테이블 데이터 insert 테스트.
 -- 모든 값을 null 채워서 insert 하시오. 불가능. not null 조건 때문에.
 
--- empno에 10, ename에 abcd를 insert 하시오.
+-- emp03 테이블에서 empno에 10, ename에 abcd를 insert 하시오.
 
 
 
 -- #####
--- emp04 테이블 생성 DDL 문을 작성하시오.
+-- emp04 테이블 생성하시오. DDL문을 사용하여.
 -- empno 에 not null 조건 설정.
 -- ename 에 not null 조건 설정.
 -- comm  에 default 조건 설정. default 값으로 100 사용.
@@ -126,17 +128,19 @@
 -- | DEPTNO   | int(11)     | YES  |     | NULL    |       |
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
-
+select * from emp04;
 -- emp04 테이블 데이터 insert 테스트.
 -- 모든 값을 null 채워서 insert 하시오. 불가능. not null 조건 때문에.
 
--- empno에 10, ename에 abcd를 insert 하시오.
+-- emp04 테이블에서 empno에 10, ename에 abcd를 insert 할 때 
+-- comm에 들어가는 값은 무엇인가?
+
 
 
 
 
 -- #####
--- emp06 테이블 생성 DDL 문을 작성하시오.
+-- emp06 테이블 생성하시오. 디자이너를 사용하여.
 -- empno 에 not null 조건 설정.
 -- ename 에 not null 조건 설정.
 -- comm  에 default 조건 설정. default 값으로 100 사용.
@@ -155,10 +159,8 @@
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
 
-
-
 -- #####
--- emp07 테이블 생성 DDL 문을 작성하시오.
+-- emp07 테이블 생성하시오.
 -- empno 에 not null 조건 설정.
 -- ename 에 not null 조건 설정.
 -- comm  에 default 조건 설정. default 값으로 100 사용.
@@ -177,18 +179,17 @@
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
 
-
 -- #####
 -- emp08 테이블 생성 DDL 문을 작성하시오.
 -- empno 에 not null 조건 설정.
 -- ename 에 not null 조건 설정.
 -- comm  에 default 조건 설정. default 값으로 100 사용.
 -- empno 와 ename  에 primary key 조건 설정.
--- empno 에 unique  조건 설정.
+-- phone 에 unique  조건 설정.
 -- +----------+-------------+------+---------+---------+-------+
 -- | Field    | Type        | Null | Key     | Default | Extra |
 -- +----------+-------------+------+---------+---------+-------+
--- | EMPNO    | int(11)     | NO   | PRI,UNI | NULL    |       |
+-- | EMPNO    | int(11)     | NO   | PRI     | NULL    |       |
 -- | ENAME    | varchar(10) | NO   | PRI     | NULL    |       |
 -- | JOB      | varchar(9)  | YES  |         | NULL    |       |
 -- | MGR      | int(11)     | YES  |         | NULL    |       |
@@ -196,24 +197,23 @@
 -- | SAL      | double(7,2) | YES  |         | NULL    |       |
 -- | COMM     | double(7,2) | YES  |         | 100     |       |
 -- | DEPTNO   | int(11)     | YES  |         | NULL    |       |
+-- | PHONE    | varchar(13) | YES  | UNI     | NULL    |       |
 -- +----------+-------------+------+---------+---------+-------+
 -- #####
 
 
-
 -- #####
--- emp09 테이블 생성 DDL 문을 작성하시오.
+-- emp09 테이블 생성하시오. 디자이너를 이용하시오.
 -- empno 에 not null 조건 설정.
 -- ename 에 not null 조건 설정.
 -- comm  에 default 조건 설정. default 값으로 100 사용.
 -- empno 와 ename  에 primary key 조건 설정.
--- empno 에 unique  조건 설정.
--- 
+-- phone 에 unique  조건 설정.
 -- emp09.deptno 와 dept.deptno 에 foreign key 조건 설정.
 -- +----------+-------------+------+---------+---------+-------+
 -- | Field    | Type        | Null | Key     | Default | Extra |
 -- +----------+-------------+------+---------+---------+-------+
--- | EMPNO    | int(11)     | NO   | PRI,UNI | NULL    |       |
+-- | EMPNO    | int(11)     | NO   | PRI     | NULL    |       |
 -- | ENAME    | varchar(10) | NO   | PRI     | NULL    |       |
 -- | JOB      | varchar(9)  | YES  |         | NULL    |       |
 -- | MGR      | int(11)     | YES  |         | NULL    |       |
@@ -221,8 +221,17 @@
 -- | SAL      | double(7,2) | YES  |         | NULL    |       |
 -- | COMM     | double(7,2) | YES  |         | 100     |       |
 -- | DEPTNO   | int(11)     | YES  |         | NULL    |       |
+-- | PHONE    | varchar(13) | YES  | UNI     | NULL    |       |
 -- +----------+-------------+------+---------+---------+-------+
 -- #####
+
+
+-- 문제. emp09 테이블에서 empno=10, ename=abcd를, deptno=100을 insert 하시오.
+-- insert 실패 발생. 왜?
+-- 어떻게 하면 insert 가 가능하겠는가?
+
+
+
 
 -- ######################  
 -- 미션. ERD를 이용해서 DB를 구축하시오
@@ -233,9 +242,9 @@
 -- +----------+--------------+------+-----+---------+-------+    
 -- | Field    | Type         | Null | Key | Default | Extra |    
 -- +----------+--------------+------+-----+---------+-------+    
--- | emp_no   | decimal(4,0) | NO   | PRI | 0       |       |    
+-- | emp_no   | int(4,0)     | NO   | PRI | 0       |       |    
 -- | emp_name | varchar(20)  | YES  |     | NULL    |       |    
--- | salary   | decimal(6,0) | YES  |     | NULL    |       |    
+-- | salary   | int(6,0)     | YES  |     | NULL    |       |    
 -- | birthday | date         | YES  |     | NULL    |       |    
 -- +----------+--------------+------+-----+---------+-------+    
 --                                                               
@@ -243,7 +252,7 @@
 -- +-------------+--------------+------+-----+---------+-------+ 
 -- | Field       | Type         | Null | Key | Default | Extra | 
 -- +-------------+--------------+------+-----+---------+-------+ 
--- | pro_no      | decimal(4,0) | NO   | PRI | 0       |       | 
+-- | pro_no      | int(4,0)     | NO   | PRI | 0       |       | 
 -- | pro_content | varchar(100) | YES  |     | NULL    |       | 
 -- | start_date  | date         | YES  |     | NULL    |       | 
 -- | finish_date | date         | YES  |     | NULL    |       | 
@@ -253,7 +262,7 @@
 -- +-----------+--------------+------+-----+---------+-------+   
 -- | Field     | Type         | Null | Key | Default | Extra |   
 -- +-----------+--------------+------+-----+---------+-------+   
--- | emp_no    | decimal(4,0) | NO   | PRI | 0       |       |   
+-- | emp_no    | int(4,0)     | NO   | PRI | 0       |       |   
 -- | specialty | varchar(20)  | NO   | PRI |         |       |   
 -- +-----------+--------------+------+-----+---------+-------+   
 --                                                               
@@ -261,19 +270,19 @@
 -- +--------+--------------+------+-----+---------+-------+      
 -- | Field  | Type         | Null | Key | Default | Extra |      
 -- +--------+--------------+------+-----+---------+-------+      
--- | emp_no | decimal(4,0) | NO   | PRI | 0       |       |      
--- | pro_no | decimal(4,0) | NO   | PRI | 0       |       |      
+-- | emp_no | int(4,0)     | NO   | PRI | 0       |       |      
+-- | pro_no | int(4,0)     | NO   | PRI | 0       |       |      
 -- +--------+--------------+------+-----+---------+-------+    
 
 
--- 직원(employee) 테이블 기본 키에 제약조건 조건명 추가하시오. employee_pk_
+-- 직원(employee) 테이블에    기본 키에 제약조건 조건명 추가하시오. employee_pk_
 -- 프로젝트(project) 테이블에 기본 키를 추가하시오 제약조건 이름: project_pk 
--- 담당(assign) 테이블에 기본 키를 추가하기 제약조건 이름: assign_pk
--- 특기(specialty) 테이블에 외래 키를 추가하기 제약조건 이름: specialty_fk 
+-- 담당(assign) 테이블에     기본 키를 추가하기 제약조건 이름: assign_pk
+-- 특기(specialty) 테이블에  기본 키를 추가하기 제약조건 이름: specialty_fk 
 
 -- table relation 
--- assign 테이블과 project 테이블 사이에 외래 키를 추가하기.제약조건명: specialty_fk
--- 담당(assign) 테이블과 직원 테이블 사이에 외래키를 추가하기제약조건 이름: specialty_fk
+-- assign 테이블과 project 테이블 사이에 외래 키를 추가하기. 제약조건명: specialty_fk
+-- 담당(assign) 테이블과 직원 테이블 사이에 외래키를 추가하기 제약조건 이름: specialty_fk
 -- +--------------+---------------+-----------------------+
 -- | child table  | parent table  |                       |
 -- +--------------+---------------+-----------------------+

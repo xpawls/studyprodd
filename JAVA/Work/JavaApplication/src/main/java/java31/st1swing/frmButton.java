@@ -1,18 +1,17 @@
-package java30.swing;
+package java31.st1swing;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class frmAlert extends JFrame {
+public class frmButton extends JFrame {
     
     private JPanel contentPane;
     private JTextField textField;
@@ -24,7 +23,7 @@ public class frmAlert extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    frmAlert frame = new frmAlert();
+                    frmButton frame = new frmButton();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -36,8 +35,8 @@ public class frmAlert extends JFrame {
     /**
      * Create the frame.
      */
-    public frmAlert() {
-        setTitle("알림창 띄우기");
+    public frmButton() {
+        setTitle("테스트 프레임");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
@@ -45,19 +44,31 @@ public class frmAlert extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
+        JButton btnNewButton = new JButton("왼쪽버튼");
+        btnNewButton.setBounds(35, 24, 97, 69);
+        contentPane.add(btnNewButton);
+        
+        JButton btnNewButton_1 = new JButton("가운데버튼");
+        btnNewButton_1.setBounds(167, 24, 97, 69);
+        contentPane.add(btnNewButton_1);
+        
+        JButton btnNewButton_2 = new JButton("오른쪽버튼");
+        btnNewButton_2.setEnabled(false);
+        btnNewButton_2.setBounds(299, 24, 97, 69);
+        contentPane.add(btnNewButton_2);
+        
         textField = new JTextField();
-        textField.setBounds(41, 40, 240, 21);
+        textField.setBounds(35, 171, 361, 21);
         contentPane.add(textField);
         textField.setColumns(10);
         
-        JButton btnClick = new JButton("click");
-        btnClick.addActionListener(new ActionListener() {
+        JButton btnNewButton_3 = new JButton("종료버튼");
+        btnNewButton_3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, textField.getText());
+                System.exit(0);
             }
         });
-        btnClick.setBounds(325, 39, 97, 23);
-        contentPane.add(btnClick);
+        btnNewButton_3.setBounds(35, 215, 361, 37);
+        contentPane.add(btnNewButton_3);
     }
-    
 }
