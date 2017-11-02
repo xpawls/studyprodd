@@ -128,6 +128,16 @@
 -- | DEPTNO   | int(11)     | YES  |     | NULL    |       |
 -- +----------+-------------+------+-----+---------+-------+
 -- #####
+ CREATE TABLE "EMP05" 
+   (	"EMPNO" NUMBER(11,0) NOT NULL ENABLE, 
+	"ENAME" VARCHAR2(10 BYTE) NOT NULL ENABLE, 
+	"JOB" VARCHAR2(9 BYTE), 
+	"MGR" NUMBER(11,0), 
+	"HIREDATE" DATE, 
+	"SAL" NUMBER(7,2), 
+	"COMM" NUMBER(7,2) DEFAULT 100, 
+	"DEPTNO" NUMBER(11,0)
+   ) ;
 select * from emp04;
 -- emp04 테이블 데이터 insert 테스트.
 -- 모든 값을 null 채워서 insert 하시오. 불가능. not null 조건 때문에.
@@ -200,7 +210,16 @@ select * from emp04;
 -- | PHONE    | varchar(13) | YES  | UNI     | NULL    |       |
 -- +----------+-------------+------+---------+---------+-------+
 -- #####
-
+ CREATE TABLE "EMP08" 
+   (	"EMPNO" NUMBER(11,0) NOT NULL ENABLE, 
+	"ENAME" VARCHAR2(10 BYTE) NOT NULL ENABLE, 
+	"JOB" VARCHAR2(9 BYTE), 
+	"MGR" NUMBER(11,0), 
+	"HIREDATE" DATE, 
+	"SAL" NUMBER(7,2), 
+	"COMM" NUMBER(7,2) DEFAULT 100, 
+	"DEPTNO" NUMBER(11,0)
+   ) ;
 
 -- #####
 -- emp09 테이블 생성하시오. 디자이너를 이용하시오.
@@ -290,7 +309,47 @@ select * from emp04;
 -- | assign       | employee      | assign_employee_fk    |
 -- | assign       | project       | assign_project_fk     |
 -- +--------------+---------------+-----------------------+
-
+ CREATE TABLE "TESTER1"."EMPLOYEE" 
+   (	"EMP_NO" NUMBER(4,0) DEFAULT 0 NOT NULL ENABLE, 
+	"EMP_NAME" VARCHAR2(20 BYTE), 
+	"SALARY" NUMBER(6,0), 
+	"BIRTHDAY" DATE, 
+	 CONSTRAINT "EMPLOYEE_PK" PRIMARY KEY ("EMP_NO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  TABLESPACE "USERS"  ENABLE
+   ) ;
+   
+  CREATE TABLE "TESTER1"."PROJECT" 
+   (	"PRO_NO" NUMBER(4,0) DEFAULT 0 NOT NULL ENABLE, 
+	"PRO_CONTENT" VARCHAR2(100 BYTE), 
+	"START_DATE" DATE, 
+	"FINISH_DATE" DATE, 
+	 CONSTRAINT "PROJECT_PK" PRIMARY KEY ("PRO_NO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  TABLESPACE "USERS"  ENABLE
+   );
+   
+     CREATE TABLE "TESTER1"."SPECIALTY" 
+   (	"EMP_NO" NUMBER(4,0) DEFAULT 0, 
+	"SPECIALTY" VARCHAR2(20 BYTE), 
+	 CONSTRAINT "SPECIALTY_PK" PRIMARY KEY ("EMP_NO", "SPECIALTY")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  TABLESPACE "USERS"  ENABLE, 
+	 CONSTRAINT "SPECIALTY_FK1" FOREIGN KEY ("EMP_NO")
+	  REFERENCES "TESTER1"."EMPLOYEE" ("EMP_NO") ENABLE
+   );
+   
+   CREATE TABLE "TESTER1"."ASSIGN" 
+   (	"EMP_NO" NUMBER(4,0) DEFAULT 0 NOT NULL ENABLE, 
+	"PRO_NO" NUMBER(4,0) DEFAULT 0 NOT NULL ENABLE, 
+	 CONSTRAINT "ASSIGN_PK" PRIMARY KEY ("EMP_NO", "PRO_NO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  TABLESPACE "USERS"  ENABLE, 
+	 CONSTRAINT "ASSIGN_FK1" FOREIGN KEY ("EMP_NO")
+	  REFERENCES "TESTER1"."EMPLOYEE" ("EMP_NO") ENABLE, 
+	 CONSTRAINT "ASSIGN_FK2" FOREIGN KEY ("PRO_NO")
+	  REFERENCES "TESTER1"."PROJECT" ("PRO_NO") ENABLE
+   );
 
 
 
