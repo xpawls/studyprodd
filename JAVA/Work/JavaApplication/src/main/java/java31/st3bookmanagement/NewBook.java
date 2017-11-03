@@ -21,7 +21,9 @@ public class NewBook extends JFrame {
     private JTextField textInPubli;
     private JTextField textInAuthor;
     private JTextField textInPrice;
-    
+    private MainBookMg mianbook = null;
+    private BookD bookd;
+    private static Integer count = 1;
     /**
      * Launch the application.
      */
@@ -100,17 +102,39 @@ public class NewBook extends JFrame {
         contentPane.add(comboCategory);
         
         JButton btnInputBook = new JButton("등록");
+        btnInputBook.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String name = textInBookname.getText();
+                String publ = textInPubli.getText();
+                String auth = textInAuthor.getText();
+                Integer pri = Integer.valueOf(textInPrice.getText());
+                String var = comboCategory.getSelectedItem().toString();
+                
+                
+                
+                bookd = new BookD(count, name, publ, var, auth, pri);
+                countno();
+                mianbook.addData(bookd);
+                dispose();
+            }
+        });
         btnInputBook.setBounds(40, 212, 89, 40);
         contentPane.add(btnInputBook);
         
         JButton butCancelBook = new JButton("취소");
         butCancelBook.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                dispose();
             }
         });
         butCancelBook.setBounds(141, 212, 89, 40);
         contentPane.add(butCancelBook);
     }
     
+    public static void countno(){
+        count++;
+    }
+    public BookD newboo(){
+        return bookd;
+    }
 }

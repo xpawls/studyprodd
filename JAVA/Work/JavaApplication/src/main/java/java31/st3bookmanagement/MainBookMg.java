@@ -30,9 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainBookMg extends JFrame {
-    
-    
+    private static JoinMember newmember = null;
+    private static NewBook newbook = null;
+    private static MainBookMg frame = null;
     private static List<BookD> bookd = null;
+    private static List<MemberD> memberd = null;
     private JPanel contentPane;
     private static JTable table;
     private static JTable tablemainbook;
@@ -63,7 +65,7 @@ public class MainBookMg extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    MainBookMg frame = new MainBookMg();
+                    frame = new MainBookMg();
                     frame.setVisible(true);
                     
                     initData();
@@ -79,7 +81,18 @@ public class MainBookMg extends JFrame {
     
     public static void initData(){
         bookd = new ArrayList<>();
+        memberd = new ArrayList<>();
         bookd.add(new BookD(0, "aaa", "aap", "교육", "aqs", 150000));
+        
+        
+    }
+    
+    public static void addData(BookD bd){
+        bookd.add(bd);
+    }
+    public static void addDatamem(MemberD md){
+        memberd.add(md);
+        
     }
     /**
      * Create the frame.
@@ -98,14 +111,33 @@ public class MainBookMg extends JFrame {
         topButpanel.setLayout(null);
         
         JButton joinBut = new JButton("회원등록");
+        joinBut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JoinMember join = new JoinMember();
+                join.setVisible(true);
+            }
+        });
         joinBut.setBounds(12, 10, 159, 85);
         topButpanel.add(joinBut);
         
         JButton newBookBut = new JButton("책 등록");
+        newBookBut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                NewBook newbook = new NewBook();
+                newbook.setVisible(true);
+                
+            }
+        });
         newBookBut.setBounds(183, 10, 159, 85);
         topButpanel.add(newBookBut);
         
         JButton refreshBut = new JButton("새로고침");
+        refreshBut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.refreshTable(bookd, tablemainbook);
+                frame.refreshMemTable(memberd, tableMember);
+            }
+        });
         refreshBut.setBounds(354, 10, 159, 85);
         topButpanel.add(refreshBut);
         
@@ -155,6 +187,7 @@ public class MainBookMg extends JFrame {
         treeBookinfo.setModel(new DefaultTreeModel(
             new DefaultMutableTreeNode("장르") {
                 {
+                    
                 }
             }
         ));
@@ -273,6 +306,15 @@ public class MainBookMg extends JFrame {
         panelBookInfo.add(comboSearch);
         
         JButton btnBorrow = new JButton("대여하기");
+        btnBorrow.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                BorrowBook borbook = new BorrowBook();
+                borbook.initText();
+                borbook.setVisible(true);
+                
+                
+            }
+        });
         btnBorrow.setBounds(283, 243, 97, 52);
         panelBookInfo.add(btnBorrow);
         
@@ -388,6 +430,32 @@ public class MainBookMg extends JFrame {
         panelMember.add(scrollMember);
         
         tableMember = new JTable();
+        tableMember.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = tableMember.getSelectedRow();
+                String mno = tableMember.getValueAt(row, 0).toString();
+                String mname = tableMember.getValueAt(row, 1).toString();
+                String mpri = tableMember.getValueAt(row, 2).toString();
+                String mphonn = tableMember.getValueAt(row, 3).toString();
+                String mmail = tableMember.getValueAt(row, 4).toString();
+                
+                String[] mpria = mpri.split("-");
+                String[] mphoa = mphonn.split("-");
+                String[] mmaila = mmail.split("@");
+                
+                textnumber.setText(mno);
+                textname.setText(mname);
+                textprinum1.setText(mpria[0]);
+                textprinum2.setText(mpria[1]);
+                textphonnum1.setText(mphoa[0]);
+                textphonnum2.setText(mphoa[1]);
+                textphonnum3.setText(mphoa[2]);
+                textmailad1.setText(mmaila[0]);
+                textmailad2.setText(mmaila[1]);
+                
+            }
+        });
         tableMember.setModel(new DefaultTableModel(
             new Object[][] {
             },
@@ -478,5 +546,36 @@ public class MainBookMg extends JFrame {
         }
         
         table.setModel(model);
+    }
+    
+    public void refreshMemTable(List<MemberD> list, JTable table){
+        Object [] tempObject = new Object[5]; // JTable의 컬럼 갯수
+        DefaultTableModel model = (DefaultTableModel)table.getModel();
+        model.setRowCount(0); // table 위치를 0 부터 시작하도록 설정.
+        
+        for (MemberD obj : list) {
+            tempObject[0] = obj.getMemNo();
+            tempObject[1] = obj.getMemName();
+            tempObject[2] = obj.getMemPriNum();
+            tempObject[3] = obj.getMemPhone();
+            tempObject[4] = obj.getMemEmail();
+            model.addRow(tempObject);
+
+        }
+        // JTable 첫번째 로우에 focus 주기
+        if(model.getRowCount()>0) {
+            table.setRowSelectionInterval(0, 0);
+        }
+        
+        table.setModel(model);
+    }
+    public String borrowbn(){
+        return textBookname.getText();
+    }
+    public String borrowpb(){
+        return textPublisher.getText();
+    }
+    public String borrowau(){
+        return textauthor.getText();
     }
 }

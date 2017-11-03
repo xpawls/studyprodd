@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 
 public class JoinMember extends JFrame {
     
+    private MainBookMg mainbook = null;
+    private MemberD newmember = null;
     private JPanel contentPane;
     private JTextField textMemName;
     private JTextField textPriNum1;
@@ -26,7 +28,7 @@ public class JoinMember extends JFrame {
     private JTextField textMailAdr;
     private JLabel label_7;
     private JComboBox comboBox;
-    
+    private static Integer count = 0;
     /**
      * Launch the application.
      */
@@ -130,6 +132,18 @@ public class JoinMember extends JFrame {
         JButton btnJoin = new JButton("가입");
         btnJoin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String name = textMemName.getText();
+                String prino = textPriNum1.getText() +"-"+ textPriNum2.getText();
+                String phone = textPhonNum1.getText()+"-"+ textPhonNum2.getText()+"-"+ textPhonNum3.getText();
+                String email = textMailAdr.getText() +"@"+ comboBox.getSelectedItem().toString();
+                
+                newmember = new MemberD(count, name, prino, phone, email);
+                mainbook.addDatamem(newmember);
+                
+                countno();
+                dispose();
+                
+                
             }
         });
         btnJoin.setBounds(84, 195, 97, 48);
@@ -138,10 +152,14 @@ public class JoinMember extends JFrame {
         JButton butCancelJoin = new JButton("취소");
         butCancelJoin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                dispose();
             }
         });
         butCancelJoin.setBounds(188, 195, 97, 48);
         contentPane.add(butCancelJoin);
+    }
+    
+    public static void countno(){
+        count++;
     }
 }

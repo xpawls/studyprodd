@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class BorrowBook extends JFrame {
     
+    private MainBookMg mainbook = null;
     private JPanel contentPane;
     private JTextField textBorrBookname;
     private JTextField textBorrPub;
@@ -32,12 +33,19 @@ public class BorrowBook extends JFrame {
             public void run() {
                 try {
                     BorrowBook frame = new BorrowBook();
+                    
                     frame.setVisible(true);
+                    frame.initText();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+    public void initText(){
+        textBorrBookname.setText(mainbook.borrowbn());
+        textBorrPub.setText(mainbook.borrowpb());
+        textBorrAut.setText(mainbook.borrowau());
     }
     
     /**
@@ -100,7 +108,7 @@ public class BorrowBook extends JFrame {
         JButton butBorrCancel = new JButton("취소");
         butBorrCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                dispose();
             }
         });
         butBorrCancel.setBounds(309, 92, 97, 50);
