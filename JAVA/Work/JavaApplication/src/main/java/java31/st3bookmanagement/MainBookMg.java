@@ -44,7 +44,7 @@ public class MainBookMg extends JFrame {
     private JTextField textPrice;
     private JTextField textVar;
     private JTextField textBookno;
-    private JTextField textSearch;
+    private JTextField textbookSearch;
     private JTextField textname;
     private JTextField textnumber;
     private JTextField textprinum1;
@@ -53,7 +53,7 @@ public class MainBookMg extends JFrame {
     private JTextField textphonnum2;
     private JTextField textmailad1;
     private JTextField textmailad2;
-    private JTextField textsearch;
+    private JTextField textMemsearch;
     private JTextField textphonnum3;
     private JTable tableMember;
     private JTable table_2;
@@ -295,10 +295,10 @@ public class MainBookMg extends JFrame {
         label_6.setBounds(283, 160, 57, 15);
         panelBookInfo.add(label_6);
         
-        textSearch = new JTextField();
-        textSearch.setColumns(10);
-        textSearch.setBounds(441, 157, 116, 21);
-        panelBookInfo.add(textSearch);
+        textbookSearch = new JTextField();
+        textbookSearch.setColumns(10);
+        textbookSearch.setBounds(441, 157, 116, 21);
+        panelBookInfo.add(textbookSearch);
         
         JComboBox comboSearch = new JComboBox();
         comboSearch.setModel(new DefaultComboBoxModel(new String[] {"제목", "출판사", "저자", "장르", "가격"}));
@@ -308,10 +308,10 @@ public class MainBookMg extends JFrame {
         JButton btnBorrow = new JButton("대여하기");
         btnBorrow.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                BorrowBook borbook = new BorrowBook();
-                borbook.initText();
+                BorrowBook borbook = new BorrowBook();                
                 borbook.setVisible(true);
                 
+                borbook.bookborrow(borrowbn(), borrowpb(), borrowau());
                 
             }
         });
@@ -398,20 +398,20 @@ public class MainBookMg extends JFrame {
         label_10.setBounds(24, 122, 57, 15);
         panelMember.add(label_10);
         
-        textsearch = new JTextField();
-        textsearch.setColumns(10);
-        textsearch.setBounds(204, 119, 116, 21);
-        panelMember.add(textsearch);
+        textMemsearch = new JTextField();
+        textMemsearch.setColumns(10);
+        textMemsearch.setBounds(204, 119, 116, 21);
+        panelMember.add(textMemsearch);
         
         textphonnum3 = new JTextField();
         textphonnum3.setColumns(10);
         textphonnum3.setBounds(320, 63, 104, 21);
         panelMember.add(textphonnum3);
         
-        JComboBox comboBox = new JComboBox();
-        comboBox.setModel(new DefaultComboBoxModel(new String[] {"회원번호", "이름", "주민번호", "전화번호", "메일주소"}));
-        comboBox.setBounds(93, 119, 99, 21);
-        panelMember.add(comboBox);
+        JComboBox BoxMainMem = new JComboBox();
+        BoxMainMem.setModel(new DefaultComboBoxModel(new String[] {"회원번호", "이름", "주민번호", "전화번호", "메일주소"}));
+        BoxMainMem.setBounds(93, 119, 99, 21);
+        panelMember.add(BoxMainMem);
         
         JButton btnMemdel = new JButton("회원삭제");
         btnMemdel.setBounds(12, 150, 152, 66);
@@ -489,6 +489,49 @@ public class MainBookMg extends JFrame {
         panelMember.add(label_14);
         
         JButton btnMemsearch = new JButton("검색");
+        btnMemsearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int memkey = 0;
+                if(comboSearch.getSelectedItem().toString().equals("회원번호")){
+                    int no = Integer.valueOf(textMemsearch.getText());
+                    for(int i=0; i<memberd.size(); i++){
+                        if(memberd.get(i).getMemNo().equals(no)){
+                            memkey = i;
+                        }
+                    }
+                } else if (comboSearch.getSelectedItem().toString().equals("이름")){
+                    String sname = textMemsearch.getText();
+                    for(int i=0; i<memberd.size(); i++){
+                        if(memberd.get(i).getMemName().equals(sname)){
+                            
+                        }
+                    }
+                } else if (comboSearch.getSelectedItem().toString().equals("주민번호")){
+                    String spnum = textMemsearch.getText();
+                    for(int i=0; i<memberd.size(); i++){
+                        if(memberd.get(i).getMemPriNum().equals(spnum)){
+                            
+                        }
+                    }
+                } else if (comboSearch.getSelectedItem().toString().equals("전화번호")){
+                    String sphone = textMemsearch.getText();
+                    for(int i=0; i<memberd.size(); i++){
+                        if(memberd.get(i).getMemPhone().equals(sphone)){
+                            
+                        }
+                    }
+                } else if (comboSearch.getSelectedItem().toString().equals("메일주소")){
+                    String smail = textMemsearch.getText();
+                    for(int i=0; i<memberd.size(); i++){
+                        if(memberd.get(i).getMemEmail().equals(smail)){
+                            
+                        }
+                        
+                    }
+                }
+                membersearch(memkey);
+            }
+        });
         btnMemsearch.setBounds(327, 118, 67, 23);
         panelMember.add(btnMemsearch);
         
@@ -525,7 +568,7 @@ public class MainBookMg extends JFrame {
         btnComplete.setBounds(566, 98, 155, 75);
         panelBorrow.add(btnComplete);
     }
-    public void refreshTable(List<BookD> list, JTable table){
+    public void refreshTable(List<BookD> list, JTable table){// BookD리스트 출력
         Object [] tempObject = new Object[7]; // JTable의 컬럼 갯수
         DefaultTableModel model = (DefaultTableModel)table.getModel();
         model.setRowCount(0); // table 위치를 0 부터 시작하도록 설정.
@@ -548,7 +591,7 @@ public class MainBookMg extends JFrame {
         table.setModel(model);
     }
     
-    public void refreshMemTable(List<MemberD> list, JTable table){
+    public void refreshMemTable(List<MemberD> list, JTable table){// MemberD 리스트 출력
         Object [] tempObject = new Object[5]; // JTable의 컬럼 갯수
         DefaultTableModel model = (DefaultTableModel)table.getModel();
         model.setRowCount(0); // table 위치를 0 부터 시작하도록 설정.
@@ -568,6 +611,25 @@ public class MainBookMg extends JFrame {
         }
         
         table.setModel(model);
+        
+    }
+    public void membersearch(int i){// 인덱스를 이용한 회원 검색 - 미완
+        Object [] tempObject = new Object[5]; // JTable의 컬럼 갯수
+        DefaultTableModel model = (DefaultTableModel)tableMember.getModel();
+        model.setRowCount(i); // table 위치를 0 부터 시작하도록 설정.
+        tempObject[0] = memberd.get(i).getMemNo();
+        tempObject[1] = memberd.get(i).getMemName();
+        tempObject[2] = memberd.get(i).getMemPriNum();
+        tempObject[3] = memberd.get(i).getMemPhone();
+        tempObject[4] = memberd.get(i).getMemEmail();
+        model.addRow(tempObject);
+        
+        // JTable 첫번째 로우에 focus 주기
+        if(model.getRowCount()>0) {
+            tableMember.setRowSelectionInterval(0, 0);
+        }
+        
+        tableMember.setModel(model);
     }
     public String borrowbn(){
         return textBookname.getText();

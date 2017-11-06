@@ -136,4 +136,11 @@ public class BorrowBook extends JFrame {
         scrollPane.setViewportView(tableMemberInfo);
     }
     
+    public void bookborrow(String bn, String bp, String ba){
+        textBorrBookname.setText(bn);
+        textBorrPub.setText(bp);
+        textBorrAut.setText(ba);
+        
+    }
+    
 }
