@@ -1,5 +1,7 @@
 package java31.st3bookmanagement;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -491,12 +493,15 @@ public class MainBookMg extends JFrame {
         JButton btnMemsearch = new JButton("검색");
         btnMemsearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                List<MemberD> memlist = null;
                 int memkey = 0;
                 if(comboSearch.getSelectedItem().toString().equals("회원번호")){
                     int no = Integer.valueOf(textMemsearch.getText());
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemNo().equals(no)){
-                            memkey = i;
+                            memlist = new ArrayList<>();
+                            memlist.add(memberd.get(i));
+                            
                         }
                     }
                 } else if (comboSearch.getSelectedItem().toString().equals("이름")){
@@ -529,7 +534,7 @@ public class MainBookMg extends JFrame {
                         
                     }
                 }
-                membersearch(memkey);
+                frame.refreshMemTable(memlist, tableMember);
             }
         });
         btnMemsearch.setBounds(327, 118, 67, 23);
@@ -613,24 +618,7 @@ public class MainBookMg extends JFrame {
         table.setModel(model);
         
     }
-    public void membersearch(int i){// 인덱스를 이용한 회원 검색 - 미완
-        Object [] tempObject = new Object[5]; // JTable의 컬럼 갯수
-        DefaultTableModel model = (DefaultTableModel)tableMember.getModel();
-        model.setRowCount(i); // table 위치를 0 부터 시작하도록 설정.
-        tempObject[0] = memberd.get(i).getMemNo();
-        tempObject[1] = memberd.get(i).getMemName();
-        tempObject[2] = memberd.get(i).getMemPriNum();
-        tempObject[3] = memberd.get(i).getMemPhone();
-        tempObject[4] = memberd.get(i).getMemEmail();
-        model.addRow(tempObject);
-        
-        // JTable 첫번째 로우에 focus 주기
-        if(model.getRowCount()>0) {
-            tableMember.setRowSelectionInterval(0, 0);
-        }
-        
-        tableMember.setModel(model);
-    }
+    
     public String borrowbn(){
         return textBookname.getText();
     }
