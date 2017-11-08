@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class BorrowBook extends JFrame {
     
     private MainBookMg mainbook = null;
+    private List<MemberD> brmem = null;
     private JPanel contentPane;
     private JTextField textBorrBookname;
     private JTextField textBorrPub;
@@ -97,6 +100,15 @@ public class BorrowBook extends JFrame {
         textMemSearch.setColumns(10);
         
         JButton btnBorrSearch = new JButton("검색");
+        btnBorrSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                brmem = new ArrayList<>();
+                brmem = mainbook.getMemberd();
+                for(int i=0; i>brmem.size(); i++){
+                    
+                }
+            }
+        });
         btnBorrSearch.setToolTipText("");
         btnBorrSearch.setBounds(192, 123, 88, 23);
         contentPane.add(btnBorrSearch);

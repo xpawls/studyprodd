@@ -25,6 +25,13 @@ public class dddafsaf {
                 continue;
             }
         }
+        
+        List<MemberD> lis2 = new ArrayList<>();
+        MemberD me2 = lis.get(2);
+        
+        lis2.add(me2);
+        
+        System.out.println(lis2.get(0).getMemID());
 
           
        

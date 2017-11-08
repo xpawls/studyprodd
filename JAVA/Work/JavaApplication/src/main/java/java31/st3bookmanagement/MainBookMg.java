@@ -38,6 +38,7 @@ public class MainBookMg extends JFrame {
     private static List<BookD> bookd = null;
     private static List<MemberD> memberd = null;
     private static List<MemberD> memlist = null;
+    private static List<BookD> booklist = null;
     private JPanel contentPane;
     private static JTable table;
     private static JTable tablemainbook;
@@ -96,6 +97,10 @@ public class MainBookMg extends JFrame {
     public static void addDatamem(MemberD md){
         memberd.add(md);
         
+    }
+    
+    public List<MemberD> getMemberd(){
+        return memberd;
     }
     /**
      * Create the frame.
@@ -334,6 +339,54 @@ public class MainBookMg extends JFrame {
         panelBookInfo.add(butCancel);
         
         JButton btnSearch = new JButton("검색");
+        btnSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                booklist = new ArrayList<>();
+                
+                int blist = 0;
+                if(comboSearch.getSelectedItem().toString().equals("제목")){
+                    String sbname = textbookSearch.getText();
+                    for(int i=0; i<bookd.size(); i++){
+                        if(bookd.get(i).getBookname().contains(sbname)){
+                            blist = i;
+                        }
+                    }
+                    
+                } else if(comboSearch.getSelectedItem().toString().equals("출판사")){
+                    String sbpub = textbookSearch.getText();
+                    for(int i=0; i<bookd.size(); i++){
+                        if(bookd.get(i).getPublisher().contains(sbpub)){
+                            blist = i;
+                        }
+                    }
+                } else if(comboSearch.getSelectedItem().toString().equals("저자")){
+                    String sbau = textbookSearch.getText();
+                    for(int i=0; i<bookd.size(); i++){
+                        if(bookd.get(i).getAuthor().contains(sbau)){
+                            blist = i;
+                        }
+                    }
+                } else if(comboSearch.getSelectedItem().toString().equals("장르")){
+                    String sbvar = textbookSearch.getText();
+                    for(int i=0; i<bookd.size(); i++){
+                        if(bookd.get(i).getCategory().contains(sbvar)){
+                            blist = i;
+                        }
+                    }
+                } else if(comboSearch.getSelectedItem().toString().equals("가격")){
+                    int sbprice = Integer.valueOf(textbookSearch.getText());
+                    for(int i=0; i<bookd.size(); i++){
+                        if(bookd.get(i).getCategory().equals(sbprice)){
+                            blist = i;
+                        }
+                    }
+                }
+                
+                booklist.add(bookd.get(blist));
+                frame.refreshTable(booklist, tablemainbook);
+                
+            }
+        });
         btnSearch.setBounds(558, 156, 62, 23);
         panelBookInfo.add(btnSearch);
         
@@ -498,35 +551,35 @@ public class MainBookMg extends JFrame {
                 memlist = new ArrayList<>();
                 
                 int memkey = 0;
-                if(comboSearch.getSelectedItem().toString().equals("회원번호")){
+                if(BoxMainMem.getSelectedItem().toString().equals("회원번호")){
                     int no = Integer.valueOf(textMemsearch.getText());
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemNo().equals(no)){
                             memkey = i;
                         }
                     }
-                } else if (comboSearch.getSelectedItem().toString().equals("이름")){
+                } else if (BoxMainMem.getSelectedItem().toString().equals("이름")){
                     String sname = textMemsearch.getText();
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemName().equals(sname)){
                             memkey = i;
                         }
                     }
-                } else if (comboSearch.getSelectedItem().toString().equals("주민번호")){
+                } else if (BoxMainMem.getSelectedItem().toString().equals("주민번호")){
                     String spnum = textMemsearch.getText();
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemPriNum().equals(spnum)){
                             memkey = i;
                         }
                     }
-                } else if (comboSearch.getSelectedItem().toString().equals("전화번호")){
+                } else if (BoxMainMem.getSelectedItem().toString().equals("전화번호")){
                     String sphone = textMemsearch.getText();
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemPhone().equals(sphone)){
                             memkey = i;
                         }
                     }
-                } else if (comboSearch.getSelectedItem().toString().equals("메일주소")){
+                } else if (BoxMainMem.getSelectedItem().toString().equals("메일주소")){
                     String smail = textMemsearch.getText();
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemEmail().equals(smail)){
