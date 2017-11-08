@@ -37,6 +37,7 @@ public class MainBookMg extends JFrame {
     private static MainBookMg frame = null;
     private static List<BookD> bookd = null;
     private static List<MemberD> memberd = null;
+    private static List<MemberD> memlist = null;
     private JPanel contentPane;
     private static JTable table;
     private static JTable tablemainbook;
@@ -63,7 +64,7 @@ public class MainBookMg extends JFrame {
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) { // 메인
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -89,7 +90,7 @@ public class MainBookMg extends JFrame {
         
     }
     
-    public static void addData(BookD bd){
+    public static void addData(BookD bd){ 
         bookd.add(bd);
     }
     public static void addDatamem(MemberD md){
@@ -493,47 +494,50 @@ public class MainBookMg extends JFrame {
         JButton btnMemsearch = new JButton("검색");
         btnMemsearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                List<MemberD> memlist = null;
+                
+                memlist = new ArrayList<>();
+                
                 int memkey = 0;
                 if(comboSearch.getSelectedItem().toString().equals("회원번호")){
                     int no = Integer.valueOf(textMemsearch.getText());
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemNo().equals(no)){
-                            memlist = new ArrayList<>();
-                            memlist.add(memberd.get(i));
-                            
+                            memkey = i;
                         }
                     }
                 } else if (comboSearch.getSelectedItem().toString().equals("이름")){
                     String sname = textMemsearch.getText();
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemName().equals(sname)){
-                            
+                            memkey = i;
                         }
                     }
                 } else if (comboSearch.getSelectedItem().toString().equals("주민번호")){
                     String spnum = textMemsearch.getText();
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemPriNum().equals(spnum)){
-                            
+                            memkey = i;
                         }
                     }
                 } else if (comboSearch.getSelectedItem().toString().equals("전화번호")){
                     String sphone = textMemsearch.getText();
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemPhone().equals(sphone)){
-                            
+                            memkey = i;
                         }
                     }
                 } else if (comboSearch.getSelectedItem().toString().equals("메일주소")){
                     String smail = textMemsearch.getText();
                     for(int i=0; i<memberd.size(); i++){
                         if(memberd.get(i).getMemEmail().equals(smail)){
-                            
+                            memkey = i;
                         }
                         
                     }
+                } else {
+                    
                 }
+                memlist.add(memberd.get(memkey));
                 frame.refreshMemTable(memlist, tableMember);
             }
         });
