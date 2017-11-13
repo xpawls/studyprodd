@@ -105,7 +105,6 @@ public class BorrowBook extends JFrame {
         btnBorrSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MainBookMg mg = new MainBookMg();
-                brmem = new ArrayList<>();
                 brmem = mg.getMemberd();
                 brmems = new ArrayList<>();
                 brmems.clear();
