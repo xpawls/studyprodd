@@ -1,13 +1,15 @@
 package java31.st3bookmanagement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 public class dddafsaf {
-    
+    private static MainBookMg mainbook;
     public static void main(String[] args) {
-        MemberD me = new MemberD();
+        
+        List<BookD> bo = new ArrayList<>();
         
         List<MemberD> lis = new ArrayList<>();
         
@@ -32,9 +34,7 @@ public class dddafsaf {
         lis2.add(me2);
         
         System.out.println(lis2.get(0).getMemID());
-
-          
-       
+        
     }
     
     

@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -35,10 +36,10 @@ public class MainBookMg extends JFrame {
     private static JoinMember newmember = null;
     private static NewBook newbook = null;
     private static MainBookMg frame = null;
-    private static List<BookD> bookd = null;
-    private static List<MemberD> memberd = null;
-    private static List<MemberD> memlist = null;
-    private static List<BookD> booklist = null;
+    private List<BookD> bookd = null;
+    private List<MemberD> memberd = null;
+    private List<MemberD> memlist = null;
+    private List<BookD> booklist = null;
     private JPanel contentPane;
     private static JTable table;
     private static JTable tablemainbook;
@@ -62,6 +63,39 @@ public class MainBookMg extends JFrame {
     private JTable tableMember;
     private JTable table_2;
     
+    public MainBookMg(List<BookD> bookd, List<MemberD> memberd)
+            throws HeadlessException {
+        super();
+        this.bookd = bookd;
+        this.memberd = memberd;
+    }
+    
+
+
+    public List<BookD> getBookd() {
+        return bookd;
+    }
+
+
+
+    public void setBookd(List<BookD> bookd) {
+        this.bookd = bookd;
+    }
+
+
+
+    public List<MemberD> getMemberd() {
+        return memberd;
+    }
+
+
+
+    public void setMemberd(List<MemberD> memberd) {
+        this.memberd = memberd;
+    }
+
+
+
     /**
      * Launch the application.
      */
@@ -72,9 +106,9 @@ public class MainBookMg extends JFrame {
                     frame = new MainBookMg();
                     frame.setVisible(true);
                     
-                    initData();
+                    frame.initData();
                     
-                    frame.refreshTable(bookd, tablemainbook);
+                    frame.refreshTable(frame.bookd, tablemainbook);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -83,7 +117,7 @@ public class MainBookMg extends JFrame {
     }
     
     
-    public static void initData(){
+    public void initData(){
         bookd = new ArrayList<>();
         memberd = new ArrayList<>();
         bookd.add(new BookD(0, "aaa", "aap", "교육", "aqs", 150000));
@@ -92,15 +126,21 @@ public class MainBookMg extends JFrame {
     }
     
     public static void addData(BookD bd){ 
-        bookd.add(bd);
+        frame.bookd.add(bd);
     }
     public static void addDatamem(MemberD md){
-        memberd.add(md);
+        frame.memberd.add(md);
         
     }
-    
-    public List<MemberD> getMemberd(){
-        return memberd;
+    public MemberD brmem(int s){
+        int goal = 0;
+        for(int i=0; i<memberd.size(); i++){
+            if(memberd.get(i).getMemNo().equals(s)){
+                goal = i;
+            }
+        }
+        MemberD result = memberd.get(goal);
+        return result;
     }
     /**
      * Create the frame.

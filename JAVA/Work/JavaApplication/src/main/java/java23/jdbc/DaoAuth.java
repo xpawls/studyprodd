@@ -64,7 +64,7 @@ public class DaoAuth implements IAuth {
     public ResultSet selectAll() throws SQLException {
         java.sql.ResultSet rs = null;
         
-        String query = "select * from auth order by authid asc";
+        String query = " select * from auth order by authid asc";
         
         try {
             java.sql.PreparedStatement stmt = conn.prepareStatement(query);
@@ -151,7 +151,7 @@ public class DaoAuth implements IAuth {
     
     @Override
     public int insertAuth(ModelAuth auth) throws SQLException {
-        int rs = 0;
+        int rs = -1;
         
         try {
             String query = "INSERT INTO ";
@@ -176,7 +176,7 @@ public class DaoAuth implements IAuth {
     public int updateAuth(ModelAuth whereauth, ModelAuth setauth)
             throws SQLException {
         
-        int rs = 0;
+        int rs = -1;
         
         try {
             // SQL 문장 생성

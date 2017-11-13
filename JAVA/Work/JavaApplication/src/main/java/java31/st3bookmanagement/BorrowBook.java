@@ -21,6 +21,8 @@ public class BorrowBook extends JFrame {
     
     private MainBookMg mainbook = null;
     private List<MemberD> brmem = null;
+    private List<MemberD> brmems = null;
+    private static BorrowBook frame = null;
     private JPanel contentPane;
     private JTextField textBorrBookname;
     private JTextField textBorrPub;
@@ -35,7 +37,7 @@ public class BorrowBook extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    BorrowBook frame = new BorrowBook();
+                    frame = new BorrowBook();
                     
                     frame.setVisible(true);
                     frame.initText();
@@ -102,11 +104,19 @@ public class BorrowBook extends JFrame {
         JButton btnBorrSearch = new JButton("검색");
         btnBorrSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                MainBookMg mg = new MainBookMg();
                 brmem = new ArrayList<>();
-                brmem = mainbook.getMemberd();
-                for(int i=0; i>brmem.size(); i++){
-                    
+                brmem = mg.getMemberd();
+                brmems = new ArrayList<>();
+                brmems.clear();
+                int memno = Integer.valueOf(textMemSearch.getText());
+                for(int i=0; i<brmem.size(); i++){
+                    if(brmem.get(i).getMemID().equals(memno)){
+                        memno = i;
+                    }
                 }
+                brmems.add(brmem.get(memno));
+                frame.mainbook.refreshMemTable(brmems, tableMemberInfo);
             }
         });
         btnBorrSearch.setToolTipText("");
@@ -135,7 +145,7 @@ public class BorrowBook extends JFrame {
             new Object[][] {
             },
             new String[] {
-                "No.", "\uC774\uB984", "\uC8FC\uBBFC\uBC88\uD638", "\uC804\uD654\uBC88\uD638", "\uBA54\uC77C\uC8FC\uC18C"
+                "\uD68C\uC6D0\uBC88\uD638", "\uC774\uB984", "\uC8FC\uBBFC\uBC88\uD638", "\uC804\uD654\uBC88\uD638", "\uBA54\uC77C\uC8FC\uC18C"
             }
         ) {
             Class[] columnTypes = new Class[] {
