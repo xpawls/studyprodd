@@ -1,0 +1,7 @@
+1.git서버에서 소스를 pull
+2.소스 수정
+3.git서버로 소스 commit&push
+4.개발서버에서 소스 pull
+5.gradle 빌드
+6.배포
+ 

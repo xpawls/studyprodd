@@ -26,15 +26,20 @@ import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.tree.DefaultTreeModel;
+
+import java23.jdbc.DBConnect2;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainBookMg extends JFrame {
-    private static JoinMember newmember = null;
-    private static NewBook newbook = null;
+    private Connection conn =null;
+    private JoinMember newmember = null;
+    private NewBook newbook = null;
     private static MainBookMg frame = null;
     private List<BookD> bookd = null;
     private List<MemberD> memberd = null;
@@ -105,6 +110,7 @@ public class MainBookMg extends JFrame {
                 try {
                     frame = new MainBookMg();
                     frame.setVisible(true);
+                    frame.conn = DBConnect2.makeConnection();
                     
                     frame.initData();
                     
@@ -163,6 +169,7 @@ public class MainBookMg extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JoinMember join = new JoinMember();
                 join.setVisible(true);
+                
             }
         });
         joinBut.setBounds(12, 10, 159, 85);

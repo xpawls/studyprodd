@@ -6,16 +6,21 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java23.jdbc.DBConnect2;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class NewBook extends JFrame {
-    
+    private static java.sql.Connection conn = null;
     private JPanel contentPane;
     private JTextField textInBookname;
     private JTextField textInPubli;
@@ -31,6 +36,7 @@ public class NewBook extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+                    conn = DBConnect2.makeConnection();
                     NewBook frame = new NewBook();
                     frame.setVisible(true);
                 } catch (Exception e) {
@@ -109,12 +115,25 @@ public class NewBook extends JFrame {
                 String auth = textInAuthor.getText();
                 Integer pri = Integer.valueOf(textInPrice.getText());
                 String var = comboCategory.getSelectedItem().toString();
-                
-                
-                
-                bookd = new BookD(count, name, publ, var, auth, pri);
+
+                try {
+                    String query = " insert into bookd ( no, bookname, publisher, category, author, price) ";
+                           query+= "            values ( ?,?,?,?,?,?)";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setInt(1, count);
+                    stmt.setString(2, name);
+                    stmt.setString(3, publ);
+                    stmt.setString(4, var);
+                    stmt.setString(5, auth);
+                    stmt.setInt(6, pri);
+                    stmt.executeUpdate();
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    
+                }
                 countno();
-                mianbook.addData(bookd);
+                
                 dispose();
             }
         });

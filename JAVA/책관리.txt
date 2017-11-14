@@ -1,0 +1,17 @@
+버튼의 액션 - > 새창띄울 프레임의 인스턴스 ex-> 
+ex.setVisible(true)
+
+mainbookmg 회원등록 clear
+			   책등록 clear
+    	             새로고침 clear(책,회원등록만)
+			   대출상황 x
+			   책정보 - 대여하기 x 수정 x 삭제 x  
+			   회원관리 - 회원삭제 x 회원수정 x 
+			   대여목록 - 현황인출 x 반납완료 x
+
+
+newbook
+
+joinmember
+
+borrowbook 

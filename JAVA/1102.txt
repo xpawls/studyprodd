@@ -1,0 +1,35 @@
+메서드 작동 검증(단위테스트)
+ : JUnit 라이브러리
+-> 프로그램 검증까지(통합테스트)
+
+JUnit 프로젝트에 추가
+->jar파일로 추가
+->build.grable에 추가
+
+JUnit annotations
+-> @
+
+참조 -> assertEquals()
+기본값 -> assertSame()
+assertTrue() + assertFalse()
+Exceptions Test
+
+slf4j
+-> 로그출력 -> 1. 콘솔 2. 파일 3.테이블 
+	       4. 소켓으로 다른컴퓨터 저장
+
+-> 로그파일 -> 월, 일, 오전오후, 시, 분단위
+
+
+build.gradle안에 있는 dependencies { 안에 넣는다
+
+->SLF4J API Module ≫ 1.7.21 -> gradle 부분의 주소
+->SLF4J LOG4J 12 Binding ≫ 1.7.21-> gradle 부분의 주소
+->Apache Log4j ≫ 1.2.17 -> gradle 부분의 주소
+
+
+Library 관리방법
+- Cmake - > c:라이브러리
+-> ant - java
+-> maven
+-> gradle

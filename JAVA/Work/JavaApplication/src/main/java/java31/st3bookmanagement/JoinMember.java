@@ -2,20 +2,28 @@ package java31.st3bookmanagement;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java23.jdbc.DBConnect2;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class JoinMember extends JFrame {
-    
+    private java.sql.Connection conn = null;
     private MainBookMg mainbook = null;
     private MemberD newmember = null;
     private JPanel contentPane;
@@ -28,15 +36,18 @@ public class JoinMember extends JFrame {
     private JTextField textMailAdr;
     private JLabel label_7;
     private JComboBox comboBox;
-    private static Integer count = 0;
+    private static int count = 0;
     /**
      * Launch the application.
      */
+    
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
                     JoinMember frame = new JoinMember();
+                    frame.conn = DBConnect2.makeConnection();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -45,6 +56,122 @@ public class JoinMember extends JFrame {
         });
     }
     
+    public JoinMember(MainBookMg mainbook) throws HeadlessException {
+        super();
+        this.mainbook = mainbook;
+    }
+
+    public JoinMember(Connection conn) throws HeadlessException {
+        super();
+        this.conn = conn;
+    }
+    
+    
+
+    public java.sql.Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(java.sql.Connection conn) {
+        this.conn = conn;
+    }
+
+    public MainBookMg getMainbook() {
+        return mainbook;
+    }
+
+    public void setMainbook(MainBookMg mainbook) {
+        this.mainbook = mainbook;
+    }
+
+    public MemberD getNewmember() {
+        return newmember;
+    }
+
+    public void setNewmember(MemberD newmember) {
+        this.newmember = newmember;
+    }
+
+    public JPanel getContentPane() {
+        return contentPane;
+    }
+
+    public void setContentPane(JPanel contentPane) {
+        this.contentPane = contentPane;
+    }
+
+    public JTextField getTextMemName() {
+        return textMemName;
+    }
+
+    public void setTextMemName(JTextField textMemName) {
+        this.textMemName = textMemName;
+    }
+
+    public JTextField getTextPriNum1() {
+        return textPriNum1;
+    }
+
+    public void setTextPriNum1(JTextField textPriNum1) {
+        this.textPriNum1 = textPriNum1;
+    }
+
+    public JTextField getTextPriNum2() {
+        return textPriNum2;
+    }
+
+    public void setTextPriNum2(JTextField textPriNum2) {
+        this.textPriNum2 = textPriNum2;
+    }
+
+    public JTextField getTextPhonNum2() {
+        return textPhonNum2;
+    }
+
+    public void setTextPhonNum2(JTextField textPhonNum2) {
+        this.textPhonNum2 = textPhonNum2;
+    }
+
+    public JTextField getTextPhonNum3() {
+        return textPhonNum3;
+    }
+
+    public void setTextPhonNum3(JTextField textPhonNum3) {
+        this.textPhonNum3 = textPhonNum3;
+    }
+
+    public JTextField getTextPhonNum1() {
+        return textPhonNum1;
+    }
+
+    public void setTextPhonNum1(JTextField textPhonNum1) {
+        this.textPhonNum1 = textPhonNum1;
+    }
+
+    public JTextField getTextMailAdr() {
+        return textMailAdr;
+    }
+
+    public void setTextMailAdr(JTextField textMailAdr) {
+        this.textMailAdr = textMailAdr;
+    }
+
+    public JLabel getLabel_7() {
+        return label_7;
+    }
+
+    public void setLabel_7(JLabel label_7) {
+        this.label_7 = label_7;
+    }
+
+    public JComboBox getComboBox() {
+        return comboBox;
+    }
+
+    public void setComboBox(JComboBox comboBox) {
+        this.comboBox = comboBox;
+    }
+
     /**
      * Create the frame.
      */
@@ -136,12 +263,32 @@ public class JoinMember extends JFrame {
                 String prino = textPriNum1.getText() +"-"+ textPriNum2.getText();
                 String phone = textPhonNum1.getText()+"-"+ textPhonNum2.getText()+"-"+ textPhonNum3.getText();
                 String email = textMailAdr.getText() +"@"+ comboBox.getSelectedItem().toString();
+                String query = " insert into memberd ( memName, memPriNum, memPhone, memEmail) ";
+                       query+= "            values (?,?,?,?);";
+                int result = -1;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    
+                    stmt.setString(1, name);
+                    stmt.setString(2, prino);
+                    stmt.setString(3, phone);
+                    stmt.setString(4, email);
+                    
+                    result = stmt.executeUpdate();
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    
+                }
+                if(result==-1){
+                    JOptionPane.showMessageDialog(null, "에러");
+                } else {
+                    dispose();
+                }
                 
-                newmember = new MemberD(count, name, prino, phone, email);
-                mainbook.addDatamem(newmember);
                 
                 countno();
-                dispose();
+                
                 
                 
             }
