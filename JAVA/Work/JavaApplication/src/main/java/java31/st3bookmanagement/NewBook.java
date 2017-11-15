@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java23.jdbc.DBConnect2;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -26,9 +27,9 @@ public class NewBook extends JFrame {
     private JTextField textInPubli;
     private JTextField textInAuthor;
     private JTextField textInPrice;
-    private MainBookMg mianbook = null;
+    private MainBookMg mianbook = new MainBookMg();
+    private PreparedStatement stmt;
     private BookD bookd;
-    private static Integer count = 1;
     /**
      * Launch the application.
      */
@@ -110,31 +111,35 @@ public class NewBook extends JFrame {
         JButton btnInputBook = new JButton("등록");
         btnInputBook.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                mianbook = new MainBookMg();
+                conn = DBConnect2.makeConnection();
                 String name = textInBookname.getText();
                 String publ = textInPubli.getText();
                 String auth = textInAuthor.getText();
                 Integer pri = Integer.valueOf(textInPrice.getText());
-                String var = comboCategory.getSelectedItem().toString();
-
+                String var = (String) comboCategory.getSelectedItem();
+                int result = -1;
                 try {
-                    String query = " insert into bookd ( no, bookname, publisher, category, author, price) ";
-                           query+= "            values ( ?,?,?,?,?,?)";
-                    PreparedStatement stmt = conn.prepareStatement(query);
-                    stmt.setInt(1, count);
-                    stmt.setString(2, name);
-                    stmt.setString(3, publ);
-                    stmt.setString(4, var);
-                    stmt.setString(5, auth);
-                    stmt.setInt(6, pri);
-                    stmt.executeUpdate();
+                    String query = " insert into bookd ( bookname, publisher, category, author, price) ";
+                           query+= "            values ( ?,?,?,?,?);";
+                    stmt = conn.prepareStatement(query);
+                    stmt.setString(1, name);
+                    stmt.setString(2, publ);
+                    stmt.setString(3, var);
+                    stmt.setString(4, auth);
+                    stmt.setInt(5, pri);
+                    result = stmt.executeUpdate();
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                     
                 }
-                countno();
+                if(result==-1){
+                    JOptionPane.showMessageDialog(null, "에러");
+                } else {
+                    dispose();
+                }
                 
-                dispose();
             }
         });
         btnInputBook.setBounds(40, 212, 89, 40);
@@ -148,10 +153,6 @@ public class NewBook extends JFrame {
         });
         butCancelBook.setBounds(141, 212, 89, 40);
         contentPane.add(butCancelBook);
-    }
-    
-    public static void countno(){
-        count++;
     }
     public BookD newboo(){
         return bookd;

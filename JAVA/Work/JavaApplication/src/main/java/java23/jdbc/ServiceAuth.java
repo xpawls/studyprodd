@@ -111,10 +111,22 @@ public class ServiceAuth implements IServiceAuth {
     
     @Override
     public ResultSet selectDynamic(ModelAuth auth) throws SQLException {
-        ResultSet result = null;
+        ResultSet rs = null;
         
+        try {
+            conn.setAutoCommit(false);
+            DaoAuth dao = new DaoAuth(conn);
+            rs = dao.selectDynamic(auth);
+            
+            conn.commit();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            conn.rollback();
+            
+        }
         
-        return result;
+        return rs;
     }
     
     @Override

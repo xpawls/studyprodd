@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -17,8 +19,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import java23.jdbc.DBConnect2;
+
 public class BorrowBook extends JFrame {
-    
+    private java.sql.Connection conn;
+    private PreparedStatement stmt;
     private MainBookMg mainbook = null;
     private List<MemberD> brmem = null;
     private List<MemberD> brmems = null;
@@ -38,7 +43,7 @@ public class BorrowBook extends JFrame {
             public void run() {
                 try {
                     frame = new BorrowBook();
-                    
+                    frame.conn = DBConnect2.makeConnection();
                     frame.setVisible(true);
                     frame.initText();
                 } catch (Exception e) {
@@ -104,18 +109,13 @@ public class BorrowBook extends JFrame {
         JButton btnBorrSearch = new JButton("검색");
         btnBorrSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MainBookMg mg = new MainBookMg();
-                brmem = mg.getMemberd();
-                brmems = new ArrayList<>();
-                brmems.clear();
-                int memno = Integer.valueOf(textMemSearch.getText());
-                for(int i=0; i<brmem.size(); i++){
-                    if(brmem.get(i).getMemID().equals(memno)){
-                        memno = i;
-                    }
-                }
-                brmems.add(brmem.get(memno));
-                frame.mainbook.refreshMemTable(brmems, tableMemberInfo);
+                mainbook = new MainBookMg();
+                frame.conn = DBConnect2.makeConnection();
+                String msc = " where memno = ";
+                       msc+= textMemSearch.getText();
+                mainbook.refreshMemTable1(tableMemberInfo, msc);
+                
+                
             }
         });
         btnBorrSearch.setToolTipText("");
@@ -123,6 +123,32 @@ public class BorrowBook extends JFrame {
         contentPane.add(btnBorrSearch);
         
         JButton btnBorrow = new JButton("대여");
+        btnBorrow.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String brin = " insert into borrowd ( memno, memphone, memprinum, mememail, ";
+                       brin+= "bookname, publisher, category, author, bookno, borrowdate)";
+                       brin+= " values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                try {
+                    
+                    stmt = conn.prepareStatement(brin);
+                    stmt.setInt(1, 0);
+                    stmt.setString(2, null);
+                    stmt.setString(3, null);
+                    stmt.setString(4, null);
+                    stmt.setString(5, null);
+                    stmt.setString(6, null);
+                    stmt.setString(7, null);
+                    stmt.setString(8, null);
+                    stmt.setInt(9, 0);
+                    stmt.setString(10, null);
+                    stmt.executeUpdate();
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    
+                }
+            }
+        });
         btnBorrow.setBounds(309, 26, 97, 50);
         contentPane.add(btnBorrow);
         
@@ -162,6 +188,10 @@ public class BorrowBook extends JFrame {
         textBorrPub.setText(bp);
         textBorrAut.setText(ba);
         
+    }
+    public Object[] brbookmem(Object[] obj){
+        Object[] ob = null; 
+        return ob;
     }
     
 }

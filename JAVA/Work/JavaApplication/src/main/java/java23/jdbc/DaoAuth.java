@@ -131,6 +131,7 @@ public class DaoAuth implements IAuth {
                                                    query += " where 1 = 1         \n";
             if( auth.getAuthid() != null        )  query += "   and authid    = ? \n";
             if(!auth.getName().isEmpty()    )  query += "   and Name  = ? \n";
+            if(!auth.getBirth().isEmpty()    )  query += "   and Birth  = ? \n";
             
             // 문장 객체 생성
             java.sql.PreparedStatement stmt = conn.prepareStatement(query);
@@ -138,6 +139,7 @@ public class DaoAuth implements IAuth {
             int c = 1;
             if( auth.getAuthid() != null    ) stmt.setInt   (c++, auth.getAuthid());
             if(!auth.getName().isEmpty()) stmt.setString(c++, auth.getName());
+            if(!auth.getBirth().isEmpty()) stmt.setString(c++, auth.getBirth());
             
             // 문장 객체 실행
             result = stmt.executeQuery();
