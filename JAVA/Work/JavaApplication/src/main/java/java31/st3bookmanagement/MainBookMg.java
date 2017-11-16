@@ -704,7 +704,7 @@ public class MainBookMg extends JFrame {
         panelBorrow.setLayout(null);
         
         JScrollPane scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(24, 183, 697, 219);
+        scrollPane_1.setBounds(25, 183, 697, 219);
         panelBorrow.add(scrollPane_1);
         
         tableborrow = new JTable();
@@ -790,6 +790,39 @@ public class MainBookMg extends JFrame {
         
         table.setModel(model);
         
+    }
+    public void refreshBrr(JTable table){
+        Object [] tempObject = new Object[11]; // JTable의 컬럼 갯수
+        DefaultTableModel model = (DefaultTableModel)table.getModel();
+        model.setRowCount(0); // table 위치를 0 부터 시작하도록 설정.
+        
+        String query = " select * from borrowd ;";
+        try {
+            stmt = conn.prepareStatement(query);
+            result = stmt.executeQuery();
+            while(result.next()){
+                tempObject[0] = result.getInt(1);
+                tempObject[1] = result.getString(2);
+                tempObject[2] = result.getString(3);
+                tempObject[3] = result.getString(4);
+                tempObject[4] = result.getString(5);
+                tempObject[5] = result.getString(6);
+                tempObject[6] = result.getString(7);
+                tempObject[7] = result.getString(8);
+                tempObject[8] = result.getString(9);
+                tempObject[9] = result.getInt(10);
+                tempObject[10] = result.getString(11);
+                model.addRow(tempObject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            
+        }
+        if(model.getRowCount()>0) {
+            table.setRowSelectionInterval(0, 0);
+        }
+        
+        table.setModel(model);
     }
     
     public String borrowbn(){

@@ -11,8 +11,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -43,7 +45,6 @@ public class BorrowBook extends JFrame {
             public void run() {
                 try {
                     frame = new BorrowBook();
-                    frame.conn = DBConnect2.makeConnection();
                     frame.setVisible(true);
                     frame.initText();
                 } catch (Exception e) {
@@ -109,6 +110,7 @@ public class BorrowBook extends JFrame {
         JButton btnBorrSearch = new JButton("검색");
         btnBorrSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 mainbook = new MainBookMg();
                 frame.conn = DBConnect2.makeConnection();
                 String msc = " where memno = ";
@@ -125,23 +127,26 @@ public class BorrowBook extends JFrame {
         JButton btnBorrow = new JButton("대여");
         btnBorrow.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String brin = " insert into borrowd ( memno, memphone, memprinum, mememail, ";
+                String brin = " insert into borrowd ( memname, memphone, memprinum, mememail, ";
                        brin+= "bookname, publisher, category, author, bookno, borrowdate)";
                        brin+= " values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                Object[] obbo = frame.brbookk();
+                Object[] obme = frame.brmemk();
                 try {
                     
                     stmt = conn.prepareStatement(brin);
-                    stmt.setInt(1, 0);
-                    stmt.setString(2, null);
-                    stmt.setString(3, null);
-                    stmt.setString(4, null);
-                    stmt.setString(5, null);
-                    stmt.setString(6, null);
-                    stmt.setString(7, null);
-                    stmt.setString(8, null);
-                    stmt.setInt(9, 0);
-                    stmt.setString(10, null);
+                    stmt.setString(1, (String)obme[1]);
+                    stmt.setString(2, (String)obme[3]);
+                    stmt.setString(3, (String)obme[2]);
+                    stmt.setString(4, (String)obme[4]);
+                    stmt.setString(5, (String)obbo[1]);
+                    stmt.setString(6, (String)obbo[2]);
+                    stmt.setString(7, (String)obbo[3]);
+                    stmt.setString(8, (String)obbo[4]);
+                    stmt.setInt(9, (Integer)obbo[0]);
+                    stmt.setString(10, "2017.11");
                     stmt.executeUpdate();
+                    
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -193,5 +198,49 @@ public class BorrowBook extends JFrame {
         Object[] ob = null; 
         return ob;
     }
+    public Object[] brbookk(){
+        ResultSet result = null;
+        Object[] obj =new Object[6];
+        String query = "select * from bookd where bookname=? and publisher=? and author=? ;";
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, textBorrBookname.getText());
+            stmt.setString(2, textBorrPub.getText());
+            stmt.setString(3, textBorrAut.getText());
+            result = stmt.executeQuery();
+            result.next();
+            for(int i =1; i<=6; i++){
+                obj[i-1] = result.getObject(i);
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            
+        }
+        
+        return obj;
+    }
+    public Object[] brmemk(){
+        ResultSet result = null;
+        Object[] obj =new Object[5];
+        String query = "select * from memberd where memno=? ;";
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, textMemSearch.getText());
+            
+            result = stmt.executeQuery();
+            result.next();
+            for(int i =1; i<=5; i++){
+                obj[i-1] = result.getObject(i);
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            
+        }
+        
+        return obj;
+    }
+    
     
 }
