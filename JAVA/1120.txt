@@ -1,0 +1,16 @@
+열을 합침 - rowspan
+행을 합침 - colspan
+
+
+
+mybatis 
+
+-select의 resultType 에 가능한 타입 - 1기본타입(int, string, boolean 등)
+				    - 2 model타입
+
+-insert의 resultType은 int만 가능하기때문에 기입할 필요없음
+
+-update - mapper.updatebook 두개의 인자받아야함
+	- Map 사용
+
+-" wherebook.bookname != null and  wherebook.bookname != '' " -암기
