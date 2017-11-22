@@ -60,9 +60,8 @@ public class DaoBook implements IBook {
 
     @Override
     public int insertBook(ModelBook book) throws Exception {
-        int result = -1;
-        result = session.insert("mapper.mapperBook.insertBook",book);
-        return result;
+        session.insert("mapper.mapperBook.insertBook",book);
+        return book.getBookid();
     }
 
     @Override

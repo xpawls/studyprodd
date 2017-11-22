@@ -34,15 +34,15 @@
          <if test=" publisher!=null and publisher!='' "> and publisher  =  #{ publisher } </if>
          <if test=" price!=null ">                       and price      =  #{ price     } </if>
     </select>
-    
-    <insert id="insertBook" parameterType="ModelBook">
+    <!-- useGeneratedKeys="true" keyProperty="bookid"(기본키컬럼값 자동리턴)  -->
+    <insert id="insertBook" parameterType="ModelBook" useGeneratedKeys="true" keyProperty="bookid">
         insert into book (  bookname,    publisher,    year,    price,    dtm,    use_yn,    authid )
                    values( #{bookname}, #{publisher}, #{year}, #{price}, #{dtm}, #{use_yn}, #{authid})
     </insert>
     
     <insert id="insertMap" parameterType="java.util.Map">
         insert into book( bookname,  dtm,   authid)
-                  valuse(#{ b1 }, #{ d1 }, #{ a1 })
+                  values(#{ b1 }, #{ d1 }, #{ a1 })
     </insert>
     
     <update id="updateBook" parameterType="java.util.Map">

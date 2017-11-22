@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        label {width: 100px; display: inline-block; vertical-align: top;}
+        div { text-align: center; }
+        fieldset { border: 2px black solid; }
+        ul > li { vertical-align: top; }
+    </style>
+</head>
+<body>
+    <h1>상품 주문서</h1>
+    <form>
+
+        <!-- 개인 정보 -->
+        <fieldset>
+            <legend><span style="color: violet"><b>개인 정보</b></span></legend>
+            <ul><b>
+                <li><label>이 름</label><input type="text" name="name" placeholder="여백없이 입력"></li><br>
+                <li><label>연락처</label> <input type="number" name="tel" placeholder="연락가능한 번호"></li>
+            </b></ul>
+
+        </fieldset>
+
+        <!-- 배송지 정보 -->
+        <fieldset>
+            <legend><span style="color: violet"><b>배송지 정보</b></span></legend>
+            <ul><b>
+                <li><label>주 소</label><input type="text" name="address" size="50"></li><br>
+                <li><label>전화번호</label> <input type="number" name="phone"></li><br>
+                <li><label>메 모</label><textarea rows="4" cols="40" name="memo"></textarea></li>
+            </b></ul>
+
+        </fieldset>
+
+        <!-- 주문 정보 -->
+        <fieldset>
+            <legend><span style="color: violet"><b>주문 정보</b></span></legend>
+            <ul>
+                <li>
+                    <input type="checkbox" name="gua">과테말라 안티구아 (100g)
+                    <input type="number" name="guatext" value="0" style="width: 30px">개
+                </li><br>
+                <li>
+                    <input type="checkbox" name="indo">인토네시아 만엘링 (100g)
+                    <input type="number" name="indotext" value="0"  style="width: 30px">개
+                </li><br>
+                <li>
+                    <input type="checkbox" name="tamra">탐라는도다(블렌딩) (100g)
+                    <input type="number" name="tamratext" value="0"  style="width: 30px">개
+                </li>
+
+            </ul>
+
+        </fieldset>
+
+        <br>
+        <div>
+            <!-- 주문하기 -->
+            <input type="submit" name="order" value="주문하기">
+            <!-- 다시작성 : form 입력 값 초기화  -->
+            <input type="reset" name="reset" value="다시작성">
+        </div>
+    </form>
+
+</body>
+</html>

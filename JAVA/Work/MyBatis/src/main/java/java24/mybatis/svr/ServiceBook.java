@@ -159,7 +159,16 @@ public class ServiceBook implements IServiceBook {
 
     @Override
     public List<ModelBook> selectDynamic(ModelBook book) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelBook> result = null;
+        try {
+            result = dao.selectDynamic(book);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("selectDynamic" + e.getMessage());
+            throw e;
+            
+        }
+        return result;
     }
 }
