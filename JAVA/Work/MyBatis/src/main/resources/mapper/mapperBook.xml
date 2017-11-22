@@ -40,7 +40,7 @@
                    values( #{bookname}, #{publisher}, #{year}, #{price}, #{dtm}, #{use_yn}, #{authid})
     </insert>
     
-    <insert id="insertMap" parameterType="java.util.Map">
+    <insert id="insertMap" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="bookid">
         insert into book( bookname,  dtm,   authid)
                   values(#{ b1 }, #{ d1 }, #{ a1 })
     </insert>

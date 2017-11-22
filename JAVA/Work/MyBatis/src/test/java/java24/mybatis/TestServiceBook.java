@@ -88,6 +88,7 @@ public class TestServiceBook {
     public void testInsertMap() throws Exception {
         int result = service.insertMap("c", java.sql.Date.valueOf("2017-11-08"), 5);
         assertNotEquals(-1, result);
+        assertEquals(8, result);
     }
     
     @Test
