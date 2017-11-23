@@ -37,8 +37,16 @@ public class TestServiceBook {
     @Test
     public void testGetCount() throws Exception {
         ModelBook book = new ModelBook();
+        book.setBookname("mysql");
+        book.setPublisher("");
         int rs = service.getCount(book);
-        assertEquals(4, rs);
+        assertEquals(1, rs);
+        
+
+        book.setBookname("");
+        book.setPublisher("oreilly");
+        rs = service.getCount(book);
+        assertEquals(1, rs);
         
     }
     
@@ -53,7 +61,7 @@ public class TestServiceBook {
     public void testSelectAll() throws Exception {
         List<ModelBook> rs = service.selectAll();
         assertNotNull(rs);
-        assertEquals(5, rs.size());
+        assertEquals(4, rs.size());
     }
     
     @Test
@@ -63,6 +71,11 @@ public class TestServiceBook {
         List<ModelBook> rs = service.selectLike(book);
         String result = rs.get(0).getBookname();
         assertEquals("mysql", result);
+        book.setPublisher("%ha%");
+        book.setBookname(null);
+        rs = service.selectLike(book);
+        result = rs.get(0).getBookname();
+        assertEquals("java", result);
     }
     
     @Test
@@ -72,6 +85,17 @@ public class TestServiceBook {
         List<ModelBook> rs = service.selectEqual(book);
         String name = rs.get(0).getBookname();
         assertEquals("java", name);
+        book = new ModelBook();
+        book.setBookid(1);
+        rs = service.selectEqual(book);
+        int pri = rs.get(0).getPrice();
+        assertEquals(30700, pri );
+        book = new ModelBook();
+        book.setBookname("java");
+        rs = service.selectEqual(book);
+        String pub = rs.get(0).getPublisher();
+        assertEquals("hall", pub);
+        
     }
     
     @Test
@@ -82,22 +106,59 @@ public class TestServiceBook {
         int result = service.insertBook(book);
         assertNotEquals(-1, result);
         assertEquals(5, result);
+        book = new ModelBook();
+        book.setYear("yee");
+        result = service.insertBook(book);
+        assertNotEquals(-1, result);
+        assertEquals(6, result);
+        book = new ModelBook();
+        book.setPrice(123123);
+        result = service.insertBook(book);
+        assertNotEquals(-1, result);
+        assertEquals(7, result);
+        book = new ModelBook();
+        book.setDtm(java.sql.Date.valueOf("2014-05-05"));
+        result = service.insertBook(book);
+        assertNotEquals(-1, result);
+        assertEquals(8, result);
+        book = new ModelBook();
+        book.setUse_yn(false);
+        result = service.insertBook(book);
+        assertNotEquals(-1, result);
+        assertEquals(9, result);
+        book = new ModelBook();
+        book.setAuthid(8);
+        result = service.insertBook(book);
+        assertNotEquals(-1, result);
+        assertEquals(10, result);
+        
+        
+        
     }
     
     @Test
     public void testInsertMap() throws Exception {
-        int result = service.insertMap("c", java.sql.Date.valueOf("2017-11-08"), 5);
+        int result = service.insertMap("aaa", null, 0);
         assertNotEquals(-1, result);
-        assertEquals(8, result);
+        assertEquals(11, result);
+        result = service.insertMap(null,java.sql.Date.valueOf("2014-05-05") , 0);
+        assertNotEquals(-1, result);
+        assertEquals(12, result);
     }
     
     @Test
     public void testUpdateBook() throws Exception {
         ModelBook wh = new ModelBook();
-        wh.setBookname("c++");
+        wh.setBookname("cva");
         ModelBook set = new ModelBook();
-        set.setAuthid(6);
+        set.setPublisher("ccc");
         int result = service.updateBook(wh, set);
+        assertNotEquals(-1, result);
+        wh = new ModelBook();
+        wh.setBookid(12);
+        set = new ModelBook();
+        set.setBookname("spring");
+        result = service.updateBook(wh, set);
         assertNotEquals(-1, result);
         
         
@@ -106,9 +167,33 @@ public class TestServiceBook {
     @Test
     public void testDeleteBook() throws Exception {
         ModelBook book = new ModelBook();
-        book.setBookname("c++");
+        book.setBookname("spring");
         int result = service.deleteBook(book);
         assertNotEquals(-1, result);
+        book = new ModelBook();
+        book.setPublisher("ccc");
+        result = service.deleteBook(book);
+        assertNotEquals(-1, result);
+        book = new ModelBook();
+        book.setBookid(6);
+        result = service.deleteBook(book);
+        assertNotEquals(-1, result);
+        book.setBookid(7);
+        result = service.deleteBook(book);
+        assertNotEquals(-1, result);
+        book.setBookid(8);
+        result = service.deleteBook(book);
+        assertNotEquals(-1, result);
+        book.setBookid(9);
+        result = service.deleteBook(book);
+        assertNotEquals(-1, result);
+        book.setBookid(10);
+        result = service.deleteBook(book);
+        assertNotEquals(-1, result);
+        book.setBookid(11);
+        result = service.deleteBook(book);
+        assertNotEquals(-1, result);
+        
         
     }
     

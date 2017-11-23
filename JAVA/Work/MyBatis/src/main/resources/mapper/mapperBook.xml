@@ -48,7 +48,7 @@
     <update id="updateBook" parameterType="java.util.Map">
         update book
            set bookname  =  #{ set.bookname  }
-              ,publisher =  #{ set.publisher }
+              ,Publisher =  #{ set.Publisher }
               ,year      =  #{ set.year      }
               ,price     =  #{ set.price     }
               ,dtm       =  #{ set.dtm       }
@@ -56,7 +56,7 @@
               ,authid    =  #{ set.authid    }
           where 1=1
           <if test="where.bookid != null"  > and bookid   = #{where.bookid}</if>
-          <if test="where.bookname != null"> and bookname = #{where.bookname}</if>
+          <if test="where.bookname != null and where.bookname != '' "> and bookname = #{where.bookname}</if>
     </update>
     
     <delete id="deleteBook" parameterType="ModelBook">
@@ -64,6 +64,7 @@
             where 1=1
          <if test=" bookname!=null and bookname!='' "  > and bookname  like #{bookname }</if>
          <if test=" publisher!=null and publisher!='' "> and publisher like #{publisher}</if>
+         <if test=" bookid!=null "> and bookid = #{bookid}</if>
     </delete>
     
     <select id="selectDynamic" parameterType="ModelBook" resultType="ModelBook">

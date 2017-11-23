@@ -28,6 +28,7 @@ public class DaoBook implements IBook {
         int result = -1;
         result = session.selectOne("mapper.mapperBook.getCount", book);
         return result;
+        
     }
 
     @Override
