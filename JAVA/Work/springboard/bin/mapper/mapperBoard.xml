@@ -20,7 +20,7 @@
         SELECT boardcd, boardnm, UseYN, InsertUID, InsertDT, UpdateUID, UpdateDT
           FROM TB_Bbs_Board
         ORDER BY boardnm
-    </select> >
+    </select>
         
     <insert id="insertBoard" parameterType="ModelBoard">
         INSERT INTO 

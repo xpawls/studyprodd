@@ -16,7 +16,7 @@ public class ModelArticle {
     private java.util.Date regdate   = null;        //`regdate`   DATETIME NULL DEFAULT NULL,
     private Integer        countgood = null;        //`countgood` INT(11) NULL DEFAULT '0',
     private Integer        countbad  = null;        //`countbad`  INT(11) NULL DEFAULT '0',
-    private Integer        UseYN     = null;        //`UseYN`     TINYINT(1) NOT NULL DEFAULT '1',
+    private Boolean        UseYN     = null;        //`UseYN`     TINYINT(1) NOT NULL DEFAULT '1',
     private String         InsertUID = "";        //`InsertUID` VARCHAR(40) NULL DEFAULT NULL,
     private java.util.Date InsertDT  = null;        //`InsertDT`  DATETIME NULL DEFAULT NULL,
     private String         UpdateUID = "";        //`UpdateUID` VARCHAR(40) NULL DEFAULT NULL,
@@ -75,10 +75,10 @@ public class ModelArticle {
     public void setCountbad(Integer countbad) {
         this.countbad = countbad;
     }
-    public Integer getUseYN() {
+    public Boolean getUseYN() {
         return UseYN;
     }
-    public void setUseYN(Integer useYN) {
+    public void setUseYN(Boolean useYN) {
         UseYN = useYN;
     }
     public String getInsertUID() {
@@ -118,7 +118,7 @@ public class ModelArticle {
     }
     public ModelArticle(Integer articleno, String boardcd, String title,
             String content, String email, Integer hit, Date regdate,
-            Integer countgood, Integer countbad, Integer useYN,
+            Integer countgood, Integer countbad, Boolean useYN,
             String insertUID, Date insertDT, String updateUID, Date updateDT) {
         super();
         this.articleno = articleno;

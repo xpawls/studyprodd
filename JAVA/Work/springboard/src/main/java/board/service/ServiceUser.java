@@ -19,6 +19,7 @@ public class ServiceUser implements IServiceUser {
     @Autowired
     @Qualifier("daouser")
     private IUser dao;
+    
     @Override
     public int insertUser(ModelUser user) {
         int rs = -1;

@@ -10,7 +10,7 @@ public class ModelBoard {
     
     private String         boardcd   = "";        //`boardcd`  VARCHAR(20) NOT NULL,
     private String         boardnm   = "";        //`boardnm`  VARCHAR(40) NOT NULL,
-    private Integer        UseYN     = null;      //`UseYN`    TINYINT(1) NULL DEFAULT '1',
+    private Boolean        UseYN     = null;      //`UseYN`    TINYINT(1) NULL DEFAULT '1',
     private String         InsertUID = "";        //`InsertUID` VARCHAR(40) NULL DEFAULT NULL,
     private java.util.Date InsertDT  = null;      //`InsertDT` DATETIME NULL DEFAULT NULL,
     private String         UpdateUID = "";        //`UpdateUID` VARCHAR(40) NULL DEFAULT NULL,
@@ -27,10 +27,10 @@ public class ModelBoard {
     public void setBoardnm(String boardnm) {
         this.boardnm = boardnm;
     }
-    public Integer getUseYN() {
+    public Boolean getUseYN() {
         return UseYN;
     }
-    public void setUseYN(Integer useYN) {
+    public void setUseYN(Boolean useYN) {
         UseYN = useYN;
     }
     public String getInsertUID() {
@@ -66,7 +66,7 @@ public class ModelBoard {
                 + ", UpdateDT=" + UpdateDT + "]";
     }
     
-    public ModelBoard(String boardcd, String boardnm, Integer useYN,
+    public ModelBoard(String boardcd, String boardnm, Boolean useYN,
             String insertUID, Date insertDT, String updateUID, Date updateDT) {
         super();
         this.boardcd = boardcd;

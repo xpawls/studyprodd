@@ -6,7 +6,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ModelAttachfile {
+public class ModelAttachFile {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     private Integer        attachfileno = null;   // `attachfileno` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -14,7 +14,7 @@ public class ModelAttachfile {
     private String         filetype     = "";   // `filetype`     VARCHAR(30) NULL DEFAULT NULL,
     private Integer        filesize     = null;   // `filesize`     INT(11) NULL DEFAULT NULL,
     private Integer        articleno    = null;   // `articleno`    INT(11) NULL DEFAULT NULL,
-    private Integer        UseYN        = null;   // `UseYN`        TINYINT(1) NULL DEFAULT '1',
+    private Boolean        UseYN        = null;   // `UseYN`        TINYINT(1) NULL DEFAULT '1',
     private String         InsertUID    = "";   // `InsertUID`    VARCHAR(40) NULL DEFAULT NULL,
     private java.util.Date InsertDT     = null;   // `InsertDT`     DATETIME NULL DEFAULT NULL,
     private String         UpdateUID    = "";   // `UpdateUID`    VARCHAR(40) NULL DEFAULT NULL,
@@ -50,10 +50,10 @@ public class ModelAttachfile {
     public void setArticleno(Integer articleno) {
         this.articleno = articleno;
     }
-    public Integer getUseYN() {
+    public Boolean getUseYN() {
         return UseYN;
     }
-    public void setUseYN(Integer useYN) {
+    public void setUseYN(Boolean useYN) {
         UseYN = useYN;
     }
     public String getInsertUID() {
@@ -95,8 +95,8 @@ public class ModelAttachfile {
                 + ", UpdateUID=" + UpdateUID + ", UpdateDT=" + UpdateDT
                 + ", imageData=" + Arrays.toString(imageData) + "]";
     }
-    public ModelAttachfile(Integer attachfileno, String filename,
-            String filetype, Integer filesize, Integer articleno, Integer useYN,
+    public ModelAttachFile(Integer attachfileno, String filename,
+            String filetype, Integer filesize, Integer articleno, Boolean useYN,
             String insertUID, Date insertDT, String updateUID, Date updateDT,
             Byte[] imageData) {
         super();
@@ -112,7 +112,7 @@ public class ModelAttachfile {
         UpdateDT = updateDT;
         this.imageData = imageData;
     }
-    public ModelAttachfile() {
+    public ModelAttachFile() {
         super();
     }
     

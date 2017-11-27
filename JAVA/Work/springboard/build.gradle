@@ -96,8 +96,9 @@ dependencies {
     compile "org.apache.commons:commons-dbcp2:2.0"    
     compile 'commons-beanutils:commons-beanutils:1.9.2' 
     compile 'commons-codec:commons-codec:1.10'   
-    compile 'commons-collections:commons-collections:3.2' 
-       
+    compile 'commons-collections:commons-collections:3.2'    
+    
+    
     //
     compile group: "org.aspectj", name: "aspectjrt" , version: "1.8.6"
     compile group: "org.aspectj", name: "aspectjweaver", version: "1.8.6"

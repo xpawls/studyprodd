@@ -1,5 +1,6 @@
 package board.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -19,6 +20,7 @@ public class DaoUser implements IUser {
     @Autowired
     @Qualifier("sqlSession")
     private SqlSession session;
+    
     @Override
     public int insertUser(ModelUser user) {
         int rs = -1;
@@ -42,7 +44,7 @@ public class DaoUser implements IUser {
     @Override
     public int updateUserInfo(ModelUser searchValue, ModelUser updateValue) {
         int rs = -1;
-        java.util.Map<String, ModelUser> map = null;
+        java.util.Map<String, ModelUser> map = new HashMap<>();
         map.put("searchValue", searchValue);
         map.put("updateValue", updateValue);
         rs = session.update("mapper.mapperUser.updateUserInfo", map);
@@ -53,7 +55,7 @@ public class DaoUser implements IUser {
     public int updatePasswd(String newPasswd, String currentPasswd,
             String userid) {
         int rs = -1;
-        java.util.Map<String, String> map = null;
+        java.util.Map<String, String> map = new HashMap<>();
         map.put("newPasswd", newPasswd);
         map.put("currentPasswd", currentPasswd);
         map.put("userid", userid);

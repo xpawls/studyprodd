@@ -13,7 +13,7 @@ public class ModelComments {
     private String         email     = "";    //`email`       VARCHAR(60) NULL DEFAULT NULL,
     private String         memo      = "";    //`memo`         VARCHAR(4000) NULL DEFAULT NULL,
     private java.util.Date regdate   = null;    //`regdate`     DATETIME NULL DEFAULT NULL,
-    private Integer        UseYN     = null;    //`UseYN`        TINYINT(1) NULL DEFAULT '1',
+    private Boolean        UseYN     = null;    //`UseYN`        TINYINT(1) NULL DEFAULT '1',
     private String         InsertUID = "";     //`InsertUID`    VARCHAR(40) NULL DEFAULT NULL,
     private java.util.Date InsertDT  = null;    //`InsertDT`    DATETIME NULL DEFAULT NULL,
     private String         UpdateUID = "";     //`UpdateUID`    VARCHAR(40) NULL DEFAULT NULL,
@@ -48,10 +48,10 @@ public class ModelComments {
     public void setRegdate(java.util.Date regdate) {
         this.regdate = regdate;
     }
-    public Integer getUseYN() {
+    public Boolean getUseYN() {
         return UseYN;
     }
-    public void setUseYN(Integer useYN) {
+    public void setUseYN(Boolean useYN) {
         UseYN = useYN;
     }
     public String getInsertUID() {
@@ -87,7 +87,7 @@ public class ModelComments {
                 + UpdateUID + ", UpdateDT=" + UpdateDT + "]";
     }
     public ModelComments(Integer commentno, Integer articleno, String email,
-            String memo, Date regdate, Integer useYN, String insertUID,
+            String memo, Date regdate, Boolean useYN, String insertUID,
             Date insertDT, String updateUID, Date updateDT) {
         super();
         this.commentno = commentno;
