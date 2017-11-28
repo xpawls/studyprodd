@@ -4,6 +4,13 @@
 <head>
     <meta charset="utf-8">
     <title>2단 레이아웃</title>
+    <style type="text/css">
+        #container div { border: 1px dotted gray; margin: 20px 10px; padding: 20px 10px;}
+        #header { z-index: 1; }
+        #contents { z-index: 2; width: 600px;  float: left; }
+        #sidebar { z-index: 3; width: 200px; background-color: lightgray; float: right; }
+        #footer { z-index: 4; clear: both; }
+    </style>
 </head>
 <body>
     <div id="container">

@@ -1,6 +1,8 @@
 package board.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -23,178 +25,240 @@ public class DaoBoard implements IBoard {
     @Autowired
     @Qualifier("sqlSession")
     private SqlSession session;
-    
+
     @Override
     public String getBoardName(String boardcd) {
-        // TODO Auto-generated method stub
-        return null;
+        String rs = null;
+        rs = session.selectOne("mapper.mapperBoard.getBoardName", boardcd);
+        return rs;
     }
-    
+
     @Override
     public List<ModelBoard> getBoardOne(String boardcd) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelBoard> rs = null;
+        rs = session.selectList("mapper.mapperBoard.getBoardOne", boardcd);
+        return rs;
     }
-    
+
     @Override
     public List<ModelBoard> getBoardList() {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelBoard> rs = null;
+        rs = session.selectList("mapper.mapperBoard.getBoardList");
+        return rs;
     }
-    
+
     @Override
     public int insertBoard(ModelBoard board) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        rs = session.insert("mapper.mapperBoard.insertBoard", board);
+        return rs;
     }
-    
+
     @Override
     public int updateBoard(ModelBoard searchValue, ModelBoard updateValue) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        Map<String, ModelBoard> map = new HashMap<>();
+        map.put("searchValue", searchValue);
+        map.put("updateValue", updateValue);
+        rs = session.update("mapper.mapperBoard.updateBoard", map);
+        return rs;
     }
-    
+
     @Override
     public int deleteBoard(ModelBoard board) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        rs = session.delete("mapper.mapperBoard.deleteBoard", board);
+        return rs;
     }
-    
+
     @Override
     public List<ModelBoard> getBoardSearch(ModelBoard board) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelBoard> rs = null;
+        rs = session.selectList("mapper.mapperBoard.getBoardSearch", board);
+        return rs;
     }
-    
+
     @Override
     public int getBoardTotalRecord(String boardcd, String searchWord) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        Map<String, String> map = new HashMap<>();
+        map.put("boardcd", boardcd);
+        map.put("searchWord", searchWord);
+        rs = session.selectOne("mapper.mapperBoard.getBoardTotalRecord", map);
+        return rs;
     }
-    
+
     @Override
     public List<ModelBoard> getBoardPaging(String boardcd, String searchWord,
             int start, int end) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelBoard> rs = null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardcd", boardcd);
+        map.put("searchWord", searchWord);
+        map.put("start", start);
+        map.put("end", end);
+        rs = session.selectList("mapper.mapperBoard.getBoardPaging", map);
+        return rs;
     }
-    
+
     @Override
-    public int insertBoardList(ModelBoard item) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int insertBoardList(List<ModelBoard> list) {
+        int rs = -1;
+        rs = session.insert("mapper.mapperBoard.insertBoardList", list);
+        return rs;
     }
-    
+
     @Override
     public int getArticleTotalRecord(String boardcd, String searchWord) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        Map<String, String> map = new HashMap<>();
+        map.put("boardcd", boardcd);
+        map.put("searchWord", searchWord);
+        rs = session.selectOne("mapper.mapperBoard.getArticleTotalRecord", map);
+        return rs;
     }
-    
+
     @Override
     public List<ModelArticle> getArticleList(String boardcd, String searchWord,
             int start, int end) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelArticle> rs = null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardcd", boardcd);
+        map.put("searchWord", searchWord);
+        map.put("start", start);
+        map.put("end", end);
+        rs = session.selectList("mapper.mapperBoard.getArticleList", map);
+        return rs;
     }
-    
+
     @Override
     public List<ModelArticle> getArticle(int articleno) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelArticle> rs = null;
+        rs = session.selectList("mapper.mapperBoard.getArticle", articleno);
+        return rs;
     }
-    
+
     @Override
     public int insertArticle(ModelArticle article) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        rs = session.insert("mapper.mapperBoard.insertArticle", article);
+        return article.getArticleno();
     }
-    
+
     @Override
     public int updateArticle(ModelArticle updateValue,
             ModelArticle searchValue) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        Map<String, ModelArticle> map = new HashMap<>();
+        map.put("updateValue", updateValue);
+        map.put("searchValue", searchValue);
+        rs = session.update("mapper.mapperBoard.updateArticle", map);
+        return rs;
     }
-    
+
     @Override
     public int deleteArticle(ModelArticle article) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        rs = session.delete("mapper.mapperBoard.deleteArticle", article);
+        return rs;
     }
-    
+
     @Override
     public int increaseHit(int articleno) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        rs = session.update("mapper.mapperBoard.increaseHit", articleno);
+        return rs;
     }
-    
+
     @Override
     public List<ModelArticle> getNextArticle(String boardcd, int articleno,
             String searchWord) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelArticle> rs = null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardcd", boardcd);
+        map.put("articleno", articleno);
+        map.put("searchWord", searchWord);
+        rs = session.selectList("mapper.mapperBoard.getNextArticle", map);
+        return rs;
     }
-    
+
     @Override
     public List<ModelArticle> getPrevArticle(String boardcd, int articleno,
             String searchWord) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
+        List<ModelArticle> rs = null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardcd", boardcd);
+        map.put("articleno", articleno);
+        map.put("searchWord", searchWord);
+        rs = session.selectList("mapper.mapperBoard.getPrevArticle", map);
+        return rs;}
+
     @Override
     public List<ModelAttachFile> getAttachFile(int attachFileNo) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelAttachFile> rs = null;
+        rs = session.selectList("mapper.mapperBoard.getAttachFile", attachFileNo);
+        return rs;
     }
-    
+
     @Override
     public List<ModelAttachFile> getAttachFileList(int articleno) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelAttachFile> rs = null;
+        rs = session.selectList("mapper.mapperBoard.getAttachFileList", articleno);
+        return rs;
     }
-    
+
     @Override
     public int insertAttachFile(ModelAttachFile attachfile) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        rs = session.insert("mapper.mapperBoard.insertAttachFile", attachfile);
+        return rs;
     }
-    
+
     @Override
     public int deleteAttachFile(ModelAttachFile attachfile) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        rs = session.delete("mapper.mapperBoard.deleteAttachFile", attachfile);
+        return rs;
     }
-    
+
     @Override
     public List<ModelComments> getComment(int commentNo) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelComments> rs = null;
+        rs = session.selectList("mapper.mapperBoard.getComment", commentNo);
+        return rs;
     }
-    
+
     @Override
     public List<ModelComments> getCommentList(int articleno) {
-        // TODO Auto-generated method stub
-        return null;
+        List<ModelComments> rs = null;
+        rs = session.selectList("mapper.mapperBoard.getCommentList", articleno);
+        return rs;
     }
-    
+
     @Override
     public int insertComment(ModelComments comments) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        rs = session.insert("mapper.mapperBoard.insertComment", comments);
+        return rs;
     }
-    
+
     @Override
     public int updateComment(ModelComments updateValue,
             ModelComments searchValue) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        Map<String, ModelComments> map = new HashMap<>();
+        map.put("updateValue", updateValue);
+        map.put("searchValue", searchValue);
+        rs = session.update("mapper.mapperBoard.updateComment", map);
+        return rs;
     }
-    
+
     @Override
     public int deleteComment(ModelComments comments) {
-        // TODO Auto-generated method stub
-        return 0;
+        int rs = -1;
+        rs = session.delete("mapper.mapperBoard.deleteComment", comments);        
+        return rs;
     }
+    
+    
 }

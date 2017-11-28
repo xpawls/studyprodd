@@ -20,7 +20,7 @@ public interface IBoard {
     List<ModelBoard> getBoardSearch(ModelBoard board);
     int getBoardTotalRecord(String boardcd, String searchWord);
     List<ModelBoard> getBoardPaging(String boardcd, String searchWord, int start, int end);
-    int insertBoardList(ModelBoard item);
+    int insertBoardList(List<ModelBoard> list);
     int getArticleTotalRecord(String boardcd, String searchWord);
     List<ModelArticle> getArticleList(String boardcd, String searchWord, int start, int end);
     List<ModelArticle> getArticle(int articleno);
