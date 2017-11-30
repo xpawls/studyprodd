@@ -40,8 +40,8 @@ public class ServiceBoard implements IServiceBoard {
     }
     
     @Override
-    public List<ModelBoard> getBoardOne(String boardcd) {
-        List<ModelBoard> rs = null;
+    public ModelBoard getBoardOne(String boardcd) {
+        ModelBoard rs = new ModelBoard();
         try {
             rs = dao.getBoardOne(boardcd);
         } catch (Exception e) {

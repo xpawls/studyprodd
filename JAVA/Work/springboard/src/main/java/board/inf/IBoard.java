@@ -12,7 +12,7 @@ import board.model.ModelComments;
 
 public interface IBoard {
     String getBoardName(String boardcd);
-    List<ModelBoard> getBoardOne(String boardcd);
+    ModelBoard getBoardOne(String boardcd);
     List<ModelBoard> getBoardList();
     int insertBoard(ModelBoard board);
     int updateBoard(ModelBoard searchValue, ModelBoard updateValue);

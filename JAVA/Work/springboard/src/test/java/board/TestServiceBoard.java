@@ -59,9 +59,9 @@ public class TestServiceBoard {
     
     @Test
     public void test02_GetBoardOne() {
-        List<ModelBoard> rs = null;
+        ModelBoard rs = new ModelBoard();
         rs = service.getBoardOne("free");
-        assertEquals("자유게시판", rs.get(0).getBoardnm());
+        assertEquals("자유게시판", rs.getBoardnm());
     }
     
     @Test
