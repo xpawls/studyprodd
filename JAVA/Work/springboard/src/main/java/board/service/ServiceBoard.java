@@ -210,6 +210,7 @@ public class ServiceBoard implements IServiceBoard {
     public List<ModelArticle> getArticle(int articleno) {
         List<ModelArticle> rs = null;
         try {
+                 dao.increaseHit(articleno);
             rs = dao.getArticle(articleno);
         } catch (Exception e) {
             // TODO Auto-generated catch block

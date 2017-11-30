@@ -30,10 +30,20 @@
     
     <update id="updateBoard" parameterType="hashmap">
         UPDATE TB_Bbs_Board 
-            SET boardnm   = #{updateValue.boardnm}
-              , UseYN     = #{updateValue.UseYN}
-              , UpdateUID = #{updateValue.UpdateUID}
-              , UpdateDT  = #{updateValue.UpdateDT}
+            <set> 
+                <if test = "updateValue.boardnm!=null and updateValue.boardnm!=''">     
+                boardnm   = #{updateValue.boardnm}  , 
+                </if>
+                <if test = "updateValue.UseYN!=null">                                   
+                UseYN     = #{updateValue.UseYN}    , 
+                </if>
+                <if test = "updateValue.UpdateUID!=null and updateValue.UpdateUID!=''"> 
+                UpdateUID = #{updateValue.UpdateUID}, 
+                </if>
+                <if test = "updateValue.UpdateDT!=null">                                
+                UpdateDT  = #{updateValue.UpdateDT} , 
+                </if>
+            </set>
             WHERE 1 = 1 
               <if test="searchValue.boardcd != null and searchValue.boardcd != ''" >
               AND boardcd    = #{searchValue.boardcd}
@@ -171,11 +181,23 @@
     
     <update id="updateArticle" parameterType="java.util.Map">
         UPDATE TB_BBS_Article 
-           SET title     = #{updateValue.title}
-             , content   = #{updateValue.content} 
-             , UseYN     = #{updateValue.UseYN    }
-             , UpdateUID = #{updateValue.UpdateUID}
-             , UpdateDT  = #{updateValue.UpdateDT }
+           <set> 
+                 <if test = "updateValue.title!=null and updateValue.title!=''" >
+                 title     = #{updateValue.title},    
+                 </if>
+                 <if test = "updateValue.content  !=null and updateValue.content!=''" >
+                 content   = #{updateValue.content  },  
+                 </if>
+                 <if test = "updateValue.UseYN    !=null" >
+                 UseYN     = #{updateValue.UseYN    },
+                 </if>
+                 <if test = "updateValue.UpdateUID!=null and updateValue.UpdateUID!=''" >
+                 UpdateUID = #{updateValue.UpdateUID},
+                 </if>
+                 <if test = "updateValue.UpdateDT !=null" >
+                 UpdateDT  = #{updateValue.UpdateDT },
+                 </if>
+           </set>
          WHERE  1 = 1 
               <if test="searchValue.boardcd != null and searchValue.boardcd != ''" >
               AND boardcd    = #{searchValue.boardcd}
@@ -316,10 +338,18 @@
     </insert>
     
     <update id="updateComment" parameterType="java.util.Map">
-        UPDATE TB_BBS_Comments 
-           SET memo      = #{updateValue.memo   } 
-             , regdate   = #{updateValue.regdate} 
-             , UseYN     = #{updateValue.UseYN  } 
+        UPDATE TB_BBS_Comments
+         <set>
+               <if test = "updateValue.memo!=null and updateValue.memo!=''" >
+               memo      = #{updateValue.memo   },
+               </if> 
+               <if test = "updateValue.regdate!=null" >
+               regdate   = #{updateValue.regdate},
+               </if> 
+               <if test = "updateValue.UseYN!=null" >
+               UseYN     = #{updateValue.UseYN  },
+               </if>
+         </set> 
          WHERE  1 = 1 
               <if test="searchValue.commentno != null and searchValue.commentno != ''" >
               AND commentno = #{searchValue.commentno}
