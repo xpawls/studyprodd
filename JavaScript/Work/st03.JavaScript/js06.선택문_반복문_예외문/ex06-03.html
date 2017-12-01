@@ -3,41 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script>
-        var value = prompt( 'Á¡¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä', '0');
-        var n = Number( value );
-
-        // n ÀÌ 0 º¸´Ù ÀÛ°Å³ª ¶Ç´Â nÀÌ 100º¸´Ù Å©´Ù¸é
-
-
-        var grade = ''; // A, B, C, D, F
-
-        if ( n >= 90 ) {
-            // 90 <= grade
-            grade = 'A';
+    <script type="text/javascript">
+        var j = 1;
+        var value;
+        for (var i = 0; i < j; i++) {
+            var value = prompt('ì ìˆ˜ë¥¼ ìž…ë ¥í•˜ì„¸ìš” : ', 0);
+            if(Number(value)>=0 && Number(value)<=100){
+                j = i;
+            }
+            else{
+                j++;
+            }
         }
-        else if ( n >= 80 ) {
-            // 80 <= grade <90
-            grade = 'B';
+
+
+
+        var grade = Number(value);
+
+        if (grade>=90) {
+            console.log('A');
         }
-        else if ( n >= 70 ) {
-            // 70 <= grade <80
-            grade = 'C';
+        else if (grade>=80) {
+            console.log('B');
         }
-        else if ( n >= 60 ) {
-            // 60 <= grade <70
-            grade = 'D';
+        else if (grade>=70) {
+            console.log('C');
+        }
+        else if (grade>=60) {
+            console.log('D');
         }
         else {
-            // grade <60
-            grade = 'F';
+            console.log('F')
         }
-
-        console.log( 'Á¡¼ö : ' + n     );
-        console.log( 'µî±Þ : ' + grade );
     </script>
 </head>
 <body>
 
 </body>
 </html>
+
+
+

@@ -71,9 +71,9 @@ public class DaoUser implements IUser {
     }
 
     @Override
-    public List<ModelUser> selectUserOne(ModelUser user) {
-        List<ModelUser> lis = null;
-        lis = session.selectList("mapper.mapperUser.selectUserOne", user);
+    public ModelUser selectUserOne(ModelUser user) {
+        ModelUser lis = null;
+        lis = session.selectOne("mapper.mapperUser.selectUserOne", user);
         return lis;
     }
 

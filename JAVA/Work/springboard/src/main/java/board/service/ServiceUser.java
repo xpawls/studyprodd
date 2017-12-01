@@ -113,8 +113,8 @@ public class ServiceUser implements IServiceUser {
     }
     
     @Override
-    public List<ModelUser> selectUserOne(ModelUser user) {
-        List<ModelUser> rs = null;
+    public ModelUser selectUserOne(ModelUser user) {
+        ModelUser rs = null;
         try {
             rs = dao.selectUserOne(user);
         } catch (Exception e) {

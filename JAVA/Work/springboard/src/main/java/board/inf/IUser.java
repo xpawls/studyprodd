@@ -14,7 +14,7 @@ public interface IUser {
     int updateUserInfo(ModelUser searchValue, ModelUser updateValue);
     int updatePasswd(String newPasswd, String currentPasswd, String userid);
     int deleteUser(ModelUser user);
-    List<ModelUser> selectUserOne(ModelUser user);
+    ModelUser selectUserOne(ModelUser user);
     List<ModelUser> selectUserList(ModelUser user);
     int checkuserid(String userid);
 }

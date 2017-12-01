@@ -112,11 +112,11 @@ public class TestServiceUser {
     
     @Test
     public void test07_SelectUserOne() {
-        List<ModelUser> lis = null;
+        ModelUser lis = null;
         ModelUser user = new ModelUser();
         user.setUserno(1);
         lis = service.selectUserOne(user);
-        assertEquals(1, lis.size());
+        assertEquals(1, (int)lis.getUserno());
     }
     
     @Test
