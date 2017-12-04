@@ -3,7 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    
+    <script type="text/javascript">
+        // var arr = [7,9,4,8,5];
+        var arr = [];
+        var size = prompt('심사위원의 수를 입력하세요 : ', 0);
+        for (var i = 0; i < Number(size); i++) {
+            var a = prompt('점수를 입력하세요 : ');
+             arr[i] = Number(a);
+        }
+
+        console.log(arr);
+        var comp = function (a,b) {
+            return a-b;
+        }
+
+        arr.sort(comp);
+        console.log(arr);
+        var sum = 0;
+        for (var i = 1; i < arr.length-1; i++) {
+            sum += arr[i];
+        }
+        console.log('합계는 : '+sum);
+        var avg = sum/(arr.length-2);
+        var avg2 = Math.round(avg*100)/100;
+        console.log('평균은 : ' + avg2);
+        document.writeln(avg2);
+    </script>
+
 </head>
 <body>
 
