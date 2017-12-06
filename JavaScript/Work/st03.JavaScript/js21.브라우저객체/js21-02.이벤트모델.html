@@ -3,7 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    
+    <script type="text/javascript">
+        window.onload = function(event){
+            var btn = document.getElementById('btn');
+            btn.onclick = function(event){
+                window.alert('버튼이 클릭되었다.');
+            }
+            var btn2 = document.getElementsByClassName('btn2');
+            btn2[1].onclick = function(event){
+                window.alert('aaaa가 클릭되었다.');
+                this.onclick = null // delete onclick;
+                return false;
+            }
+            var p = document.getElementsByName('name');
+            p[0].onclick = function(event){
+                window.alert('name이 클릭되었다.');
+            }
+        }
+    </script>
 </head>
 <body>
     <input type="button" value='인라인 이벤트 모델' onclick="btn_onclick()">

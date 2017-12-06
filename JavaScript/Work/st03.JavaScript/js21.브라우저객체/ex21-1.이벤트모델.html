@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    
+    <script type="text/javascript">
+        window.onload = function(event){
+            var p = document.getElementsByName('name');
+            for (var i=0; i<p.length; i++) {
+                p[i].count = i;
+                p[i].onclick = function(event){
+                window.alert('name'+this.count+' 이 클릭되었다.');
+            }
+            }
+
+        };
+    </script>
+
 </head>
 <body>
     <p name='name' count="0">고전 이벤트 모델</p>

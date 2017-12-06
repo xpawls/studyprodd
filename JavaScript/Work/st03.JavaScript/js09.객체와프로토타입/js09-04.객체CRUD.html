@@ -3,7 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>객체 생성</title>
-    
+    <script type="text/javascript">
+        // 객체 리터럴을 이용한 객체 생성
+        var foo = {
+            name : 'foo'
+            , age : 30
+            , array : [1,4,5,5]
+            , run : function(){return this.name;}
+        };
+
+        // 프로퍼티 읽기 - 마침표 표기법
+        console.log(foo.name);
+        console.log(foo.age);
+        console.log(foo.nickname);
+        console.log(foo.run());
+
+
+        // 프로퍼티 읽기 - 대괄호 표기법
+        console.log(foo['name']);
+        console.log(foo['age']);
+        console.log(foo['nickname']);
+
+        foo.gender = 'man';
+        foo.nickname = 'johnathan';
+
+        foo.name = 'bar';
+        foo.age = 50;
+        console.log(foo.name);
+        console.log(foo.age);
+        console.log(foo.nickname);
+        console.log(foo.gender);
+
+        delete foo.nickname;
+        delete foo.gender;
+
+        console.log(foo.nickname);
+        console.log(foo.gender);
+
+        for (var i in foo) {
+            console.log(typeof i, i+':'+foo[i], typeof foo[i]);
+        }
+
+        for (var i in foo) {
+            if (typeof foo[i] !== 'function') {
+            console.log(typeof i, i+':'+foo[i], typeof foo[i]);
+            }
+        }
+
+        for (var i in foo) {
+            if (typeof foo[i] === 'object' && foo[i].hasOwnProperty('length') ) {
+            console.log(typeof i, i+':'+foo[i], typeof foo[i]);
+            }
+        }
+
+        console.log(foo);
+    </script>
 </head>
 <body>
 

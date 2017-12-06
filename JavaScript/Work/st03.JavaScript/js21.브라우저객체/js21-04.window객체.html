@@ -3,7 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    
+    <script type="text/javascript">
+        var MYAPP = {};
+
+        window.onload = function(e){
+            // alert 이벤트 핸들러 등록
+            MYAPP.alert = document.getElementById("alert");
+            MYAPP.alert.onclick = function(e){
+                window.alert("페이지 표시");
+            };
+
+            // confirm 이벤트 핸들러 등록
+            MYAPP.confirm = document.getElementById("confirm");
+            MYAPP.confirm.onclick = function(e){
+                window.confirm("확인");
+            };
+
+            // prompt 이벤트 핸들러 등록
+            MYAPP.prompt = document.getElementById("prompt");
+            MYAPP.prompt.onclick = function(e){
+                window.prompt("입력", 0);
+            };
+
+            // win_open 이벤트 핸들러 등록
+            MYAPP.win_open = document.getElementById("win_open");
+            MYAPP.win_open.onclick = function(e){
+                MYAPP.subwindow = window.open("http://www.naver.com", "새창", "location=yes");
+                MYAPP.win_close.disabled = false;
+            };
+
+
+
+            // win_close 이벤트 핸들러 등록
+            MYAPP.win_close = document.getElementById("win_close");
+            MYAPP.win_close.onclick = function(e){
+                MYAPP.subwindow.close();
+                this.disabled = true;
+            };
+        };
+
+
+        //window.onload = function(event){
+        //    var al = document.getElementById('alert');
+        //    al.onclick = function(event){
+        //        window.alert('alert!');
+        //    }
+        //    var con = document.getElementById('confirm');
+        //    con.onclick = function(event){
+        //        window.confirm('페이지를 송신하겠습니까?');
+        //    }
+        //    var pro = document.getElementById('prompt');
+        //    pro.onclick = function(event){
+        //        window.prompt('입력하세요', '내용');
+        //    }
+        //    var open = document.getElementById('win_open');
+        //    open.onclick = function(event){
+
+
+//            }
+//        };
+</script>
+
 </head>
 
 <body>

@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript">
-        // 선언식 함수 정의 <== 비주류
+        // 선언식 함수 정의 어디에 있어도 작동
         function add1(a,b){
             return a+b;
         }
         var result = add1(1,3);
         console.log(result);
 
-        // 표현식 함수 정의 <==주류(이걸로사용)
+        // 표현식 함수 정의 사용되기전에 정의되지않으면 사용불가
         var add2 = function(a, b) {
             return a+b;
         }
