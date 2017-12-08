@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+        var CelebityID = function(id){
+            return {
+                getID: function(){return id;}
+                ,setID: function(theNewID){id = theNewID;}
+            }
+        }
+
+        var mjID = CelebityID(999);
+        var gid = mjID.getID();
+        console.log(gid);
+        mjID.setID(567);
+        var gid = mjID.getID();
+        console.log(gid);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
