@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    
+    <script type="text/javascript">
+      window.onload = function(){
+        var forms = document.getElementsByTagName("form");
+        forms[0].onsubmit = function(){
+          if(this.age.value === ''){
+            alert('나이를 입력하세요.');
+
+            // submit 이벤트 취소.
+            return false;
+          }
+
+          if(this.name.value === ''){
+            alert('이름을 입력하세요.')
+
+            return false;
+          }
+        };
+      }
+    </script>
 </head>
 <body>
     <h1> 태그는 자바스크립트 객체로 바뀐다 </h1>
@@ -13,7 +31,7 @@
           method="get">
         <label>나이: <input type="text" name="age" value=""  size="3"  />세 </label>
         <label>이름: <input type="text" name="name" value="" size="20" placeholder="이름을 입력하세요" /> </label>
-        <input type="submit" value="전송" />
+        <input type="submit" value="전송" /> <!-- submit 이벤트 발생 -->
     </form>
 </body>
 </html>

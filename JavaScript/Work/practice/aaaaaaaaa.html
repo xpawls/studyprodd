@@ -3,20 +3,27 @@
 <head>
     <title>연습</title>
     <script type="text/javascript">
+        var outer = function(x){
+            var a = 100;
+
+            return function(){
+                return ++x;
+            };
+        }
+
+        var x = 1;
+        var f = outer(x);
+        console.log(f());
+        console.log(f());
+        console.log(f());
+        console.log(f());
 
     </script>
 </head>
 <body>
-    <select>
-        <script type="text/javascript">
-            var aa = funtion(){
-                for (var i = 0; i < 20; i++) {
-                    return i;
-                }
-            }
+    <script type="text/javascript">
 
-        </script>
-        <option></option>
-    </select>
+    </script>
+    <select id="select"></select>
 </body>
 </html>
