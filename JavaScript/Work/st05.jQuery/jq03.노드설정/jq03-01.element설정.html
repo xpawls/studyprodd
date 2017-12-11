@@ -14,46 +14,41 @@
         .white  { background: white; cursor:pointer; }
         .gray   { background: gray;   }
     </style>
-    <script src='../jquery-3.1.1.js'></script>
-    <script>
-        $( document).ready( function (e) {
+    <script type="text/javascript" src="../jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#element_read ').click(function(event) {
+                alert($('.pclick').html()) ;
+            });
+            $('#element_create').click(function(event) {
+                $('#result_element').html('<img src="images/fish.png"/>');
+            });
+            $('#element_update').click(function(event) {
+                var str = $('.pclick').html();
+                $('#result_element').html(str);
+            });
+            $('#element_delete').click(function(event) {
+                //$('#result_element').html('');
+                $('#result_element').remove();
+            });
+            $('.text_read ').click(function(event) {
+                alert($(this).text());
+            });
+            $('.text_create').click(function(event) {
+                var plus = $(this).text()+' >추가';
+                $(this).text(plus);
+            });
+            $('.text_update').click(function(event) {
+                var up = $('.pclick').text();
+                $(this).text(up);
 
-            // element node CRUD
-            $('#element_read'  ).click( function(event) {
-                var tag = $('.pclick').html();
-                alert( tag );
             });
-            $('#element_create'   ).click( function (e) {
-                $('#result_element').html( '<img src="images/im1.jpg" />' );
-            });
-            $('#element_update'   ).click( function (e) {
-                var tag = $('.pclick').html();
-                $('#result_element').html(tag);
-            });
-            $('#element_delete'   ).click( function (e) {
-                //$('#result_element').remove();
-                $('#result_element').html('');
-            });
-
-            // text node CRUD
-            $('.text_read'  ).click( function(e) {
-                var text = $(this).text(); // $('.text_read'  ) == $(this)
-                alert( text );
-            });
-            $('.text_create').click( function (e) {
-                var text = $(this).text();
-                var newtext = text + ' > 추가';
-                $(this).text( newtext );
-            });
-            $('.text_update').click( function (e) {
-                var text = $('.pclick').text();
-                $(this).text( text );
-            });
-            $('.text_delete').click( function (e) {
+            $('.text_delete').click(function(event) {
                 $(this).text('');
             });
         });
     </script>
+
 </head>
 <body>
     <p class="pclick">
@@ -67,7 +62,10 @@
         <button id="element_create">태그 추가(C)</button>
         <button id="element_update">태그 수정(U)</button>
         <button id="element_delete">태그 삭제(D)</button>
-        <div id="result_element" class="gray"> element CRUD </div>
+        <div id="result_element" class="gray">
+            element CRUD
+
+        </div>
     </div>
     <hr>
 

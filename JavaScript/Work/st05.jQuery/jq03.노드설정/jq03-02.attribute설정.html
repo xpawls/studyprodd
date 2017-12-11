@@ -18,114 +18,78 @@
 
         .toggleStyle { background-color: red;   color:white;}
     </style>
-
-    <script src="../jquery-3.1.1.js"></script>
-    <script>
-        $(document).ready( function(event){
-
-            // element node CRUD
-            $('#attr_read').click( function() {
-                var src = $('#img1').attr('src');
-                $('#result_attr').text( src ? src : 'empty' );
+    <script type="text/javascript" src="../jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#attr_read ').click(function(event) {
+                var im = $('#img1').attr('src');
+                $('#result_attr').text(im);
             });
-            $('#attr_create').click( function() {
+            $('#attr_create').click(function(event) {
                 $('#img2').attr('src', 'images/im2.jpg');
             });
-            $('#attr_update').click( function() {
+            $('#attr_update').click(function(event) {
                 $('#img2').attr('src', 'images/im3.jpg');
             });
-            $('#attr_delete').click( function() {
-                $('#img2').attr('src', ' ');
+            $('#attr_delete').click(function(event) {
+                //$('#img2').removeAttr('src');
+                $('#img2').attr('src', '');
             });
 
-            // CSS style CRUD
-            $('#style_read').click( function() {
-                var st = $('#style').css('border');
-                $('#result_style').text( st  );
+            $('#style_read ').click(function(event) {
+                var sr = $('#style').css('background-color');
+                $('#result_style').text(sr);
             });
-            $('#style_create').click( function() {
-                $('#style').css('border', '3px solid blue');
-
-                var st = $('#style').css('border');
-                $('#result_style').text( st  );
+            $('#style_create').click(function(event) {
+                $('#style').css('border', '2px solid blue');
+                var sc = $('#style').css('border');
+                $('#result_style').text(sc);
             });
-            $('#style_update').click( function() {
-                $('#style').css('border', '3px dashed pink');
-
-                var st = $('#style').css('border');
-                $('#result_style').text( st  );
+            $('#style_update').click(function(event) {
+                $('#style').css('border', '2px dashed blue');
+                var su = $('#style').css('border');
+                $('#result_style').text(su);
             });
-            $('#style_delete').click( function() {
+            $('#style_delete').click(function(event) {
                 $('#style').css('border', '');
-
-                var st = $('#style').css('border');
-                $('#result_style').text( st  );
+                $('#result_style').text('');
             });
-
-            // CSS class CRUD
-            $("#class_read"       ).click( function(evnet){
-                var cl = $('#class').hasClass('white');
-                $('#result_class').text( cl );
+            $('#class_read    ').click(function(event) {
+                var cr = $('#class').hasClass('white');
+                $('#result_class').text(cr);
             });
-            $("#class_create"     ).click( function(evnet){
+            $('#class_create   ').click(function(event) {
                 $('#class').addClass('red');
-
-                var cl = $('#class').attr('class');
-                $('#result_class').text( cl );
+                var cc = $('#class').attr('class');
+                $('#result_class').text(cc);
             });
-            $("#class_update"     ).click( function(evnet){
-
+            $('#class_update   ').click(function(event) {
                 $('#class').removeClass('red').addClass('yellow');
-
-                var cl = $('#class').attr('class');
-                $('#result_class').text( cl );
+                var cu = $('#class').attr('class');
+                $('#result_class').html(cu);
             });
-            $("#class_delete_part").click( function(evnet){
-
-                $('#class').removeClass('yellow');
-
-                var cl = $('#class').attr('class');
-                $('#result_class').text( cl );
+            $('#class_delete_part').click(function(event) {
+                $('#class').removeClass('white');
+                var cd = $('#class').attr('class');
+                $('#result_class').html(cd);
             });
-            $("#class_delete_all" ).click( function(evnet){
-
+            $('#class_delete_all ').click(function(event) {
                 $('#class').removeClass();
-
-                var cl = $('#class').attr('class');
-                $('#result_class').text( cl );
+                var cda = $('#class').attr('class');
+                $('#result_class').html(cda);
             });
 
-            // toggleClass
-            $('p.yellow').click( function(evnt){
-                //$(this).toggleClass('toggleStyle');
-
-                if( $(this).hasClass('toggleStyle') ) {
-                    $(this).removeClass('toggleStyle');
-                }
-                else {
-                    $(this).addClass('toggleStyle');
-                }
+            $('p.yellow').click(function(event) {
+                $(this).toggleClass('red');
             });
 
-            // data- attribute CRUD
-            $('#data_read').click( function() {
-                var data = $('.pclick img').data('sw');
-                alert( data );
-            });
-            $('#data_create').click( function() {
-                var data = $('.pclick img').data('test', '추가값');
-                $('#result_data').text( data );
-            });
-            $('#data_update').click( function() {
-                var data = $('.pclick img').data('sw', '수정값');
-                $('#result_data').text( data );
-            });
-            $('#data_delete').click( function() {
-                var data = $('.pclick img').data('sw', '');
-                $('#result_data').text( data );
-            });
+            //$('#data_create ').click(function(event) { alert(); });
+            //$('#data_read ').click(function(event) { alert(); });
+            //$('#data_update ').click(function(event) { alert(); });
+            //$('#data_delete ').click(function(event) { alert(); });
         });
     </script>
+
 </head>
 <body>
 
