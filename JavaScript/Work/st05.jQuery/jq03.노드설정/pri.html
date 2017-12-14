@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <style>
-   		pre   { font-size:13pt;	}
+        pre   { font-size:13pt; }
         #panel { width: 600px; height: 400px; border: 1px solid #999; position: relative; }
         #fish { position: absolute; left: 250px; top: 150px; }
     </style>
@@ -11,7 +11,8 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
-            $('#btnStart').click(function(event) {
+
+            setInterval(function(){
                 var wi = $('#fish').width();
                 var hi = $('#fish').height();
 
@@ -21,8 +22,15 @@
                     'left': l,
                     'top': t
                 });
-
+            }, 700);
+            $('#dd').click(function(event) {
+                var i = Number($('input[name="score"]').val())+1;
+                var text = String(i);
+                $('input[name="score"]').val(text);
+                return false;
             });
+            var sco = $('input[name="score"]').val();
+            setTimeout(function(){alert('Your score is'+sco+'!!!!!');}, 7000);
         });
     </script>
 </head>
@@ -40,7 +48,11 @@
         클릭하면 물고기가 움직여요.
     </button>
     <div id="panel">
-        <img src="images/fish.png" id="fish">
+        <a href="" id="dd"><img src="images/fish.png" id="fish"></a>
+    </div>
+    <div>
+        <label>Score</label>
+        <input type="text" name="score" value="0"/>
     </div>
 
 </body>

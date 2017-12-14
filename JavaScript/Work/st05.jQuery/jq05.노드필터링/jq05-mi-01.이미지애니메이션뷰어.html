@@ -1,120 +1,109 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title></title>
-    <style>
-        body { font-size: 9pt; }
-        button { margin-top: 5px; padding: 5px; }
-        .panel { width: 840px; height: 415px; border: 1px solid #ccc; }
-        .nav { width: 840px; text-align: center; }
-    </style>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+  body { font-size: 9pt; }
+  button { margin-top: 5px; padding: 5px; }
+  .panel { width: 840px; height: 415px; border: 1px solid #ccc; }
+  .nav { width: 840px; text-align: center; }
+</style>
 
-    <script src="../jquery-3.1.1.js"></script>
-    <script>
-       /*
-        *   - 전역 변수 선언
-        *   - 이벤트 초기화
-        *   - 다음 이미지 출력
-        *   - 이전 이미지 출력
-        *   - autoPlay 기능 구현
-        *   - autoplay 기능 멈추기
-        *
-        */
+<script src="../jquery-3.2.1.js"></script>
+<script type="text/javascript">
+  var ii = [];
+  var play;
+  var leng;
+  var snum;
+  for (var i = 0; i < 60; i++) {
+    ii[i] = 'images/'+String(i+1)+'.jpg';
+  }
+      /*var func = function(){
+        var leng = $('#view').attr('src').length;
+        var snum;
+        if(leng===12){
+          snum = $('#view').attr('src').substr(-1-4,1);
+        } else {
+          snum = $('#view').attr('src').substr(-1-5,2);
+        }
+        var num = Number(snum);
+        if(num===60){
+          $('#view').attr('src', ii[0]);
+        } else {
+          $('#view').attr('src', ii[num]);
+        }
+      }*/
+      $(document).ready(function() {
+        $('#play').click(function(event) {
+          play = setInterval(function(){
+            leng = $('#view').attr('src').length;
+            snum;
+            if(leng===12){
+              snum = $('#view').attr('src').substr(-1-4,1);
+            } else {
+              snum = $('#view').attr('src').substr(-1-5,2);
+            }
+            var num = Number(snum);
+            if(num===60){
+              $('#view').attr('src', ii[0]);
+            } else {
+              $('#view').attr('src', ii[num]);
+            }
+          }, 100);
+        });
 
-       // 전역 변수 선언 부분
-       var MyApp = {
-           $view: null,
-           currentIndex: 1,
-           timerID: 0
-       };
+        $('#stop').click(function(event) {
+          clearInterval(play);
+        });
 
+        $('#prev').click(function(event) {
+          leng = $('#view').attr('src').length;
 
-       // index 번째 이미지 출력
-       MyApp.showImage = function (index) {
-           this.$view.attr("src", "./images/" + index + ".jpg");
-           this.currentIndex = index;
+          if(leng===12){
+            snum = $('#view').attr('src').substr(-1-4,1);
+          } else {
+            snum = $('#view').attr('src').substr(-1-5,2);
+          }
+          var num = Number(snum);
+          if(num===1){
+            $('#view').attr('src', ii[59]);
+          } else {
+            var minum = num-1;
+            $('#view').attr('src', ii[minum]);
+          }
+        });
 
-           // 테스트를 위해 index 값 출력
-           console.log(this.currentIndex);
-       };
+        $('#next').click(function(event) {
+          leng = $('#view').attr('src').length;
 
-       // 다음 이미지
-       MyApp.nextImage = function () {
-           var index = this.currentIndex + 1;
-           if (index >= 60)
-               index = 1;
-
-           this.showImage(index);
-       };
-
-       // 오토 플레이 실행
-       MyApp.startAutoPlay = function () {
-           if (this.timerID == 0) {
-
-               this.timerID = setInterval( function(){ MyApp.nextImage(); }, 100);
-           }
-       };
-
-       // 오토 플레이 멈춤
-       MyApp.stopAutoPlay = function () {
-           if (this.timerID != 0) {
-               clearInterval(this.timerID);
-               this.timerID = 0;
-           }
-       };
-
-       // 이전 이미지
-       MyApp.prevImage = function () {
-           var index = this.currentIndex - 1;
-           if (index <= 0)
-               index = 59;
-
-           this.showImage(index);
-
-       };
-
-       // 시작 부분
-       $(document).ready(function () {
-
-           // 전역 요소 초기화
-           MyApp.$view = $("#view");
-
-           // 오토 플레이 실행
-           $("#play").click(function () {
-               MyApp.startAutoPlay();
-           });
-
-           // 오토 플레이 멈춤
-           $("#stop").click(function () {
-               MyApp.stopAutoPlay();
-           });
-
-           // 다음 이미지
-           $("#next").click(function () {
-               MyApp.nextImage();
-           });
-
-           // 이전 이미지
-           $("#prev").click(function () {
-               MyApp.prevImage();
-           });
-       });
-
+          if(leng===12){
+            snum = $('#view').attr('src').substr(-1-4,1);
+          } else {
+            snum = $('#view').attr('src').substr(-1-5,2);
+          }
+          var num = Number(snum);
+          if(num===60){
+            $('#view').attr('src', ii[0]);
+          } else {
+            $('#view').attr('src', ii[num]);
+          }
+        });
+      });
     </script>
 
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="panel">
-        <img src="images/1.jpg" id="view">
+      <img src="images/1.jpg" id="view">
     </div>
     <div class="nav">
-        <button id="play">play</button>
-        <button id="stop">stop</button>
-        <button id="prev">prev</button>
-        <button id="next">next</button>
+      <button id="play">play</button>
+      <button id="stop">stop</button>
+      <button id="prev">prev</button>
+      <button id="next">next</button>
     </div>
-</body>
+  </body>
 
-</html>
+  </html>
