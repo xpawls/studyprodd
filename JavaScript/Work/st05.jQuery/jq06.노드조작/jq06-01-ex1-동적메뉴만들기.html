@@ -13,14 +13,63 @@
     <script src="../jquery-3.2.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            var selec = '';
+            var selpre = '';
+            var selnex = '';
+            var mname;
+            $('ul.menu').on("click","li",function(e){
+                $('ul.menu li').removeClass('select');
+                $(this).addClass('select');
+                selec = $(this);
+                $('#menuName').val(selec.text());
+            });
             $('#add ').click(function(event) {
                 var text = $('#menuName').val();
-                $('.menu').append('<li>'+text+'</li>');
+                if ($('#menuName').val()==='') {
+                    false;
+                } else if(selec.length!==0) {
+                    selec.after('<li>'+text+'</li>');
+                }
+                 else {
+                    $('.menu').prepend('<li>'+text+'</li>');
+                    $('#menuName').val('');
+                }
+
             });
-            $('#update').click(function(event) {});
-            $('#remove').click(function(event) {});
-            $('#up ').click(function(event) {});
-            $('#down').click(function(event) {});
+            $('#update').click(function(event) {
+
+                mname = $('#menuName').val();
+                if($('#menuName').val()===''){
+                    false;
+                }
+                else {
+                    selec.text(mname);
+                }
+                $('#menuName').val('');
+            });
+            $('#remove').click(function(event) {
+
+                selec.remove();
+
+                $('#menuName').val('');
+            });
+            $('#up ').click(function(event) {
+                if(selec.index()===0){
+                    false;
+                }
+                else {
+                    selec.prev().before(selec);
+                }
+
+            });
+            $('#down').click(function(event) {
+                if(selec.index()===selec.parent().children().length-1){
+                    false;
+                }
+                else {
+                    selec.next().after(selec);
+                }
+            });
         });
     </script>
 

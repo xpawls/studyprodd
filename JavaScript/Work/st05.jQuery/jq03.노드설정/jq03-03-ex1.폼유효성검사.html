@@ -17,6 +17,7 @@
             } else {
                 $('label[name="userId"]').text('');
             }
+
             if ($('#userName').val()==='') {
                 $('label[name="userName"]').text('이름을 입력하시오');
                 $('#userName').focus();
@@ -24,6 +25,7 @@
             } else {
                 $('label[name="userName"]').text('');
             }
+
             if ($('#pwd').val()==='') {
                 $('label[name="pwd"]').text('암호를 입력하시오');
                 $('#pwd').focus();
@@ -31,6 +33,7 @@
             } else {
                 $('label[name="pwd"]').text('');
             }
+
             if ($('#pwdConfirm').val()==='') {
                 $('label[name="pwdConfirm"]').text('암호 확인을 입력하시오');
                 $('#pwdConfirm').focus();
@@ -38,6 +41,7 @@
             } else {
                 $('label[name="pwdConfirm"]').text('');
             }
+
             if ($('#pwd').val()!==$('#pwdConfirm').val()) {
                 $('label[name="pwd"]').text('암호 확인과 암호가 다릅니다!');
                 $('#pwd').val('');
@@ -49,6 +53,7 @@
 
             return true;
         };
+
         $(document).ready(function() {
             $('#regBtn').click(function(event) {
                 var r = fu.med();
@@ -59,7 +64,8 @@
                 }
             });
             $('#iniBtn').click(function(event) {
-                $('div>input').val('');
+                //$('div>input').val('');
+                $('form[name="fm"]').reset();
             });
         });
     </script>

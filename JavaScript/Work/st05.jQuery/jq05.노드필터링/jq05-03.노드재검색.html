@@ -9,9 +9,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#filter ').click(function(event) {
-                $('li').filter(function(index) {
-                    return index >= 4;
-                }).css('border', 'red 2px solid');;
+                $('div>ul>li').filter(':gt(1)').css('border', 'red 2px solid');
             });
             $('#children').click(function(event) {
                 $('div>ul').children('li').css('border', 'red 2px solid');
