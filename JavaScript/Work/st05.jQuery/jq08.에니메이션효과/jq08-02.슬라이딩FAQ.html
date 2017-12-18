@@ -66,18 +66,16 @@
         dd *:first-child { margin-top: 0; padding-top: 0; }
     </style>
 
-	<script src="../jquery-3.1.1.js"></script>
-	<script>
-	    $(document).ready( function(e) {
-	        $('dd').hide();
+	<script src="../jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('dd').hide();
+            $('dt').click(function(event) {
+                $(this).next('dd').slideToggle(1000);
+            });
+        });
+    </script>
 
-	        $('dt').click( function(e) {
-
-	            // 자기 자신을 보이게 한다..
-	            $(this).next().stop().slideToggle(2000);
-	        });
-	    });
-	</script>
 </head>
 <body>
 

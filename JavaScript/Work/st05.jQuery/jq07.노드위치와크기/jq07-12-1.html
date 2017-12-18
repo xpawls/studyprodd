@@ -1,33 +1,17 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <title>Infinity Scroll</title>
     <script type="text/javascript" src="../jquery-3.2.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            var count = 0;
-            $('button').click(function(event) {
-                for (var i = 0; i < 20; i++) {
-                    $('div').append('<h1>infinity scroll #'+count+ '</h1>');
-                    count++;
-                }
-            });
 
-            $(window).scroll(function(event) {
-                var dh = $(document).height()-$(window).scrollTop()-$(window).height();
-                if (dh<20) {
-                    for (var i = 0; i < 20; i++) {
-                        $('div').append('<h1>infinity scroll #'+count+ '</h1>');
-                        count++;
-                    }
-                }
-            });
         });
     </script>
 
 </head>
 <body>
-    <button>클릭하면 &lt;h1&gt;infinity scroll&lt;h1&gt; 를 20개 추가하시오.</button>
+
     <div>
         <h1>infinity scroll </h1>
         <h1>infinity scroll </h1>

@@ -4,55 +4,41 @@
     <meta charset="UTF-8">
     <title>sample2</title>
     <style>
-        *{ margin:0; padding:0; border:0; }
-        body{ background:#252422; }
-        dl{ width:800px; margin:50px auto; }
-        dt{ line-height:35px; font-size:large; text-indent:3em; font-weight:bold; color:white; height:35px; background:url("images/background.jpg") }
-        dt.over{ background:url("images/background-over.jpg"); cursor:pointer; }
-        dt.selected{ background:url("images/background_selected.jpg"); cursor:default; color:black; }
-        dd{ height:300px; background:#D4D0C8; }
-        dd p{ text-indent:1em; padding:20px; }
-    </style>
+    *{ margin:0; padding:0; border:0; }
+    body{ background:#252422; }
+    dl{ width:800px; margin:50px auto; }
+    dt{ line-height:35px; font-size:large; text-indent:3em; font-weight:bold; color:white; height:35px; background:url("images/background.jpg") }
+    dt.over{ background:url("images/background-over.jpg"); cursor:pointer; }
+    dt.selected{ background:url("images/background_selected.jpg"); cursor:default; color:black; }
+    dd{ height:300px; background:#D4D0C8; }
+    dd p{ text-indent:1em; padding:20px; }
+</style>
 
-    <script src="../jquery-3.1.1.js"></script>
-    <script>
-        $(document).ready(function (e) {
-
-            $('dd').hide();
-            $('dt:first').addClass('selected');
-            $('dd:first').show();
-
-            $('dl > dt').click( function (e) {
-                // 'selected' 를 지운다.
-                // removeClass() 메서드 사용.
-                $('dt').removeClass('selected');
-
-                // click 된 dt, 자기자신에게 selected 를 적용한다.
-                // addClass() 메서드 사용
-                $(this).addClass('selected');
-
-                var youngbrother = $(this).next();
-                youngbrother.siblings('dd').hide();
-
-                if( youngbrother.css('display') === 'none' ){ // 감추어진 상태
-                    youngbrother.slideDown(1000);
-                    $(this).addClass('selected');
-                }
-                else { // 보여지는 상태
-                    youngbrother.slideUp(1000);
-                    $(this).removeClass('selected');
-                }
-            })
-            .mouseover( function (e) {
-                // over 클래스 추가
-                $(this).addClass('over');
-            })
-            .mouseout( function (e) {
-                // over 클래스 삭제
-                $(this).removeClass('over');
-            });
+<script src="../jquery-3.2.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('dd').hide();
+        $('dt').removeClass('over');
+        $('dt').hover(function() {
+            $(this).addClass('over');
+        }, function() {
+            $('dt').removeClass('over');
         });
-    </script>
+        $('dt').click(function(event) {
+            if($(this).hasClass('selected')){
+                $(this).next('dd').slideUp();
+                $(this).removeClass('selected');
+            } else {
+                $('dd').slideUp();
+                $('dt').removeClass('selected');
+                $(this).addClass('selected');
+                $(this).next('dd').slideToggle();
+            }
+
+        });
+    });
+
+</script>
 </head>
 <body>
     <dl>

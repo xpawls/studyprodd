@@ -2,23 +2,68 @@
 <html>
 <head>
     <title></title>
+    <style type="text/css">
+        #map>li {display: inline-block; background-color: skyblue;
+             border-left: 1px solid white; border-right:1px solid white; color: white; width: 80px; height: 20px;
+             text-align: center;
+         }
+        #map { border: 2px solid skyblue; background-color: skyblue; }
+        #leftbar { background-color: lightgreen; float: left; width: 100px; height: 200px; color: white;  }
+        #leftbar>ul { list-style: none; }
+        table.board { width: 80%; text-align: center; }
+        th.board>li:eq(0) { width: 30px; }
+    </style>
+    <script type="text/javascript" src="../jquery-3.2.1.js"></script>
     <script type="text/javascript">
-        var CelebityID = function(id){
-            return {
-                getID: function(){return id;}
-                ,setID: function(theNewID){id = theNewID;}
-            }
-        }
 
-        var mjID = CelebityID(999);
-        var gid = mjID.getID();
-        console.log(gid);
-        mjID.setID(567);
-        var gid = mjID.getID();
-        console.log(gid);
     </script>
 </head>
+<header>
+    <div id="header">
+        <ul id="map">
+            <li>메인</li>
+            <li>게시판</li>
+            <li>다운로드</li>
+            <li>이미지</li>
+            <li>도움말</li>
+            <li>F&Q</li>
+            <li>로그인</li>
+        </ul>
+    </div>
+</header>
 <body>
+    <nav id="leftbar">
+        <ul>
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+            <li>four</li>
+            <li>five</li>
+            <li>six</li>
+        </ul>
+    </nav>
+    <section>
+        <table border="1" class="board">
+            <thead class="board">
+                <tr>
+                    <td>no.</td>
+                    <td>항목</td>
+                    <td>제목</td>
+                    <td>작성자</td>
+                    <td>날짜</td>
+                </tr>
+            </thead>
+            <tbody class="board">
+                <tr>
+                    <td>1</td>
+                    <td>정보</td>
+                    <td>연습연습연습</td>
+                    <td>테스터</td>
+                    <td>17.01.01</td>
+                </tr>
+            </tbody>
 
+        </table>
+    </section>
 </body>
 </html>

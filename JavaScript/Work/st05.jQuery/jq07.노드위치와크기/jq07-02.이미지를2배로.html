@@ -6,22 +6,28 @@
     <style>
         img{  width: 140px; height: 120px; }
     </style>
-    <script src="../jquery-3.1.1.js"></script>
-    <script>
-        $(document).ready( function(e) {
+    <script src="../jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('img').click(function(event) {
+                // 그림의 width 가져오기
+                var w = $(this).width();
+                // 그림의 height 가져오기
+                var h = $(this).height();
 
-            $('img').click( function(e){
-                var width  = $(this).width();
-                var height = $(this).height();
+                // 그림의 width, height 설정
+                $(this).width(w*2);
+                $(this).height(h*2);
 
-                $(this).width( width * 2 );
-                $(this).height( height * 2 );
+                // style을 이용한 width, height 설정
+                $(this).css({
+                    width: w*2,
+                    height: h*2
+                });
 
-                //$(this).css( {'width':width * 2 , 'height': height * 2 } );
             });
         });
     </script>
-
 </head>
 <body>
    <img src="images/im1.jpg" />
