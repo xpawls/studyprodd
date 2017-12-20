@@ -15,24 +15,24 @@
 	</style>
 
     <script src="../jquery-3.1.1.js"></script>
-	<script>
-	    $(document).ready(function(event){
-	        $('.panel > li').hide();
-	        $('.panel > li:first').show();
-
-	        $('a').click( function (event) {
-	            $('.panel > li').hide();
-
-	            var $href = $(this).attr('href');
-	            $( $href ).show();
-
-	            $('.tab a').removeClass('selected');
-	            $(this).addClass('selected');
-
-	            return false;
-	        });
-	    });
-	</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('ul.panel>li').hide();
+            $('#tab1').show();
+            $('ul.tab>li>a').click(function(event) {
+                if ($(this).hasClass('selected')) {
+                    false;
+                }
+                else {
+                    $('ul.tab>li>a').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('ul.panel>li').hide();
+                    var hre = $(this).attr('href');
+                    $(hre).show();
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 <div id="container">

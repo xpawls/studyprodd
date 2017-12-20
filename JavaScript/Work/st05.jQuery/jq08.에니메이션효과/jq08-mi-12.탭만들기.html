@@ -9,22 +9,19 @@
         #tabs li a { display: block; padding: 2px 5px; border: 2px solid #ccc; border-bottom: 0 none; text-align: center; }
         .tab-section { background:#fff; padding: 10px; border: 2px solid #ccc; }
         #tabs li a.current { background: #fff; color: #000; border-bottom: 2px solid #fff; }
+
+        a:visited { color: blue; }
+        a:active { color: red; }
     </style>
     <script src="../jquery-3.1.1.js"></script>
-    <script>
-        $(document).ready( function(e) {
-
-            $('.tab-section').hide();
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('div.tab-section').hide();
             $('#description').show();
-
-            $('#tabs > li').click( function (e) {
-
-                var href = $(this).children('a').attr('href');
-
-                $('.tab-section').hide();
-                $( href ).show();
-
-                return false;
+            $('#tabs>li>a').click(function(event) {
+                $('div.tab-section').hide();
+                var selec = $(this).attr('href');
+                $(selec).show();
             });
         });
     </script>

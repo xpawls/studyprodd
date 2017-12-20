@@ -24,6 +24,7 @@
 
         .leftbtn { margin-top:10px; }
         .rightbtn { margin-left:290px;margin-top:10px; }
+        .yellow { background-color: yellow; }
     </style>
 
     <script src="../jquery-3.2.1.js"><!-- jquery 임포트 --></script>
@@ -45,48 +46,83 @@
 
             $('span.easing:eq(0)').click(function(event) {
                 sele = $('select>option:selected').text();
-                $('p.easing').show({
-                    duration : 2000
-                    ,easing : sele
-                });
+                $('p.easing').show(2000, sele, function(){
+                        $(this).addClass('yellow')
+                    });
             });
             $('span.easing:eq(1)').click(function(event) {
                 sele = $('select>option:selected').text();
-                $('p.easing').hide({
-                    duration : 2000
-                    ,easing : sele
-                });
+                $('p.easing').hide(2000, sele, function(){
+                        $(this).removeClass('yellow')
+                    });
             });
             $('span.easing:eq(2)').click(function(event) {
                 sele = $('select>option:selected').text();
-                $('p.easing').toggle({
+                var params = {
                     duration : 2000
-                    ,easing : sele
-                });
+                    , easing : $('select>option:selected').text()
+                    , complete : function(){
+                        var tags = $('p.easing');
+                        if ($(tags).hasClass('yellow')) {
+                            $(tags).removeClass('yellow')
+                        }
+                        else {
+                            $(tags).addClass('yellow')
+                        }
+                    }
+                }
+                $('p.easing').toggle(params);
             });
 
             $('span.slide:eq(0)').click(function(event) {
-                $('div.slide').slideUp();
+                sele = $('select>option:selected').text();
+                $('div.slide').slideUp(1000,sele);
             });
             $('span.slide:eq(1)').click(function(event) {
-                $('div.slide').slideDown();
+                sele = $('select>option:selected').text();
+                $('div.slide').slideDown(1000,sele);
             });
             $('span.slide:eq(2)').click(function(event) {
-                $('div.slide').slideToggle();
+                sele = $('select>option:selected').text();
+                $('div.slide').slideToggle(1000,sele);
             });
 
             $('span.fade:eq(0)').click(function(event) {
-                $('div.fade').fadeIn();
+                sele = $('select>option:selected').text();
+                $('div.fade').fadeIn(1000,sele,function(){
+                    $('p.fade').show();
+                });
             });
             $('span.fade:eq(1)').click(function(event) {
-                $('div.fade').fadeOut();
+                sele = $('select>option:selected').text();
+                $('div.fade').fadeOut(1000,sele,function(){
+                    $('p.fade').hide();
+                });
             });
             $('span.fade:eq(2)').click(function(event) {
-                $('div.fade').fadeToggle();
+                sele = $('select>option:selected').text();
+                $('div.fade').fadeToggle(1000,sele, function(){
+                    $('p.fade').toggle();
+                });
             });
 
-            $('span.fade:eq(2)').click(function(event) {
-                $('div.fade').fadeTo(1000,0.5);
+            $('span.fade:eq(3)').click(function(event) {
+                var opacity = $('div.fade').css('opacity');
+                if (opacity === '0.5') {
+                    $('div.fade').fadeTo(1000,0);
+                } else {
+                    $('div.fade').fadeTo(1000,0.5);
+                }
+
+            });
+
+            $('.leftbtn').click(function(event) {
+                $('#leftimage').animate({width: 0});
+                $('#rightimage').animate({width: 200});
+            });
+            $('.rightbtn').click(function(event) {
+                $('#leftimage').animate({width: 200});
+                $('#rightimage').animate({width: 0});
             });
         });
     </script>
@@ -173,7 +209,7 @@
     <span class="fade"> fadeTo()     </span>
     <br>
 
-    <p>
+    <p class="fade">
         불투명도를 점점 높여서 보이도록 한다.
         speed를 fast, normal, slow 또는 0이상의 숫자(밀리세컨드 단위)를 준다.
         에니메이션이 끝난 후에 실행할 함수를 지정한다.
@@ -182,7 +218,7 @@
         <p class="fade">S U C C E S S !!!</p>
     </div>
     <hr>
-<!--
+
     <h2>사용자 효과</h2>
     <div style="float:left;">
         <div id="direction">
@@ -196,6 +232,6 @@
             </div>
         </div>
     </div>
-    -->
+
 </body>
 </html>
