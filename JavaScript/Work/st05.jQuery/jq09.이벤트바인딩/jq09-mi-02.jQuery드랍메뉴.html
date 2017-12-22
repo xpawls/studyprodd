@@ -24,13 +24,13 @@
     </style>
 
 
-    <script src="../jquery-3.1.1.js"></script>
-    <script>
-        $(document).ready(function (e) {
-            $('ul.menu li').mouseover( function(e){
-                $(this).children('ul').show();
-            }).mouseout( function(e){
-                $(this).children('ul').hide();
+    <script src="../jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.menu li').on('mouseover', function(event) {
+                $(this).children('.sub').show();
+            }).on('mouseout', function(event) {
+                $(this).children('.sub').hide();
             });
         });
     </script>

@@ -32,75 +32,60 @@ http://stackoverflow.com/questions/5603117/jquery-create-object-from-form-fields
         .bar { width: 1px; height: 16px; background-position: 100% -18px; vertical-align: top; overflow: hidden }
 
     </style>
-    <script src="../jquery-3.1.1.js"></script>
-    <script>
-        /*
-         검색조건: jquery form filed object
-         http://stackoverflow.com/questions/5603117/jquery-create-object-from-form-fields
-         사용법:  var obj = serializeJSON( $(form).serializeArray() );
-         */
+    <script src="../jquery-3.2.1.js"></script>
+    <script type="text/javascript">
         var serializeJSON = function (arr) {
-
             // var arr = $(form).serializeArray();
             var obj = {};
-
             for(var i = 0; i < arr.length; i++) {
-                if(obj[arr[i].name] === undefined) {
-                    obj[arr[i].name] = arr[i].value;
-                } else {
-                    if(!(obj[arr[i].name] instanceof Array)) {
-                        obj[arr[i].name] = [obj[arr[i].name]];
-                    }
-                    obj[arr[i].name].push(arr[i].value);
-                }
+            if(obj[arr[i].name] === undefined) {
+            obj[arr[i].name] = arr[i].value;
+            } else {
+            if(!(obj[arr[i].name] instanceof Array)) {
+            obj[arr[i].name] = [obj[arr[i].name]];
+            }
+            obj[arr[i].name].push(arr[i].value);
+            }
             }
             return obj;
         };
+        $(document).ready(function() {
 
-        $(document).ready(function(e){
-            $('#submit').click( function(e){
-                // input 태그의 name 속성과 value 속성을이용해서 객체 만들기
-                var form_data = serializeJSON(  $('form').serializeArray()  );
-	            console.log(form_data);
+            // 1. ajax로 데이터 받아오기
+            $('#submit').click(function(event) {
+                var form_data = serializeJSON($('form').serializeArray());
 
-	            // 객체를 문자열로 출력.
-	            var str = JSON.stringify(form_data);
-	            $('#result').html( str );
-
-	            // ajax 로 호출. http://localhost:3000/login
+                var str = JSON.stringify(form_data);
+                $('#result').html(str);
                 $.ajax({
-                    url : 'http://localhost:3000/login',
-                    data: form_data,    // 사용하는 경우에는 { data1:'test1', data2:'test2' }
-                    type: 'post',       // get, post
-                    timeout: 30000,    // 30초
-                    dataType: 'json',  // text, html, xml, json, jsonp, script
+                    url : 'http://localhost:3000/login',        // 호출되는 서버 주소.
+                    data: form_data,        // 서버로 보내는 데이터. 사용하는 경우에는 { data1:'test1', data2:'test2' }
+                    type: 'post',       // request method : get, post
+                    timeout: 30000,    // 최대 대기 시간: 30초 30초 이상이 되면 fail()부분이 실행됨.
+                    dataType: 'json',  // response 데이터 형태: text, html, xml, json, jsonp, script
                     beforeSend : function() {
-                        // 통신이 시작되기 전에 이 함수를 타게 된다.
-                        $('#result').after('<img src="loading.gif" />');
+                        // 통신이 시작되기 전에 이 함수를 타게 된다. 화면에 시계 표출.
                     }
                 }).done( function(data, textStatus, xhr ){
                     // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
-                    var str = '';
-                    $('div.login').hide();
-                    $('div.profile').show();
-                    $('#user_name').text( data.username );
-	           }).fail( function(xhr, textStatus, error ) {
-	               // 통신이 실패했을 때 이 함수를 타게 된다.
-	               var msg ='';
-	               msg += "code:"    + xhr.status         + "\n";
-	               msg += "message:" + xhr.responseText   + "\n";
-	               msg += "status:"  + textStatus         + "\n";
-	               msg += "error  : "+ error              + "\n";
-	               console.log(msg);
-	           }).always( function(data, textStatus, xhr ) {
-                    // 통신이 실패했어도 성공했어도 이 함수를 타게 된다.
-                    $('#result').next().remove();
-	           });
+                    console.log(data);
+                    $('#user_name').text(String(data.username));
+                    $('.profile').show();
+                }).fail( function(xhr, textStatus, error ) {
+                    // 통신이 실패했을 때 이 함수를 타게 된다.
+                    console.log(error);
+                }).always( function(data, textStatus, xhr ) {
+                    // 통신이 실패했어도 성공했어도 이 함수를 타게 된다. 표출된 시계 감추기.
+                });
+            });
 
-	           return false;
-	      });
-	    });
+            // 2. done 안에서
+            //  2.1. div.login 감추기 혹은 지우기.
+            //  2.2. div.profile 보이기.
+            //  2.3. ??? 를 서버에서 받아온 username 값으로 바꾸시오.
+        });
     </script>
+
 </head>
 <body>
 

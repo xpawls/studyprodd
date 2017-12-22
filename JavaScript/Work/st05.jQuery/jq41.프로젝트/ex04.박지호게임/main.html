@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>강을 건너자!</title>
+    <style type="text/css">
+       body{ margin: 0 auto; padding: 0; }
+
+       div.gamewrap { margin: 0 0; position: relative;
+        width: 800px; height: 600px; background: lightskyblue;
+        }
+       .ground1 { width: 300px; height: 300px; background-color: rgb(255,170,85);
+             border-radius: 0 0 0 300px; display: inline-block; position: relative;
+             float: right;
+            }
+       .ground2 { width: 300px; height: 300px; background-color: rgb(255,170,85);
+             border-radius: 0 300px 0 0 ; display: inline-block;
+             float: left; position: relative; top: 300px;
+            }
+       #boatArea { width:220px; height:80px; position: absolute;
+              left: 225px; top: 320px; z-index: 6;
+           }
+       .boat { width:200px; height:60px;
+             position: relative; left: 10px; top: 10px; z-index: 5;
+           }
+       .char{ width:60px; height:60px; display: inline-block;
+             position: absolute; z-index: 10;
+           }
+
+       #rulbtn { position: absolute; top: 30px;left: 10px; display: inline-block;
+              width: auto; height: 40px;
+           }
+       #rulexp { width: 600px; height: 350px; background-color: rgb(210,245,210);
+             border: solid 3px white;
+             position: absolute; top: 100px; left: 100px; z-index: 100;
+             border-radius: 80px; vertical-align: middle;}
+       #rulexp p { display: block; text-align: left; margin-left: 20px;}
+       .char#lion1 { left: 10px; top: 100px; }
+       .char#lion2 { left: 80px; top: 100px; }
+       .char#lion3 { left: 150px; top: 100px; }
+       .char#rab1 { left: 10px; top: 170px; }
+       .char#rab2 { left: 80px; top: 170px; }
+       .char#rab3 { left: 150px; top: 170px; }
+
+       .title h1{
+        margin : 0 0;
+        font-family: 'Bad Script';
+        background-color: black;
+        width: 800px;
+        height: 50px;
+        color: white;
+        text-align: center;
+       }
+    </style>
+</head>
+<body>
+    <span class="title">
+        <h1>강 건너기 게임</h1>
+    </span>
+
+    <div class="gamewrap">
+        <button id="rulbtn">게임 룰 설명</button>
+        <div id="rulexp">
+            <br><br><br>
+            <p>
+            1. 사자 3마리, 토끼 3마리가 강을 건너려고 한다.
+            </p>
+            <p>
+            2. 섬의 어느 쪽이든 토끼보다 사자의 수가 많으면 사자는 토끼를 잡아 먹는다.
+            </p>
+            <p>
+            3. 토끼가 사자의 수와 같거나 많으면 사자는 잡아 먹지 않는다.
+            </p>
+            <p>
+            4. 한번에 배에 탈 수 있는 수는 2마리.
+            </p>
+            <p>
+            5. 모든 동물이 무사히 강을 건널 수 있도록..
+            </p>
+        </div>
+
+        <div id="boatArea">
+          <img class="boat" src="boat.png">
+        </div>
+
+        <div class="ground1">
+
+        </div>
+
+        <div class="ground2">
+
+            <img class="char" id="lion1" src="lion.jpg">
+            <img class="char" id="lion2" src="lion.jpg">
+            <img class="char" id="lion3" src="lion.jpg">
+            <img class="char" id="rab1" src="rabbit.jpg">
+            <img class="char" id="rab2" src="rabbit.jpg">
+            <img class="char" id="rab3" src="rabbit.jpg">
+
+        </div>
+
+
+
+    </div>
+</body>
+    <script src="../../jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+</html>

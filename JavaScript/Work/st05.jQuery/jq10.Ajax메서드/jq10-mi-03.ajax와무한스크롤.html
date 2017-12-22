@@ -22,88 +22,115 @@
 		#bbs_content{width:90%; height:150px; overflow:hidden; outline:1px #dad3d3 solid; margin:0 auto;}
 		.liner {position:absolute; bottom:0; height:35px; background-color:#efebdb; width:100%; border-top:1px black solid;}
 	</style>
-    <script src="../jquery-3.1.1.js"></script>
-    <script src="../jquery.loadTemplate-1.4.4.js"></script>
-    <script>
-        var MYAPP = { count: 0, current:0, paging:10, callAjax : false };
+    <script type="text/javascript" src="../jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        var s = 0;
+        var e = 10;
+        $(document).ready(function() {
 
-        MYAPP.appendText = function () {
 
-            // ajax 호출 : http://localhost:3000/board?start=10&end=20
-            $.ajax({
-                url : 'http://localhost:3000/board',
-                data: { start:MYAPP.current, end:MYAPP.current+MYAPP.paging }, // 사용하는 경우에는 { data1:'test1', data2:'test2' }
-                type: 'get', // get, post
-                timeout: 30000, // 30초
-                dataType: 'json', // text, html, xml, json, jsonp, script
+            var aja = function(s,e){$.ajax({
+                url : 'http://localhost:3000/board',        // 호출되는 서버 주소.
+                data: {'start':s,'end':e},        // 서버로 보내는 데이터. 사용하는 경우에는 { data1:'test1', data2:'test2' }
+                type: 'get',       // request method : get, post
+                timeout: 30000,    // 최대 대기 시간: 30초 30초 이상이 되면 fail()부분이 실행됨.
+                dataType: 'json',  // response 데이터 형태: text, html, xml, json, jsonp, script
                 beforeSend : function() {
-                    // 통신이 시작되기 전에 이 함수를 타게 된다.
-                    $('#posts-container').after('<img src="loading.gif" />');
+                    // 통신이 시작되기 전에 이 함수를 타게 된다. 화면에 시계 표출.
                 }
             }).done( function(data, textStatus, xhr ){
-
                 // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
-                $("#posts-container").append( $('<div/>').loadTemplate($("#template"), data) );
+                var item = data;
 
-                MYAPP.current = MYAPP.current + MYAPP.paging + 1;
+                for (var i = 0; i <item.length; i++) {
+
+                    var clone = $('body>.wrap').clone();
+
+                    $(clone).find('[data-content="no"]').text(item[i].no);
+                    $(clone).find('[data-content="writer"]').text(item[i].writer);
+                    $(clone).find('[data-content="title"]').text(item[i].title);
+                    $(clone).find('[data-content="content"]').text(item[i].content);
+
+                    $('#posts-container').append(clone);
+                }
             }).fail( function(xhr, textStatus, error ) {
                 // 통신이 실패했을 때 이 함수를 타게 된다.
-                var msg ='';
-                msg += "code:"    + xhr.status       + "\n";
-                msg += "message:" + xhr.responseText + "\n";
-                msg += "status:"  + textStatus       + "\n";
-                msg += "error : " + error            + "\n";
-                alert( msg );
-                console.log(msg);
+                console.log(error);
             }).always( function(data, textStatus, xhr ) {
-                // 통신이 실패했어도 성공했어도 이 함수를 타게 된다.
-                $('#posts-container').next().remove();
-                MYAPP.callAjax = false;
-            });
+                // 통신이 실패했어도 성공했어도 이 함수를 타게 된다. 표출된 시계 감추기.
+            });};
 
+            aja(s,e);
 
-        };
-
-        $(document).ready( function(e) {
-
-            MYAPP.appendText();
-
-            $(window).scroll( function(e){
-                var scrollHeight = $(window).scrollTop() + window.innerHeight;
-                var documentHeight = $(document).height();
-
-                var diff = documentHeight - scrollHeight ;
-
-                if( Math.abs(diff) <= 10 && MYAPP.callAjax === false ) {
-
-                    MYAPP.callAjax = true;
-                    MYAPP.appendText();
+            $(window).scroll(function(event) {
+                var dh = $(document).height()-$(window).scrollTop()-$(window).height();
+                if (dh<20) {
+                    s = e+1;
+                    e = e+20;
+                    aja(s,e);
                 }
             });
+
         });
     </script>
-
-
-
 </head>
 <body>
 
+    <div>
+        <xmp>
+서버 주소:
+http://localhost:3000/board?start=0&end=10
+http://localhost:3000/board?start=20&end=0
+
+서버 받환값 형태:
+[
+    {no:  0, title: "title 00000000", writer: "7wOFG",…},
+    {no:  1, title: "title 00000001", writer: "qN8HF",…},
+    {no:  2, title: "title 00000002", writer: "GjkAb",…},
+    {no:  3, title: "title 00000003", writer: "v2QpP",…},
+    {no:  4, title: "title 00000004", writer: "LWoYY",…},
+    {no:  5, title: "title 00000005", writer: "8c5SM",…},
+    {no:  6, title: "title 00000006", writer: "00dMN",…},
+    {no:  7, title: "title 00000007", writer: "H0riL",…},
+    {no:  8, title: "title 00000008", writer: "DN8cf",…},
+    {no:  9, title: "title 00000009", writer: "AKVsY",…},
+    {no: 10, title: "title 00000010", writer: "CQtor",…}
+]
+
+1. 페이지의 스크롤이 바닥 근처에 도착하면
+    1.1 ajax로 데이터를 서버로에서 가져와
+    1.2 div.posts-container의 자식으로 데이터를 추가하시오.
+    1.3 아래 코드를 반복되는 템플릿으로 사용
+            <div class="wrap">
+                <div class="bbsbox">
+                    <div class="box_top">
+                        <div data-content="no"></div>
+                        <div data-content="writer"></div>
+                    </div>
+                    <div class="box_btm">
+                        <div data-content="title"></div>
+                        <spna data-content="content"></spna>
+                    </div>
+                    <div class="liner"></div>
+                </div>
+            </div>
+        </xmp>
+    </div>
+
     <!-- 템플릿 생성 -->
-	<script type="text/html" id="template">
-    	<div class="wrap">
-    		<div class="bbsbox">
-    			<div class="box_top">
-    				<div data-content="no"></div>
-    				<div data-content="writer"></div>
-    			</div>
-    			<div class="box_btm">
-    				<div data-content="title"></div>
-    				<spna data-content="content"></spna>
-    			</div>
-    			<div class="liner"></div>
-    		</div>
-    	</div>
-	</script>
+    <div class="wrap">
+        <div class="bbsbox">
+            <div class="box_top">
+                <div data-content="no"></div>
+                <div data-content="writer"></div>
+            </div>
+            <div class="box_btm">
+                <div data-content="title"></div>
+                <spna data-content="content"></spna>
+            </div>
+            <div class="liner"></div>
+        </div>
+    </div>
 
     <!-- 템플릿이 들어갈 컨테이너 생성 -->
 	<div id="posts-container">
