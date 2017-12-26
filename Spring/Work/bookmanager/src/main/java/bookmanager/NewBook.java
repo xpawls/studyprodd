@@ -1,0 +1,156 @@
+package bookmanager;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+
+public class NewBook extends JFrame {
+    private static java.sql.Connection conn = null;
+    private JPanel contentPane;
+    private JTextField textInBookname;
+    private JTextField textInPubli;
+    private JTextField textInAuthor;
+    private JTextField textInPrice;
+    private MainBookMg mianbook = new MainBookMg();
+    private PreparedStatement stmt;
+    private bookmanager.model.ModelBook ModelBook;
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    NewBook frame = new NewBook();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    
+    /**
+     * Create the frame.
+     */
+    public NewBook() {
+        setTitle("책 등록");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 269, 317);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        
+        JLabel label = new JLabel("책 제목");
+        label.setBounds(28, 40, 57, 15);
+        contentPane.add(label);
+        
+        textInBookname = new JTextField();
+        textInBookname.setColumns(10);
+        textInBookname.setBounds(98, 37, 132, 21);
+        contentPane.add(textInBookname);
+        
+        textInPubli = new JTextField();
+        textInPubli.setColumns(10);
+        textInPubli.setBounds(98, 65, 132, 21);
+        contentPane.add(textInPubli);
+        
+        JLabel label_1 = new JLabel("출판사");
+        label_1.setBounds(28, 68, 57, 15);
+        contentPane.add(label_1);
+        
+        JLabel label_2 = new JLabel("저자");
+        label_2.setBounds(28, 96, 57, 15);
+        contentPane.add(label_2);
+        
+        textInAuthor = new JTextField();
+        textInAuthor.setColumns(10);
+        textInAuthor.setBounds(98, 93, 132, 21);
+        contentPane.add(textInAuthor);
+        
+        textInPrice = new JTextField();
+        textInPrice.setColumns(10);
+        textInPrice.setBounds(98, 121, 89, 21);
+        contentPane.add(textInPrice);
+        
+        JLabel label_3 = new JLabel("가격");
+        label_3.setBounds(28, 124, 57, 15);
+        contentPane.add(label_3);
+        
+        JLabel label_4 = new JLabel("장르");
+        label_4.setBounds(28, 152, 57, 15);
+        contentPane.add(label_4);
+        
+        JLabel lblNewLabel = new JLabel("책 정보 입력");
+        lblNewLabel.setBounds(86, 12, 101, 15);
+        contentPane.add(lblNewLabel);
+        
+        JComboBox comboCategory = new JComboBox();
+        comboCategory.setModel(new DefaultComboBoxModel(new String[] {"소설", "교육", "문학", "해외", "기타"}));
+        comboCategory.setBounds(98, 149, 89, 21);
+        contentPane.add(comboCategory);
+        
+        JButton btnInputBook = new JButton("등록");
+        btnInputBook.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mianbook = new MainBookMg();
+                String name = textInBookname.getText();
+                String publ = textInPubli.getText();
+                String auth = textInAuthor.getText();
+                Integer pri = Integer.valueOf(textInPrice.getText());
+                String var = (String) comboCategory.getSelectedItem();
+                int result = -1;
+                try {
+                    String query = " insert into ModelBook ( bookname, publisher, category, author, price) ";
+                           query+= "            values ( ?,?,?,?,?);";
+                    stmt = conn.prepareStatement(query);
+                    stmt.setString(1, name);
+                    stmt.setString(2, publ);
+                    stmt.setString(3, var);
+                    stmt.setString(4, auth);
+                    stmt.setInt(5, pri);
+                    result = stmt.executeUpdate();
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    
+                }
+                if(result==-1){
+                    JOptionPane.showMessageDialog(null, "에러");
+                } else {
+                    dispose();
+                }
+                
+            }
+        });
+        btnInputBook.setBounds(40, 212, 89, 40);
+        contentPane.add(btnInputBook);
+        
+        JButton butCancelBook = new JButton("취소");
+        butCancelBook.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        butCancelBook.setBounds(141, 212, 89, 40);
+        contentPane.add(butCancelBook);
+    }
+    public bookmanager.model.ModelBook newboo(){
+        return ModelBook;
+    }
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mapperAuth">
+
+    <select id="selectAll" resultType="ModelMember">
+        select * from memberd
+    </select>
+    
+    <select id="selectLike" parameterType="ModelMember" resultType="ModelMember">
+        select * from memberd
+         where 1=1
+         <if test=" memNo !=null"> and memNo like #{memNo}</if>
+         <if test=" memName !=null and memName !=''"> and memName like #{memName}</if>
+         <if test=" memPriNum !=null and memPriNum !=''"> and memPriNum like #{memPriNum}</if>
+         <if test=" memPhone !=null and memPhone !=''"> and memPhone like #{memPhone}</if>
+         <if test=" memEmail !=null and memEmail !=''"> and memEmail like #{memEmail}</if>
+    </select>
+    
+    <select id="selectEqual" parameterType="ModelMember" resultType="ModelMember">
+        select * from memberd
+         where 1=1
+         <if test=" memNo !=null"> and memNo = #{memNo}</if>
+         <if test=" memName !=null and memName !=''"> and memName = #{memName}</if>
+         <if test=" memPriNum !=null and memPriNum !=''"> and memPriNum = #{memPriNum}</if>
+         <if test=" memPhone !=null and memPhone !=''"> and memPhone = #{memPhone}</if>
+         <if test=" memEmail !=null and memEmail !=''"> and memEmail = #{memEmail}</if>
+    </select>
+    
+    <insert id="insertMember" parameterType="ModelMember" keyProperty="memNo">
+        <!-- select @authid := max(authid)+1 from auth ; -->
+        insert into memberd (memNo, memName, memPriNum, memPhone, memEmail)
+                   values( #{memNo}, #{memName},#{memPriNum}, #{memPhone},#{memEmail}) ;
+    </insert>
+    
+    <update id="updateMember" parameterType="java.util.Map">
+        update member set <if test=" setmemeber.memName !=null and setmemeber.memName !=''"> ,memName = #{setmemeber.memName}</if>
+              <if test=" setmemeber.memPriNum !=null and setmemeber.memPriNum !=''"> , memPriNum = #{setmemeber.memPriNum}</if>
+              <if test=" setmemeber.memPhone !=null and setmemeber.memPhone !=''"> , memPhone = #{setmemeber.memPhone}</if>
+              <if test=" setmemeber.memEmail !=null and setmemeber.memEmail !=''"> , memEmail = #{setmemeber.memEmail}</if>
+    
+              where 1=1
+              <if test=" wheremember.memNo !=null"> and memNo = #{wheremember.memNo}</if>
+              <if test=" wheremember.memName !=null and wheremember.memName !=''"> and memName = #{wheremember.memName}</if>
+              <if test=" wheremember.memPriNum !=null and wheremember.memPriNum !=''"> and memPriNum = #{wheremember.memPriNum}</if>
+              <if test=" wheremember.memPhone !=null and wheremember.memPhone !=''"> and memPhone = #{wheremember.memPhone}</if>
+              <if test=" wheremember.memEmail !=null and wheremember.memEmail !=''"> and memEmail = #{wheremember.memEmail}</if>
+    </update>
+    
+    <delete id="deleteMember" parameterType="ModelMember">
+        delete from memberd
+            where 1=1
+         <if test=" memNo !=null"> and memNo = #{memNo}</if>
+         <if test=" memName !=null and memName !=''"> and memName = #{memName}</if>
+         <if test=" memPriNum !=null and memPriNum !=''"> and memPriNum = #{memPriNum}</if>
+         <if test=" memPhone !=null and memPhone !=''"> and memPhone = #{memPhone}</if>
+         <if test=" memEmail !=null and memEmail !=''"> and memEmail = #{memEmail}</if>
+    </delete>
+
+    
+
+</mapper>
+
+
+
+

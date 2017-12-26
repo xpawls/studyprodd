@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mapperBook">
+
+    <select id="selectAll" parameterType="ModelBook" resultType="ModelBook">
+        select * from bookd
+    </select>
+    
+    <select id="selectLike" parameterType="ModelBook" resultType="ModelBook">
+        select * from bookd
+         where 1=1
+         <if test=" bookname!=null and bookname!='' "  > and bookname  like #{bookname }</if>
+         <if test=" publisher!=null and publisher!='' "> and publisher like #{publisher}</if>
+         <if test=" category!=null and category!='' "  > and category  like #{category }</if>
+         <if test=" author!=null and author!='' "> and author like #{author}</if>
+         <if test=" price!=null "  > and price  like #{price }</if>
+         <if test=" no!=null"> and no like #{no}</if>
+    </select>
+    
+    
+
+    <select id="selectEqual" parameterType="ModelBook" resultType="ModelBook">
+        select * from bookd
+         where 1=1
+         <if test=" bookname!=null and bookname!='' "  > and bookname  = #{bookname }</if>
+         <if test=" publisher!=null and publisher!='' "> and publisher = #{publisher}</if>
+         <if test=" category!=null and category!='' "  > and category  = #{category }</if>
+         <if test=" author!=null and author!='' "> and author = #{author}</if>
+         <if test=" price!=null "  > and price  = #{price }</if>
+         <if test=" no!=null"> and no = #{no}</if>
+    </select>
+    <!-- useGeneratedKeys="true" keyProperty="bookid"(기본키컬럼값 자동리턴)  -->
+    <insert id="insertBook" parameterType="ModelBook" useGeneratedKeys="true" keyProperty="no">
+        insert into bookd (  bookname,    publisher,    category,    author,    price,    borrow_yn,    no )
+                   values( #{bookname}, #{publisher}, #{category}, #{author}, #{price}, #{borrow_yn}, #{no})
+    </insert>
+    
+    <update id="updateBook" parameterType="java.util.Map">
+        update bookd
+           set   <if test=" set.bookname!=null and where.bookname!='' "  > ,bookname  = #{set.bookname }</if>
+                 <if test=" set.publisher!=null and where.publisher!='' "> ,publisher = #{set.publisher}</if>
+                 <if test=" set.category!=null and where.category!='' "  > ,category  = #{set.category }</if>
+                 <if test=" set.author!=null and where.author!='' ">       ,author    = #{set.author}</if>
+                 <if test=" set.price!=null "  >                           ,price     = #{set.price }</if>
+          where 1=1
+          <if test=" where.bookname!=null and where.bookname!='' "  > and bookname  = #{where.bookname }</if>
+         <if test=" where.publisher!=null and where.publisher!='' "> and publisher = #{where.publisher}</if>
+         <if test=" where.category!=null and where.category!='' "  > and category  = #{where.category }</if>
+         <if test=" where.author!=null and where.author!='' "> and author = #{where.author}</if>
+         <if test=" where.price!=null "  > and price  = #{where.price }</if>
+         <if test=" where.no!=null"> and no = #{where.no}</if>
+    </update>
+    
+    <delete id="deleteBook" parameterType="ModelBook">
+        delete from bookd
+            where 1=1
+         <if test=" bookname!=null and bookname!='' "  > and bookname  = #{bookname }</if>
+         <if test=" publisher!=null and publisher!='' "> and publisher = #{publisher}</if>
+         <if test=" category!=null and category!='' "  > and category  = #{category }</if>
+         <if test=" author!=null and author!='' "> and author = #{author}</if>
+         <if test=" price!=null "  > and price  = #{price }</if>
+         <if test=" no!=null"> and no = #{no}</if>
+    </delete>
+    
+    <select id="selectDynamic" parameterType="ModelBook" resultType="ModelBook">
+        select * from bookd
+         where 1=1                           
+         <if test=" bookname!=null and bookname!='' "  > and bookname  = #{bookname }</if>
+         <if test=" publisher!=null and publisher!='' "> and publisher = #{publisher}</if>
+         <if test=" category!=null and category!='' "  > and category  = #{category }</if>
+         <if test=" author!=null and author!='' "> and author = #{author}</if>
+         <if test=" price!=null "  > and price  = #{price }</if>
+         <if test=" no!=null"> and no = #{no}</if>
+          
+    </select>
+
+</mapper>
+
+
+
+
