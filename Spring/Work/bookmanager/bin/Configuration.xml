@@ -19,7 +19,7 @@
     <mappers>
         <mapper resource="mapper/mapperBook.xml" />
         <mapper resource="mapper/mapperMember.xml" />
-        <mapper resource="mapper/mapperRent.xml" />
+        <mapper resource="mapper/mapperBorrow.xml" />
     </mappers>
     
 </configuration>

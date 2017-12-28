@@ -1,41 +1,55 @@
 package bookmanager;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import bookmanager.inf.IServiceBook;
+import bookmanager.svr.ServiceBook;
 
 public class NewBook extends JFrame {
-    private static java.sql.Connection conn = null;
     private JPanel contentPane;
     private JTextField textInBookname;
     private JTextField textInPubli;
     private JTextField textInAuthor;
     private JTextField textInPrice;
     private MainBookMg mianbook = new MainBookMg();
-    private PreparedStatement stmt;
-    private bookmanager.model.ModelBook ModelBook;
+    private bookmanager.model.ModelBook modelbook;
+    private static IServiceBook serviceb = new ServiceBook();
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
+        // classpath를 이용한 설정 파일 로딩
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:ApplicationContext.xml");
+        
+        
+        // file을 이용한 설정 파일 로딩
+        // ApplicationContext context = new ClassPathXmlApplicationContext("주소");
+        
+        // DI를 이용한 servicebook 인스턴스 생성
+        serviceb = context.getBean("servicebook", bookmanager.svr.ServiceBook.class);
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    NewBook frame = new NewBook();
+                    NewBook frame = new NewBook(serviceb);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -47,7 +61,7 @@ public class NewBook extends JFrame {
     /**
      * Create the frame.
      */
-    public NewBook() {
+    public NewBook(IServiceBook serviceb) {
         setTitle("책 등록");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 269, 317);
@@ -115,19 +129,18 @@ public class NewBook extends JFrame {
                 Integer pri = Integer.valueOf(textInPrice.getText());
                 String var = (String) comboCategory.getSelectedItem();
                 int result = -1;
+                modelbook = new bookmanager.model.ModelBook();
+                modelbook.setBookname(name);
+                modelbook.setAuthor(auth);
+                modelbook.setCategory(var);
+                modelbook.setPublisher(publ);
+                modelbook.setPrice(pri);
                 try {
-                    String query = " insert into ModelBook ( bookname, publisher, category, author, price) ";
-                           query+= "            values ( ?,?,?,?,?);";
-                    stmt = conn.prepareStatement(query);
-                    stmt.setString(1, name);
-                    stmt.setString(2, publ);
-                    stmt.setString(3, var);
-                    stmt.setString(4, auth);
-                    stmt.setInt(5, pri);
-                    result = stmt.executeUpdate();
+                    result = serviceb.insertBook(modelbook);
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
                     
                 }
                 if(result==-1){
@@ -149,8 +162,5 @@ public class NewBook extends JFrame {
         });
         butCancelBook.setBounds(141, 212, 89, 40);
         contentPane.add(butCancelBook);
-    }
-    public bookmanager.model.ModelBook newboo(){
-        return ModelBook;
     }
 }

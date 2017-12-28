@@ -39,7 +39,7 @@
     
     <update id="updateBook" parameterType="java.util.Map">
         update bookd
-           set   <if test=" set.bookname!=null and where.bookname!='' "  > ,bookname  = #{set.bookname }</if>
+           set   <if test=" set.bookname!=null and where.bookname!='' "  > bookname  = #{set.bookname }</if>
                  <if test=" set.publisher!=null and where.publisher!='' "> ,publisher = #{set.publisher}</if>
                  <if test=" set.category!=null and where.category!='' "  > ,category  = #{set.category }</if>
                  <if test=" set.author!=null and where.author!='' ">       ,author    = #{set.author}</if>

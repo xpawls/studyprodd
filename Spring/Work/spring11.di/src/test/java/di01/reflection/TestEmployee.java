@@ -1,6 +1,6 @@
 package di01.reflection;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -38,7 +38,7 @@ public class TestEmployee {
         Class klass = Class.forName("di01.model.Employee");
         
         // 생성자 메서드의 매개변수 타입 선언.
-        Class [] paramTypes = {String.class, Integer.class, String.class, String.class};
+        Class [] paramTypes = {String.class, int.class, String.class, String.class};
         
         // 매개변서 값 설정.
         Object[] objs = {"emp2 name", 100000, "emp2 address", "emp2 rnn"};
@@ -72,5 +72,6 @@ public class TestEmployee {
          */ 
         m = klass.getMethod("getName");
         Object result = m.invoke(instance);
+        assertEquals("hello", result);
     }
 }

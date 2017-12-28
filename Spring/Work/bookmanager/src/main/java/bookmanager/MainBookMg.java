@@ -1,56 +1,51 @@
 package bookmanager;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.HeadlessException;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
-import javax.swing.JLayeredPane;
-import javax.swing.JTree;
-import javax.swing.JTextField;
-import javax.swing.JList;
-import javax.swing.JComboBox;
-import java.awt.Choice;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JTextArea;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import bookmanager.inf.IServiceBook;
+import bookmanager.inf.IServiceBorrow;
 import bookmanager.inf.IServiceMember;
 import bookmanager.model.ModelBook;
+import bookmanager.model.ModelBorrow;
 import bookmanager.model.ModelMember;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import bookmanager.svr.ServiceBook;
+import bookmanager.svr.ServiceBorrow;
+import bookmanager.svr.ServiceMember;
 
 public class MainBookMg extends JFrame {
     private JoinMember newmember = null;
     private NewBook newbook = null;
     private static MainBookMg frame = null;
     private JPanel contentPane;
-    private JTable table;
+    private JTable brtableThree;
     private JTable tablemainbook;
     private JTextField textBookname;
     private JTextField textPublisher;
@@ -71,36 +66,40 @@ public class MainBookMg extends JFrame {
     private JTextField textphonnum3;
     private JTable tableMember;
     private JTable tableborrow;
-    private PreparedStatement stmt;
-    private ResultSet result;
-    private IServiceBook serviceb = null;
-    private IServiceMember servicem = null;
+    private static IServiceBook serviceb = new ServiceBook();
+    private static IServiceMember servicem = new ServiceMember();
+    private static IServiceBorrow servicebr = new ServiceBorrow();
     private List<ModelBook> book = null;
+    private List<ModelMember> member = null;
+    private List<ModelBorrow> borrow = null;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private int complete;
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) { // 메인
+     // classpath를 이용한 설정 파일 로딩
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:ApplicationContext.xml");
+        
+        
+        // file을 이용한 설정 파일 로딩
+        // ApplicationContext context = new ClassPathXmlApplicationContext("주소");
+        
+        // DI를 이용한 servicebook 인스턴스 생성
+        frame = new MainBookMg();
+        serviceb = context.getBean("servicebook", bookmanager.svr.ServiceBook.class);
+        servicem = context.getBean("servicemember", bookmanager.svr.ServiceMember.class);
+        servicebr = context.getBean("serviceborrow", ServiceBorrow.class);
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
 
-                    // classpath를 이용한 설정 파일 로딩
-                    ApplicationContext context = new ClassPathXmlApplicationContext("classpath:ApplicationContext.xml");
                     
-                    
-                    // file을 이용한 설정 파일 로딩
-                    // ApplicationContext context = new ClassPathXmlApplicationContext("주소");
-                    
-                    // DI를 이용한 servicebook 인스턴스 생성
-                    frame.serviceb = context.getBean("servicebook", bookmanager.svr.ServiceBook.class);
-                    frame.servicem = context.getBean("servicemember", bookmanager.svr.ServiceMember.class);
                     frame = new MainBookMg();
                     frame.setVisible(true);
                     
-                    
-                    frame.refreshMemTable1(frame.tableMember, "");
-                    frame.refreshTable2(frame.tablemainbook, "");
+                    frame.refreshAll();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -128,7 +127,7 @@ public class MainBookMg extends JFrame {
         JButton joinBut = new JButton("회원등록");
         joinBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JoinMember join = new JoinMember();
+                JoinMember join = new JoinMember(servicem);
                 join.setVisible(true);
                 
             }
@@ -139,7 +138,7 @@ public class MainBookMg extends JFrame {
         JButton newBookBut = new JButton("책 등록");
         newBookBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                NewBook newbook = new NewBook();
+                NewBook newbook = new NewBook(serviceb);
                 newbook.setVisible(true);
                 
             }
@@ -150,8 +149,7 @@ public class MainBookMg extends JFrame {
         JButton refreshBut = new JButton("새로고침");
         refreshBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.refreshTable2(tablemainbook, "");
-                frame.refreshMemTable1(tableMember, "");
+                refreshAll();
             }
         });
         refreshBut.setBounds(354, 10, 159, 85);
@@ -170,8 +168,8 @@ public class MainBookMg extends JFrame {
         borrowscroll.setBounds(0, 137, 354, 396);
         contentPane.add(borrowscroll);
         
-        table = new JTable();
-        table.setModel(new DefaultTableModel(
+        brtableThree = new JTable();
+        brtableThree.setModel(new DefaultTableModel(
             new Object[][] {
             },
             new String[] {
@@ -185,7 +183,7 @@ public class MainBookMg extends JFrame {
                 return columnTypes[columnIndex];
             }
         });
-        borrowscroll.setViewportView(table);
+        borrowscroll.setViewportView(brtableThree);
         
         JLabel label = new JLabel("대출 상황");
         label.setBounds(129, 112, 57, 15);
@@ -220,12 +218,12 @@ public class MainBookMg extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int row = tablemainbook.getSelectedRow();
                 
-                String no = tablemainbook.getValueAt(row, 0).toString();
-                String bname = tablemainbook.getValueAt(row, 1).toString();
-                String publi = tablemainbook.getValueAt(row, 2).toString();
+                String no     = tablemainbook.getValueAt(row, 0).toString();
+                String bname  = tablemainbook.getValueAt(row, 1).toString();
+                String publi  = tablemainbook.getValueAt(row, 2).toString();
                 String catego = tablemainbook.getValueAt(row, 3).toString();
                 String author = tablemainbook.getValueAt(row, 4).toString();
-                String price = tablemainbook.getValueAt(row, 5).toString();
+                String price  = tablemainbook.getValueAt(row, 5).toString();
                 
                 textBookno.setText(no);
                 textBookname.setText(bname);
@@ -324,7 +322,7 @@ public class MainBookMg extends JFrame {
         JButton btnBorrow = new JButton("대여하기");
         btnBorrow.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                BorrowBook borbook = new BorrowBook();                
+                BorrowBook borbook = new BorrowBook(serviceb, servicem, servicebr);                
                 borbook.setVisible(true);
                 
                 borbook.bookborrow(borrowbn(), borrowpb(), borrowau());
@@ -337,29 +335,28 @@ public class MainBookMg extends JFrame {
         JButton butModify = new JButton("수정");
         butModify.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                String uplb = "update ModelBook set ";
-                       uplb+= " no =?, bookname= ?, category=?";
-                       uplb+= ", author= ? , price= ? ";
-                       uplb+= " where no = ? ;";
+                int no     =  Integer.valueOf(textBookno.getText());
+                String bname  =  textBookname.getText();
+                String publi  =  textPublisher.getText();
+                String catego =  textVar.getText();
+                String author =  textauthor.getText();
+                int price  =  Integer.valueOf(textPrice.getText());
+                
+                ModelBook where = new ModelBook();
+                where.setNo(no);
+                ModelBook set = new ModelBook(null, bname, publi, catego, author, price);
+                int rs = -1;
                 try {
-                    stmt.setInt(1, Integer.valueOf(textBookno.getText()));
-                    stmt.setString(2, textBookname.getText());
-                    stmt.setString(3, textVar.getText());
-                    stmt.setString(4, textauthor.getText());
-                    stmt.setInt(5, Integer.valueOf(textPrice.getText()));
-                    stmt.setInt(6, Integer.valueOf(textBookno.getText()));
-                    stmt.executeUpdate();
-                } catch (NumberFormatException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                    
+                    rs = serviceb.updateBook(where, set);
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
                     
                 }
-                frame.refreshTable2(tablemainbook, "");
+                refreshAll();
+                
+                
             
             }
         });
@@ -369,27 +366,20 @@ public class MainBookMg extends JFrame {
         JButton butdelete = new JButton("삭제");
         butdelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                String delb = "delete from ModelBook where ";
-                       delb+= " no =? and bookname= ? and category=?";
-                       delb+= " and author= ? and price= ?;";
-                try {
-                    stmt.setInt(1, Integer.valueOf(textBookno.getText()));
-                    stmt.setString(2, textBookname.getText());
-                    stmt.setString(3, textVar.getText());
-                    stmt.setString(4, textauthor.getText());
-                    stmt.setInt(5, Integer.valueOf(textPrice.getText()));
-                    stmt.executeUpdate();
-                } catch (NumberFormatException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                    
+                 int rs = -1;
+                 int no     =  Integer.valueOf(textBookno.getText());
+                 ModelBook where = new ModelBook();
+                 where.setNo(no);
+                 try {
+                    rs = serviceb.deleteBook(where);
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
                     
                 }
-                frame.refreshTable2(tablemainbook, "");
+                 
+                 refreshAll();
             
             }
         });
@@ -403,30 +393,27 @@ public class MainBookMg extends JFrame {
         JButton btnSearch = new JButton("검색");
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String bscf = " where ";
-                String bscs = "";
-                String bsct = "";
-                
-                int bsc = 0;
+                String bscs = textbookSearch.getText();
+                ModelBook sbook = new ModelBook();
                 if(comboSearch.getSelectedItem().toString().equals("제목")){
-                    bscs = " bookname ";
+                    sbook.setBookname(bscs);
                 } else if(comboSearch.getSelectedItem().toString().equals("출판사")){
-                    bscs = " publisher ";
+                    sbook.setPublisher(bscs);
                 } else if(comboSearch.getSelectedItem().toString().equals("저자")){
-                    bscs = " author ";
+                    sbook.setAuthor(bscs);
                 } else if(comboSearch.getSelectedItem().toString().equals("장르")){
-                    bscs = " category ";
+                    sbook.setCategory(bscs);
                 } else if(comboSearch.getSelectedItem().toString().equals("가격")){
-                    bscs = " price ";
-                    bsc = 1;
+                    sbook.setPrice(Integer.valueOf(bscs));
                 }
-                if(bsc==1){
-                    bsct = " = " +textbookSearch.getText();
-                } else {
-                    bsct = " like " +"'%"+textbookSearch.getText()+"%'";
+                try {
+                    book = serviceb.selectLike(sbook);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
                 }
-                String bsccpt = bscf + bscs + bsct;
-                frame.refreshTable2(tablemainbook, bsccpt);
+                frame.refreshTable2(tablemainbook, book);
             }
         });
         btnSearch.setBounds(558, 156, 62, 23);
@@ -514,22 +501,18 @@ public class MainBookMg extends JFrame {
         JButton btnMemdel = new JButton("회원삭제");
         btnMemdel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String delm = "delete from ModelMember where ";
-                       delm+= " memno=? and memname=? and ";
-                       delm+= " memprinum=? and memphone=? and mememail=? ;";
+                int rs = -1;
+                ModelMember member = new ModelMember();
+                int no = Integer.valueOf(textnumber.getText());
+                member.setMemNo(no);
                 try {
-                    stmt.setInt(1, Integer.valueOf(textnumber.getText()));
-                    stmt.setString(2, textname.getText());
-                    stmt.setString(3, textprinum1.getText()+"-"+textprinum2.getText());
-                    stmt.setString(4, textphonnum1.getText()+"-"+textphonnum2.getText()+"-"+textphonnum3.getText());
-                    stmt.setString(5, textmailad1.getText()+"@"+textmailad2.getText());
-                    stmt.executeUpdate();
+                    rs = servicem.deleteMember(member);
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                    
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
                 }
-                frame.refreshMemTable1(tableMember, "");
+                refreshAll();
                 
             }
         });
@@ -539,25 +522,25 @@ public class MainBookMg extends JFrame {
         JButton butMemModi = new JButton("회원수정");
         butMemModi.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                String uplm = "update ModelMember set ";
-                        uplm+= " memno=?, memname=?, ";
-                        uplm+= " memprinum=?, memphone=?, mememail=? ";
-                        uplm+= " where memno=? ;";
+                String name = textname.getText();
+                String prino = textprinum1.getText() +"-"+ textprinum2.getText();
+                String phone = textphonnum1.getText()+"-"+ textphonnum2.getText()+"-"+ textphonnum3.getText();
+                String email = textmailad1.getText() +"@"+ textmailad2.getText();
+                ModelMember setmem = new ModelMember(null, name, prino, phone, email);
+                int memno = Integer.valueOf(textnumber.getText());
+                ModelMember wheremember = new ModelMember(memno, null, null, null, null);
+                
+                int rs = -1;
                 try {
-                    stmt.setInt(1, Integer.valueOf(textnumber.getText()));
-                    stmt.setString(2, textname.getText());
-                    stmt.setString(3, textprinum1.getText()+"-"+textprinum2.getText());
-                    stmt.setString(4, textphonnum1.getText()+"-"+textphonnum2.getText()+"-"+textphonnum3.getText());
-                    stmt.setString(5, textmailad1.getText()+"@"+textmailad2.getText());
-                    stmt.setInt(6 , Integer.valueOf(textnumber.getText()));
-                    stmt.executeUpdate();
+                    rs = servicem.updateMember(wheremember, setmem);
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
                     
                 }
-                frame.refreshMemTable1(tableMember, "");
+                
+                refreshAll();
                 
             
             }
@@ -578,11 +561,11 @@ public class MainBookMg extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {//테이블정보 텍스트필드로 복사
                 int row = tableMember.getSelectedRow();
-                String mno = tableMember.getValueAt(row, 0).toString();
-                String mname = tableMember.getValueAt(row, 1).toString();
-                String mpri = tableMember.getValueAt(row, 2).toString();
+                String mno    = tableMember.getValueAt(row, 0).toString();
+                String mname  = tableMember.getValueAt(row, 1).toString();
+                String mpri   = tableMember.getValueAt(row, 2).toString();
                 String mphonn = tableMember.getValueAt(row, 3).toString();
-                String mmail = tableMember.getValueAt(row, 4).toString();
+                String mmail  = tableMember.getValueAt(row, 4).toString();
                 
                 String[] mpria = mpri.split("-");
                 String[] mphoa = mphonn.split("-");
@@ -638,30 +621,28 @@ public class MainBookMg extends JFrame {
                 int mems = -1;
                 String msc = " where ";
                 String mstx = null;
-                String mes = null;
+                String mes = textMemsearch.getText();
+                ModelMember smem = new ModelMember();
                 if(BoxMainMem.getSelectedItem().toString().equals("회원번호")){
-                    mstx =  " memno ";
-                    mems = 1;
+                    smem.setMemNo(Integer.parseInt(mes));
                 } else if (BoxMainMem.getSelectedItem().toString().equals("이름")){
-                    mstx =  " memname ";
-                    mems = 0;
+                    smem.setMemName(mes);
                 } else if (BoxMainMem.getSelectedItem().toString().equals("주민번호")){
-                    mstx =  " memprinum ";
-                    mems = 0;
+                    smem.setMemPriNum(mes);
                 } else if (BoxMainMem.getSelectedItem().toString().equals("전화번호")){
-                    mstx =  " memphone ";
-                    mems = 0;
+                    smem.setMemPhone(mes);
                 }else if (BoxMainMem.getSelectedItem().toString().equals("메일주소")){
-                    mstx =  " mememail ";
-                    mems = 0;
+                    smem.setMemEmail(mes);
                 }
-                if(mems==1){
-                    mes = " = " +textMemsearch.getText();
-                } else {
-                    mes = " like " +"'%"+textMemsearch.getText()+"%'";
+                try {
+                    member = servicem.selectLike(smem);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
+                    
                 }
-                String msquery = msc+mstx+ mes ;
-                refreshMemTable1(tableMember, msquery);
+                refreshMemTable1(tableMember, member);
                 
             }
         });
@@ -677,6 +658,16 @@ public class MainBookMg extends JFrame {
         panelBorrow.add(scrollPane_1);
         
         tableborrow = new JTable();
+        tableborrow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = tableborrow.getSelectedRow();
+                String no = tableborrow.getValueAt(row, 0).toString();
+                complete = Integer.valueOf(no);
+                
+                
+            }
+        });
         tableborrow.setModel(new DefaultTableModel(
             new Object[][] {
             },
@@ -696,32 +687,42 @@ public class MainBookMg extends JFrame {
         JButton btnComplete = new JButton("반납 완료");
         btnComplete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                ModelBorrow bor = new ModelBorrow();
+                bor.setBrno(complete);
+                int rs = -1;
+                try {
+                    rs = servicebr.deleteBorrow(bor);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
+                    
+                }
+                
+                if(rs != -1) {
+                    refreshAll();
+                    JOptionPane.showMessageDialog(null, "반납 완료");
+                    
+                }
             }
         });
         btnComplete.setBounds(566, 98, 155, 75);
         panelBorrow.add(btnComplete);
     }
     
-    public void refreshTable2(JTable table, String plus){// ModelBook리스트 출력
+    public void refreshTable2(JTable table, List<ModelBook> book){// ModelBook리스트 출력
         Object [] tempObject = new Object[7]; // JTable의 컬럼 갯수
         DefaultTableModel model = (DefaultTableModel)table.getModel();
         model.setRowCount(0); // table 위치를 0 부터 시작하도록 설정.
         
-        try {
-            book = serviceb.selectAll();
-            while(result.next()) {
-                tempObject[0] = result.getInt(1); 
-                tempObject[1] = result.getString(2); 
-                tempObject[2] = result.getString(3); 
-                tempObject[3] = result.getString(4); 
-                tempObject[4] = result.getString(5); 
-                tempObject[5] = result.getInt(6); 
-                model.addRow(tempObject);
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            
+        for(int i = 0; i<book.size(); i++) {
+            tempObject[0] = book.get(i).getNo();
+            tempObject[1] = book.get(i).getBookname();
+            tempObject[2] = book.get(i).getPublisher();
+            tempObject[3] = book.get(i).getCategory();
+            tempObject[4] = book.get(i).getAuthor();
+            tempObject[5] = book.get(i).getPrice();
+            model.addRow(tempObject);
         }
         // JTable 첫번째 로우에 focus 주기
         if(model.getRowCount()>0) {
@@ -731,64 +732,92 @@ public class MainBookMg extends JFrame {
         table.setModel(model);
     }
     
-    public void refreshMemTable1( JTable table , String plus){// ModelMember 리스트 출력
+    public void refreshMemTable1( JTable table, List<ModelMember> member){// ModelMember 리스트 출력
         Object [] tempObject = new Object[5]; // JTable의 컬럼 갯수
         DefaultTableModel model = (DefaultTableModel)table.getModel();
         model.setRowCount(0); // table 위치를 0 부터 시작하도록 설정.
-        
-        String query = " select * from ModelMember "+ plus +";";
-        try {
-            result = stmt.executeQuery();
-            while(result.next()){
-                tempObject[0] = result.getInt(1);
-                tempObject[1] = result.getString(2);
-                tempObject[2] = result.getString(3);
-                tempObject[3] = result.getString(4);
-                tempObject[4] = result.getString(5);
-                model.addRow(tempObject);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            
-        }
-        if(model.getRowCount()>0) {
-            table.setRowSelectionInterval(0, 0);
+        for(int i = 0; i<member.size(); i++) {
+            tempObject[0] = member.get(i).getMemNo();
+            tempObject[1] = member.get(i).getMemName();
+            tempObject[2] = member.get(i).getMemPriNum();
+            tempObject[3] = member.get(i).getMemPhone();
+            tempObject[4] = member.get(i).getMemEmail();
+            model.addRow(tempObject);
         }
         
+       
         table.setModel(model);
         
     }
-    public void refreshBrr(JTable table){
+    
+    
+    public void refreshBrr(JTable table, List<ModelBorrow> borrow){// ModelMember 리스트 출력
         Object [] tempObject = new Object[11]; // JTable의 컬럼 갯수
         DefaultTableModel model = (DefaultTableModel)table.getModel();
         model.setRowCount(0); // table 위치를 0 부터 시작하도록 설정.
+        for(int i = 0; i<borrow.size(); i++) {
+            tempObject[0] = borrow.get(i).getBrno();
+            tempObject[1] = borrow.get(i).getMemname();
+            tempObject[2] = borrow.get(i).getMemphone();
+            tempObject[3] = borrow.get(i).getMemprinum();
+            tempObject[4] = borrow.get(i).getMememail();
+            tempObject[5] = borrow.get(i).getBookname();
+            tempObject[6] = borrow.get(i).getPublisher();
+            tempObject[7] = borrow.get(i).getCategory();
+            tempObject[8] = borrow.get(i).getAuthor();
+            tempObject[9] = borrow.get(i).getBookno();
+            tempObject[10] = borrow.get(i).getBorrowdate();
+            model.addRow(tempObject);
+        }
         
-        String query = " select * from borrowd ;";
+       
+        table.setModel(model);
+        
+    }
+    
+    public void refreshBrrThree(JTable table, List<ModelBorrow> borrow){// ModelMember 리스트 출력
+        Object [] tempObject = new Object[3]; // JTable의 컬럼 갯수
+        DefaultTableModel model = (DefaultTableModel)table.getModel();
+        model.setRowCount(0); // table 위치를 0 부터 시작하도록 설정.
+        for(int i = 0; i<borrow.size(); i++) {
+            tempObject[0] = borrow.get(i).getMemname();
+            tempObject[1] = borrow.get(i).getBookname();
+            tempObject[2] = borrow.get(i).getBorrowdate();
+            
+            model.addRow(tempObject);
+        }
+        
+       
+        table.setModel(model);
+        
+    }
+    
+    public void refreshAll() {
         try {
-            result = stmt.executeQuery();
-            while(result.next()){
-                tempObject[0] = result.getInt(1);
-                tempObject[1] = result.getString(2);
-                tempObject[2] = result.getString(3);
-                tempObject[3] = result.getString(4);
-                tempObject[4] = result.getString(5);
-                tempObject[5] = result.getString(6);
-                tempObject[6] = result.getString(7);
-                tempObject[7] = result.getString(8);
-                tempObject[8] = result.getString(9);
-                tempObject[9] = result.getInt(10);
-                tempObject[10] = result.getString(11);
-                model.addRow(tempObject);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            borrow = servicebr.selectAll();
+            book = serviceb.selectAll();
+            member = servicem.selectAll();
+        } catch (SQLException e1) {
+            // TODO Auto-generated catch block
+            // e1.printStackTrace();
+            logger.error("actionPerformed" + e1.getMessage());
             
         }
-        if(model.getRowCount()>0) {
-            table.setRowSelectionInterval(0, 0);
+        if(book.size()!=0) {
+            refreshTable2(tablemainbook, book);
         }
         
-        table.setModel(model);
+        if(member.size()!=0) {
+            refreshMemTable1(tableMember, member);
+        }
+        
+        if(borrow.size()!=0) {
+            refreshBrr(tableborrow, borrow);
+            refreshBrrThree(brtableThree, borrow);
+        }
+        
+        
+        
     }
     
     public String borrowbn(){

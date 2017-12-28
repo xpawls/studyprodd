@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mapper.mapperAuth">
+<mapper namespace="mapper.mapperMember">
 
     <select id="selectAll" resultType="ModelMember">
         select * from memberd
@@ -35,7 +35,7 @@
     </insert>
     
     <update id="updateMember" parameterType="java.util.Map">
-        update member set <if test=" setmemeber.memName !=null and setmemeber.memName !=''"> ,memName = #{setmemeber.memName}</if>
+        update memberd set <if test=" setmemeber.memName !=null and setmemeber.memName !=''"> memName = #{setmemeber.memName}</if>
               <if test=" setmemeber.memPriNum !=null and setmemeber.memPriNum !=''"> , memPriNum = #{setmemeber.memPriNum}</if>
               <if test=" setmemeber.memPhone !=null and setmemeber.memPhone !=''"> , memPhone = #{setmemeber.memPhone}</if>
               <if test=" setmemeber.memEmail !=null and setmemeber.memEmail !=''"> , memEmail = #{setmemeber.memEmail}</if>

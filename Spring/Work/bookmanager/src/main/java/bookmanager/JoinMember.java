@@ -1,27 +1,28 @@
 package bookmanager;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import bookmanager.model.ModelMember;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import bookmanager.inf.IServiceMember;
+import bookmanager.model.ModelMember;
+import bookmanager.svr.ServiceMember;
 
 public class JoinMember extends JFrame {
-    private java.sql.Connection conn = null;
     private MainBookMg mainbook = new MainBookMg();
     private ModelMember newmember = null;
     private JPanel contentPane;
@@ -32,7 +33,8 @@ public class JoinMember extends JFrame {
     private JTextField textPhonNum3;
     private JTextField textPhonNum1;
     private JTextField textMailAdr;
-    private PreparedStatement stmt;
+    private static IServiceMember servicem = new ServiceMember();
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     /**
      * Launch the application.
@@ -41,7 +43,7 @@ public class JoinMember extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    JoinMember frame = new JoinMember();
+                    JoinMember frame = new JoinMember(servicem);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -53,7 +55,7 @@ public class JoinMember extends JFrame {
     /**
      * Create the frame.
      */
-    public JoinMember() {
+    public JoinMember(IServiceMember servicem) {
         setTitle("회원가입");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
@@ -137,12 +139,26 @@ public class JoinMember extends JFrame {
         JButton button = new JButton("가입");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                int result = -1;
                 mainbook = new MainBookMg();
                 String name = textMemName.getText();
                 String prino = textPriNum1.getText() +"-"+ textPriNum2.getText();
                 String phone = textPhonNum1.getText()+"-"+ textPhonNum2.getText()+"-"+ textPhonNum3.getText();
                 String email = textMailAdr.getText() +"@"+ comboBox.getSelectedItem().toString();
+                ModelMember member = new ModelMember(null, name, prino, phone, email);
+                try {
+                    result = servicem.insertMember(member);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
+                    
+                }
+                if(result==-1){
+                    JOptionPane.showMessageDialog(null, "에러");
+                } else {
+                    dispose();
+                }
                 
             
             }

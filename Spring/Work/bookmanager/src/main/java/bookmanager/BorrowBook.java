@@ -1,34 +1,38 @@
 package bookmanager;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import bookmanager.inf.IServiceBook;
+import bookmanager.inf.IServiceBorrow;
+import bookmanager.inf.IServiceMember;
+import bookmanager.model.ModelBook;
+import bookmanager.model.ModelBorrow;
 import bookmanager.model.ModelMember;
 
 public class BorrowBook extends JFrame {
-    private java.sql.Connection conn;
-    private PreparedStatement stmt;
     private MainBookMg mainbook = null;
     private List<ModelMember> brmem = null;
     private List<ModelMember> brmems = null;
+    private List<ModelMember> mem = null;
     private static BorrowBook frame = null;
     private JPanel contentPane;
     private JTextField textBorrBookname;
@@ -36,6 +40,10 @@ public class BorrowBook extends JFrame {
     private JTextField textBorrAut;
     private JTextField textMemSearch;
     private JTable tableMemberInfo;
+    private static IServiceBook serviceb;
+    private static IServiceMember servicem;
+    private static IServiceBorrow servicebr;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     /**
      * Launch the application.
@@ -44,7 +52,7 @@ public class BorrowBook extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    frame = new BorrowBook();
+                    frame = new BorrowBook(serviceb, servicem, servicebr);
                     frame.setVisible(true);
                     frame.initText();
                 } catch (Exception e) {
@@ -62,7 +70,7 @@ public class BorrowBook extends JFrame {
     /**
      * Create the frame.
      */
-    public BorrowBook() {
+    public BorrowBook(IServiceBook serviceb, IServiceMember servicem, IServiceBorrow servicebr) {
         setTitle("책 대여");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 436, 413);
@@ -110,7 +118,20 @@ public class BorrowBook extends JFrame {
         JButton btnBorrSearch = new JButton("검색");
         btnBorrSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                
+                ModelMember member = new ModelMember();
+                int no = Integer.valueOf(textMemSearch.getText());
+                member.setMemNo(no);
+                try {
+                    mem = servicem.selectEqual(member);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
+                    
+                }
+                mainbook = new MainBookMg();
+                mainbook.refreshMemTable1(tableMemberInfo, mem);
                 
                 
                 
@@ -123,31 +144,58 @@ public class BorrowBook extends JFrame {
         JButton btnBorrow = new JButton("대여");
         btnBorrow.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String brin = " insert into borrowd ( memname, memphone, memprinum, mememail, ";
-                       brin+= "bookname, publisher, category, author, bookno, borrowdate)";
-                       brin+= " values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-                Object[] obbo = frame.brbookk();
-                Object[] obme = frame.brmemk();
+                ModelBorrow br = new ModelBorrow();
+                
+                List<ModelBook> book = null;
+                ModelBook mb = new ModelBook();
+                mb.setBookname(textBorrBookname.getText());
                 try {
-                    
-                    stmt = conn.prepareStatement(brin);
-                    stmt.setString(1, (String)obme[1]);
-                    stmt.setString(2, (String)obme[3]);
-                    stmt.setString(3, (String)obme[2]);
-                    stmt.setString(4, (String)obme[4]);
-                    stmt.setString(5, (String)obbo[1]);
-                    stmt.setString(6, (String)obbo[2]);
-                    stmt.setString(7, (String)obbo[3]);
-                    stmt.setString(8, (String)obbo[4]);
-                    stmt.setInt(9, (Integer)obbo[0]);
-                    stmt.setString(10, "2017.11");
-                    stmt.executeUpdate();
-                    
+                    book = serviceb.selectEqual(mb);
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                    
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
                 }
+                
+                java.util.Date ud = new java.util.Date();
+                java.sql.Date date = new java.sql.Date(ud.getTime());
+                br.setMemname(mem.get(0).getMemName());
+                br.setMemprinum(mem.get(0).getMemPriNum());
+                br.setMemphone(mem.get(0).getMemPhone());
+                br.setMememail(mem.get(0).getMemEmail());
+                
+                br.setBookname(book.get(0).getBookname());
+                br.setAuthor(book.get(0).getAuthor());
+                br.setCategory(book.get(0).getCategory());
+                br.setBorrowdate(date);
+                br.setBrno(book.get(0).getNo());
+                br.setPublisher(book.get(0).getPublisher());
+                
+                int rs = -1;
+                try {
+                    rs = servicebr.insertBorrow(br);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    // e1.printStackTrace();
+                    logger.error("actionPerformed" + e1.getMessage());
+                }
+                
+                if(rs != -1) {
+                    /*mb = book.get(0);
+                    mb.setBorrow_yn(true);
+                    ModelBook wb = new ModelBook();
+                    wb.setNo(mb.getNo());
+                    try {
+                        serviceb.updateBook(wb , mb);
+                    } catch (SQLException e1) {
+                        logger.error("actionPerformed" + e1.getMessage());
+                        
+                    }*/
+                    mainbook.refreshAll();
+                    dispose();
+                }
+                
+                
             }
         });
         btnBorrow.setBounds(309, 26, 97, 50);
@@ -188,54 +236,6 @@ public class BorrowBook extends JFrame {
         textBorrBookname.setText(bn);
         textBorrPub.setText(bp);
         textBorrAut.setText(ba);
-        
-    }
-    public Object[] brbookmem(Object[] obj){
-        Object[] ob = null; 
-        return ob;
-    }
-    public Object[] brbookk(){
-        ResultSet result = null;
-        Object[] obj =new Object[6];
-        String query = "select * from bookd where bookname=? and publisher=? and author=? ;";
-        try {
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1, textBorrBookname.getText());
-            stmt.setString(2, textBorrPub.getText());
-            stmt.setString(3, textBorrAut.getText());
-            result = stmt.executeQuery();
-            result.next();
-            for(int i =1; i<=6; i++){
-                obj[i-1] = result.getObject(i);
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            
-        }
-        
-        return obj;
-    }
-    public Object[] brmemk(){
-        ResultSet result = null;
-        Object[] obj =new Object[5];
-        String query = "select * from ModelMember where memno=? ";
-        try {
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1, textMemSearch.getText());
-            
-            result = stmt.executeQuery();
-            result.next();
-            for(int i =1; i<=5; i++){
-                obj[i-1] = result.getObject(i);
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            
-        }
-        
-        return obj;
     }
     
     
