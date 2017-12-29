@@ -22,6 +22,13 @@ public class JstlController {
     /**
      * Simply selects the home view to render by returning its name.
      */
+    
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String jstlmain(Model model) {
+        logger.info("home");
+        return "home";
+    }
+    
     @RequestMapping(value = "/jstl/jstl01", method = RequestMethod.GET)
     public String jstl01(Model model) {
         logger.info("jstl01");
@@ -112,8 +119,54 @@ public class JstlController {
         return "jstl/jstl61sub";
     }
     
-    @RequestMapping(value = "/jstl/jstlex01", method = RequestMethod.GET)
+    @RequestMapping(value = "/jstl/jstl71checkbox", method = RequestMethod.GET)
     public String jstlex01(Model model) {
-        return "jstl/jstlex01";
+        return "jstl/jstl71checkbox";
+    }
+    
+    @RequestMapping(value = "/jstl/jstl72checkbox", method = RequestMethod.GET)
+    public String jstlex02(Model model) {
+        return "jstl/jstl72checkbox";
+    }
+    
+    @RequestMapping(value = "/jstl/jstl73radio", method = RequestMethod.GET)
+    public String jstlex03(Model model) {
+        return "jstl/jstl73radio";
+    }
+    
+    @RequestMapping(value = "/el/el01", method = RequestMethod.GET)
+    public String el01(Model model) {
+        logger.info("el01");
+        return "el/el01";
+    }
+    
+    @RequestMapping(value = "/el/el02", method = {RequestMethod.GET, RequestMethod.POST})
+    public String el02(Model model) {
+        logger.info("el02");
+        return "el/el02";
+    }
+    
+    @RequestMapping(value = "/el/el02sub", method = {RequestMethod.GET, RequestMethod.POST})
+    public String el02sub(Model model) {
+        logger.info("el02sub");
+        return "el/el02sub";
+    }
+    
+    @RequestMapping(value = "/el/el03", method = RequestMethod.GET)
+    public String el03(Model model) {
+        logger.info("el03");
+        return "el/el03";
+    }
+    
+    @RequestMapping(value = "/el/el04", method = {RequestMethod.GET, RequestMethod.POST})
+    public String el04(Model model) {
+        logger.info("el04");
+        return "el/el04";
+    }
+    
+    @RequestMapping(value = "/el/el04sub", method = {RequestMethod.GET, RequestMethod.POST})
+    public String el04sub(Model model) {
+        logger.info("el04sub");
+        return "el/el04sub";
     }
 }

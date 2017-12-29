@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -168,7 +169,7 @@ public class BorrowBook extends JFrame {
                 br.setAuthor(book.get(0).getAuthor());
                 br.setCategory(book.get(0).getCategory());
                 br.setBorrowdate(date);
-                br.setBrno(book.get(0).getNo());
+                br.setBookno(book.get(0).getNo());
                 br.setPublisher(book.get(0).getPublisher());
                 
                 int rs = -1;
@@ -181,18 +182,21 @@ public class BorrowBook extends JFrame {
                 }
                 
                 if(rs != -1) {
-                    /*mb = book.get(0);
-                    mb.setBorrow_yn(true);
+                    ModelBook mb2 = book.get(0);
+                    mb2.setBorrow_yn(true);
                     ModelBook wb = new ModelBook();
-                    wb.setNo(mb.getNo());
+                    wb.setNo(mb2.getNo());
                     try {
-                        serviceb.updateBook(wb , mb);
+                        serviceb.updateBook(wb , mb2);
                     } catch (SQLException e1) {
                         logger.error("actionPerformed" + e1.getMessage());
                         
-                    }*/
+                    }
                     mainbook.refreshAll();
+                    String rr = book.get(0).getNo().toString();
+                    // JOptionPane.showMessageDialog(null, rr);
                     dispose();
+                    
                 }
                 
                 

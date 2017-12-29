@@ -33,8 +33,7 @@ public class ServiceProduct implements IServiceProduct {
     
     @Override
     public void getNone() {
-        dao.getProduct("aaa");
-        return;
+        dao.getProduct("none");
         
     }
 }

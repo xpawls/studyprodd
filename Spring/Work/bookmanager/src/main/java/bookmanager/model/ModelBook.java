@@ -7,7 +7,7 @@ public class ModelBook {
     private String  category  = "";
     private String  author    = "";
     private Integer price     = null;
-    private Boolean borrow_yn = true;
+    private Boolean borrow_yn = null;
     
     public ModelBook(Integer no, String bookname, String publisher,
             String category, String author, Integer price, Boolean borrow_yn) {

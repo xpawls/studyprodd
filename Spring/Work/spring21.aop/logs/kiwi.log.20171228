@@ -1,0 +1,24 @@
+main> [2017-12-28 11:42:29] [ClassPathXmlApplicationContext] [514] [INFO] Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@290d210d: startup date [Thu Dec 28 11:42:29 KST 2017]; root of context hierarchy 
+main> [2017-12-28 11:42:29] [XmlBeanDefinitionReader] [317] [INFO] Loading XML bean definitions from class path resource [aop.xml] 
+main> [2017-12-28 11:42:29] [AutowiredAnnotationBeanPostProcessor] [153] [INFO] JSR-330 'javax.inject.Inject' annotation found and supported for autowiring 
+main> [2017-12-28 11:42:29] [RequestMappingHandlerAdapter] [517] [INFO] Looking for @ControllerAdvice: org.springframework.context.support.ClassPathXmlApplicationContext@290d210d: startup date [Thu Dec 28 11:42:29 KST 2017]; root of context hierarchy 
+main> [2017-12-28 11:42:29] [RequestMappingHandlerAdapter] [517] [INFO] Looking for @ControllerAdvice: org.springframework.context.support.ClassPathXmlApplicationContext@290d210d: startup date [Thu Dec 28 11:42:29 KST 2017]; root of context hierarchy 
+main> [2017-12-28 11:42:30] [DaoProduct] [17] [DEBUG] ################## getProduct ################## 
+main> [2017-12-28 11:42:30] [DaoProduct] [18] [DEBUG] ModelProduct [logger=org.slf4j.impl.Log4jLoggerAdapter(model.ModelProduct), name=bbb, price=1000] 
+main> [2017-12-28 11:42:30] [DaoProduct] [19] [DEBUG] ################## getProduct ################## 
+main> [2017-12-28 11:50:32] [ClassPathXmlApplicationContext] [514] [INFO] Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@290d210d: startup date [Thu Dec 28 11:50:32 KST 2017]; root of context hierarchy 
+main> [2017-12-28 11:50:32] [XmlBeanDefinitionReader] [317] [INFO] Loading XML bean definitions from class path resource [aop.xml] 
+main> [2017-12-28 11:50:33] [AutowiredAnnotationBeanPostProcessor] [153] [INFO] JSR-330 'javax.inject.Inject' annotation found and supported for autowiring 
+main> [2017-12-28 11:50:33] [RequestMappingHandlerAdapter] [517] [INFO] Looking for @ControllerAdvice: org.springframework.context.support.ClassPathXmlApplicationContext@290d210d: startup date [Thu Dec 28 11:50:32 KST 2017]; root of context hierarchy 
+main> [2017-12-28 11:50:33] [RequestMappingHandlerAdapter] [517] [INFO] Looking for @ControllerAdvice: org.springframework.context.support.ClassPathXmlApplicationContext@290d210d: startup date [Thu Dec 28 11:50:32 KST 2017]; root of context hierarchy 
+main> [2017-12-28 11:50:33] [DaoProduct] [17] [DEBUG] ################## getProduct ################## 
+main> [2017-12-28 11:50:33] [DaoProduct] [18] [DEBUG] ModelProduct [logger=org.slf4j.impl.Log4jLoggerAdapter(model.ModelProduct), name=bbb, price=1000] 
+main> [2017-12-28 11:50:33] [DaoProduct] [19] [DEBUG] ################## getProduct ################## 
+main> [2017-12-28 12:09:57] [ClassPathXmlApplicationContext] [514] [INFO] Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@1198b989: startup date [Thu Dec 28 12:09:57 KST 2017]; root of context hierarchy 
+main> [2017-12-28 12:09:57] [XmlBeanDefinitionReader] [317] [INFO] Loading XML bean definitions from class path resource [aop.xml] 
+main> [2017-12-28 12:09:58] [AutowiredAnnotationBeanPostProcessor] [153] [INFO] JSR-330 'javax.inject.Inject' annotation found and supported for autowiring 
+main> [2017-12-28 12:09:58] [RequestMappingHandlerAdapter] [517] [INFO] Looking for @ControllerAdvice: org.springframework.context.support.ClassPathXmlApplicationContext@1198b989: startup date [Thu Dec 28 12:09:57 KST 2017]; root of context hierarchy 
+main> [2017-12-28 12:09:58] [RequestMappingHandlerAdapter] [517] [INFO] Looking for @ControllerAdvice: org.springframework.context.support.ClassPathXmlApplicationContext@1198b989: startup date [Thu Dec 28 12:09:57 KST 2017]; root of context hierarchy 
+main> [2017-12-28 12:09:58] [DaoProduct] [17] [DEBUG] ################## getProduct ################## 
+main> [2017-12-28 12:09:58] [DaoProduct] [18] [DEBUG] ModelProduct [logger=org.slf4j.impl.Log4jLoggerAdapter(model.ModelProduct), name=bbb, price=1000] 
+main> [2017-12-28 12:09:58] [DaoProduct] [19] [DEBUG] ################## getProduct ################## 
