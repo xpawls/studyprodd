@@ -37,7 +37,14 @@ div#redirect_forward {
 <body>
     <p>The time on the server is ${serverTime}.</p>
     <hr />
-
+    <dl>
+        <dt>연습</dt>
+        <dd>
+            <a href="./stu/index" target="_blank">/stu/index</a>
+            <a href="./webapp/index" target="_blank">/webapp/index</a>
+        </dd>
+        
+    </dl>
     <dl>
         <dt>JSTL 변수 선언</dt>
         <dd>
@@ -162,6 +169,21 @@ div#redirect_forward {
     </dl>
     <hr />
 
+    <dl>
+        <dt>EL 실습</dt>
+        <dd>
+            <a href="/el/el01" target="_blank"> /el/el01 </a>
+        </dd>
+        <dd>
+            <a href="/el/el02" target="_blank"> /el/el02 </a>
+        </dd>
+        <dd>
+            <a href="/el/el03?id=pinksung" target="_blank">
+                /el/el03?id=pinksung </a>
+        </dd>
+    </dl>
+    <hr />
+
     <div id="static_include">
         <h4>정적 include</h4>
         <pre>
@@ -223,6 +245,9 @@ div#redirect_forward {
         &lt;/c:if&gt;
     </pre>
     </div>
+
+
+
 
 </body>
 </html>

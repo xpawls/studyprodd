@@ -1,0 +1,4 @@
+#headul>li { display: inline-block; background-color: skyblue; }
+.mainh3 { color: blue; background-color: green;}
+#login { border: 2px solid gray; width: 200px; height: auto; float: left;}
+#board { width: 70%; height: auto; border: 1px solid grey;}

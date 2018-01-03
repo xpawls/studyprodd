@@ -28,7 +28,6 @@ public class JstlController {
         logger.info("home");
         return "home";
     }
-    
     @RequestMapping(value = "/jstl/jstl01", method = RequestMethod.GET)
     public String jstl01(Model model) {
         logger.info("jstl01");
@@ -102,9 +101,24 @@ public class JstlController {
         return "jstl/jstl33import";
     }
     
-    @RequestMapping(value = "/jstl/jstl41", method = RequestMethod.GET)
-    public String jstl41(Model model) {
-        return "jstl/jstl41";
+    @RequestMapping(value = "/jstl/jstl32includepage", method = RequestMethod.GET)
+    public String jstl32jstl32includepage(Model model) {
+        return "jstl/jstl32includepage";
+    }
+    
+    @RequestMapping(value = "/jstl/jstl32sub", method = RequestMethod.GET)
+    public String jstl32dynamicsub(Model model) {
+        return "jstl/jstl32sub";
+    }
+    
+    @RequestMapping(value = "/jstl/jstl41redirect", method = RequestMethod.GET)
+    public String jstl41redirect(Model model) {
+        return "jstl/jstl41redirect";
+    }
+    
+    @RequestMapping(value = "/jstl/jstl42forward", method = RequestMethod.GET)
+    public String jstl42forward(Model model) {
+        return "jstl/jstl42forward";
     }
     
     @RequestMapping(value = "/jstl/jstl61", method = RequestMethod.GET)
@@ -134,39 +148,4 @@ public class JstlController {
         return "jstl/jstl73radio";
     }
     
-    @RequestMapping(value = "/el/el01", method = RequestMethod.GET)
-    public String el01(Model model) {
-        logger.info("el01");
-        return "el/el01";
-    }
-    
-    @RequestMapping(value = "/el/el02", method = {RequestMethod.GET, RequestMethod.POST})
-    public String el02(Model model) {
-        logger.info("el02");
-        return "el/el02";
-    }
-    
-    @RequestMapping(value = "/el/el02sub", method = {RequestMethod.GET, RequestMethod.POST})
-    public String el02sub(Model model) {
-        logger.info("el02sub");
-        return "el/el02sub";
-    }
-    
-    @RequestMapping(value = "/el/el03", method = RequestMethod.GET)
-    public String el03(Model model) {
-        logger.info("el03");
-        return "el/el03";
-    }
-    
-    @RequestMapping(value = "/el/el04", method = {RequestMethod.GET, RequestMethod.POST})
-    public String el04(Model model) {
-        logger.info("el04");
-        return "el/el04";
-    }
-    
-    @RequestMapping(value = "/el/el04sub", method = {RequestMethod.GET, RequestMethod.POST})
-    public String el04sub(Model model) {
-        logger.info("el04sub");
-        return "el/el04sub";
-    }
 }
