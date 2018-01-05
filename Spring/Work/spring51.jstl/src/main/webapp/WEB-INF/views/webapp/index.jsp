@@ -23,8 +23,7 @@
 </head>
 
 <body>
-    <section id="page1" data-role="page"> <jsp:include
-        page="header.jsp"></jsp:include>
+    <section id="page1" data-role="page"> <jsp:include page="header.jsp"></jsp:include>
     <div class="content" data-role="content">
         <!-- 뉴스 리스트와 이미지 썸네일 리스트 -->
         <div id="main">

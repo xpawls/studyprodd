@@ -36,10 +36,10 @@ public class ServiceUser implements IServiceUser {
     }
     
     @Override
-    public List<ModelUser> login(ModelUser user) {
-        List<ModelUser> lis = null;
+    public ModelUser login(String userid, String passwd) {
+        ModelUser lis = null;
         try {
-            lis = dao.login(user);
+            lis = dao.login(userid, passwd);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             // e.printStackTrace();

@@ -29,10 +29,13 @@ public class DaoUser implements IUser {
     }
 
     @Override
-    public List<ModelUser> login(ModelUser user) {
-        List<ModelUser> lis = null;
-        lis = session.selectList("mapper.mapperUser.login",user);
-        return lis;
+    public ModelUser login(String userid, String passwd) {
+        ModelUser lis = new ModelUser();
+        lis.setUserid(userid);
+        lis.setPasswd(passwd);
+        ModelUser rs = new ModelUser();
+        rs = session.selectOne("mapper.mapperUser.login",lis);
+        return rs;
     }
 
     @Override

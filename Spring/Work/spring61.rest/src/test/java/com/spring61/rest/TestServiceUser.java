@@ -65,8 +65,8 @@ public class TestServiceUser {
         user.setUserid("dfsadf");
         user.setPasswd("bbbb");
         List<ModelUser> lis = null;
-        lis = service.login(user);
-        assertNotNull(lis);
+        user = service.login("dfsadf", "bbbb");
+        assertNotNull(user);
     }
     
     @Test
