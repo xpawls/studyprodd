@@ -66,15 +66,6 @@
         <beans:property name="poolPreparedStatements"  value="true"/>
         <beans:property name="cacheState"              value="true"/>
     </beans:bean>
-    <beans:bean id="dataSourceLog4j" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-        <beans:constructor-arg ref="dataSourceSpied" />
-        <beans:property name="logFormatter">
-            <beans:bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-                <beans:property name="loggingType" value="MULTI_LINE" />
-                <beans:property name="sqlPrefix" value="SQL         :  "/>
-            </beans:bean>
-        </beans:property>
-    </beans:bean>
     -->
        
     

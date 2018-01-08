@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>도서 관리 페이지</title>
-    <link rel="stylesheet" type="text/css" href="../../../resources/stylesheet/bookcss.css">
+    <link rel="stylesheet" type="text/css" href="/resources/stylesheet/bookcss.css">
     <style type="text/css">
         /* header */
         header input { width: 100px; height: 50px; text-align: center; }
@@ -29,9 +29,10 @@
         .maintabpage { background-color: skyblue; height: 645px; }
         .maintable { width: 790px; }
         .maintable, .maintable td{ border: 1px solid black; }
+        .tablehover { background-color: lightgreen;}
 
     </style>
-    <script type="text/javascript" src="../../../resources/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery-3.2.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#mainbody>div').hide();
@@ -41,6 +42,21 @@
                 var name = $(this).children('a').attr('name');
                 $(name).show();
             });
+            $('#newbook').click(function(event) {
+            	window.open('newbook', 'width=300px,height=300px', '_blank');
+            });
+            
+            $('#bsbtn').click(function(event) {
+            	$('#bsrhform').submit();
+            	
+            });
+            
+            $('#maintable td').mouseover(function() {
+            	$(this).parent('tr').children('td').addClass('tablehover');
+            });
+            $('#maintable td').mouseout(function() {
+                $('#maintable').find('td').removeClass('tablehover');
+            });
         });
     </script>
 </head>
@@ -48,7 +64,7 @@
     <header>
         <div>
             <input type="button" name="joinmember" value="회원가입">
-            <input type="button" name="newbook" value="도서등록">
+            <input type="button" name="newbook" value="도서등록" id="newbook">
             <input type="button" name="refresh" value="새로고침">
             <input type="button" name="exit" value="종료">
             <hr>
@@ -83,13 +99,15 @@
             <label><p class="label">가 격</p><input type="text" name="price"></label>
             <div id="bpgtool">
                 <select>
-                    <option value="소설">fiction</option>
-                    <option value="교양">prof</option>
-                    <option value="교육">study</option>
-                    <option value="음악">music</option>
+                    <option value="no">번호</option>
+                    <option value="bookname">제목</option>
+                    <option value="publisher">출판사</option>
+                    <option value="author">작가</option>
                 </select>
-                <input type="text" name="searchtext">
-                <input type="button" name="searchbook" value="검색">
+                <form action="bseach" method="post" id="bsrhform">
+                <input type="text" name="searchtext" id="searchtext">
+                </form>
+                <input type="button" name="searchbook" value="검색" id="bsbtn">
                 <input type="button" name="modifybook" value="수정">
                 <input type="button" name="deletebook" value="삭제">
                 <input type="button" name="rentbook" value="대여">
@@ -107,7 +125,18 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                <c:forEach var="booklist" items="${list }" varStatus="ind">
+                <tr>
+                        <td>${booklist.no }</td>
+                        <td>${booklist.bookname }</td>
+                        <td>${booklist.category }</td>
+                        <td>${booklist.author }</td>
+                        <td>${booklist.publisher }</td>
+                        <td>${booklist.price }</td>
+                        <td>${booklist.borrow_yn }</td>
+                    </tr>
+                </c:forEach>
+                    
                 </tbody>
             </table>
         </div>

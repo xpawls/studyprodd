@@ -251,17 +251,16 @@ dependencies {
     //compile group: "org.hibernate.javax.persistence", name: "hibernate-jpa-2.0-api"   , version: "1.0.1.Final"
    
     
-    // json library :: @ResponseBody를 이용해 json 데이터를 반환하기 위한 라이브러리
+    // @ResponseBody를 이용해 json 데이터를 반환하기 위한 라이브러리
     compile 'com.fasterxml.jackson.core:jackson-core:2.4.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.1.1'
-    //compile group: "org.codehaus.jackson", name: "jackson-mapper-asl", version: "1.9.13"
-    //compile group: "org.json"            , name: "json"              , version: "20140107" 
+    
+    // gson : json 객체를 자바 인스턴스로 바꾸는 구글 라이브러리
+    //compile group: "com.google.code.gson", name: "gson", version: "2.8.0"
+    //compile group: "org.json"            , name: "json", version: "20140107" 
     
     // jsoup library
     //compile group: "org.jsoup", name: "jsoup", version: "1.7.3" 
-    
-    // gson
-    //compile group: "com.google.code.gson", name: "gson", version: "2.8.0"
     
     // make html template
     //compile group: "org.freemarker", name: "freemarker", version: "2.3.21"   
