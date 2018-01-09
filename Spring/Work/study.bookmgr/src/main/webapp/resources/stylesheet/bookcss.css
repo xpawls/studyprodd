@@ -1,1 +1,72 @@
 @charset "UTF-8";
+/* header */
+header input {
+    width: 100px;
+    height: 50px;
+    text-align: center;
+}
+
+#mainaside {
+    float: left;
+    width: 300px;
+    height: 700px;
+    border: 1px solid black;
+}
+
+#renttableS {
+    width: 290px;
+}
+
+/* body */
+#mainbody {
+    float: left;
+    width: 800px;
+    height: 700px;
+}
+
+#maintab>li {
+    display: inline-block;
+    background-color: grey;
+}
+
+#renttableS td {
+    border: 1px solid grey;
+}
+
+.label {
+    width: 80px;
+    height: auto;
+    margin: 1px;
+}
+/*         label>input { float: left; margin: 5px;} */
+#bpgtool {
+    clear: both;
+    margin: 10px;
+}
+
+/* bookpage */
+#mainbody>div>label {
+    display: block;
+    margin: 10px;
+}
+
+#mainbody {
+    border: 1px black solid;
+}
+
+.maintabpage {
+    background-color: skyblue;
+    height: 645px;
+}
+
+.maintable {
+    width: 790px;
+}
+
+.maintable, .maintable td {
+    border: 1px solid black;
+}
+
+.tablehover {
+    background-color: lightgreen;
+}

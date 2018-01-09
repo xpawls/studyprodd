@@ -19,16 +19,21 @@ div.nblabel {
 <script type="text/javascript" src="/resources/js/jquery-3.2.1.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		#('#cmpclose').click(function(event){
-			$(window).self.close();
-		});
+// 	    $('#submit').click(function(event) {
+	    	
+//         });
 	});
 </script>
 </head>
 <body>
-    <div> ${bookname} 의 등록이 완료 되었습니다.</div>
-    <br>
-    <input type="button" value="확인" name="cmpclose" id="cmpclose">
+    <form action="joinmembercmp" method="post">
+        <div class="nblabel">이름</div><input name="memName" type="text"><br> 
+            <div class="nblabel">주민번호</div><input name="memPriNum1" type="text">-<input name="memPriNum2" type="text"><br>
+             <div class="nblabel">전화번호</div><input name="memPhone1" type="text">-<input name="memPhone2" type="text">-<input name="memPhone3" type="text"><br>
+        <div class="nblabel">이메일</div><input name="memEmail" type="text"><br> 
+             <input
+            id="submit" type="submit" value="등록">
+    </form>
 </body>
 </html>
 

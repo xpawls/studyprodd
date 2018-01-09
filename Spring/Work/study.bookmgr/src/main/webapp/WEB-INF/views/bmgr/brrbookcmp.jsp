@@ -26,7 +26,7 @@ div.nblabel {
 </script>
 </head>
 <body>
-    <div> ${bookname} 의 등록이 완료 되었습니다.</div>
+    <div> ${bookname} 의 대여가 완료 되었습니다.</div>
     <br>
     <input type="button" value="확인" name="cmpclose" id="cmpclose">
 </body>
