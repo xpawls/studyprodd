@@ -19,15 +19,28 @@ div.nblabel {
 <script type="text/javascript" src="/resources/js/jquery-3.2.1.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-	    $('#brmsbtn').click(function(event){
-	    	$('form').attr('action', 'brmseach');
-	    	$('form').submit();
-	    });
+
+        $('body').on('click', '#brmsbtn', function() {
+        	$('#form').attr('action', '/bmgr/brmseach');
+            $('#form').submit();
+        });
+        $('body').on('click', '#submit', function() {
+            $('#form').attr('action', '/bmgr/brrbookcmp');
+            $('#form').submit();
+        });
+// 	    $('#brmsbtn').click(function(event){
+// 	    	$('#form').attr('action', '/bmgr/brmseach');
+// 	    	$('#form').submit();
+// 	    });
+// 	    $('#submit').click(function(event){
+//             $('#form').attr('action', '/bmgr/brrbookcmp');
+//             $('#form').submit();
+//         });
 	});
 </script>
 </head>
 <body>
-    <form action="brrbookcmp" method="post" >
+    <form action="brrbookcmp" method="post" id="form">
         <div class="nblabel">번호</div>
         <input name="no" type="text" value="${brrbook.no }"><br>
         <div class="nblabel">제목</div>
@@ -42,7 +55,7 @@ div.nblabel {
         <div class="nblabel">회원번호</div>
         <input name="memNo" type="text" value="${brlistm.memNo }"><br>
         <input type="button" name="searchbrmem" value="검색" id="brmsbtn">
-        <input id="submit" type="submit" value="대여">
+        <input id="submit" type="button" value="대여">
 
     </form>
     <br>

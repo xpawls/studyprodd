@@ -32,6 +32,7 @@
 		
 		// 도서 페이지 도구툴
 		$('#bsbtn').click(function(event) {
+			var selec = $('#bsselect>option').val();
 			$('#bsrhform').submit();
 
 		});
@@ -69,6 +70,8 @@
             $('#btxtbox').submit();    
 
         });
+        
+        
 
 		// 멤버 페이지 도구툴
 		$('#msbtn').click(function(event) {
@@ -170,7 +173,7 @@
                 <input type="text" name="price">
             </form>
             <div id="bpgtool">
-                <select>
+                <select id="bsselect">
                     <option value="no">번호</option>
                     <option value="bookname">제목</option>
                     <option value="publisher">출판사</option>

@@ -29,6 +29,7 @@ import com.study.bookmgr.model.ModelMember;
 public class BookController {
 	private String pageSelector = "#bookpage";
 	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+	private ModelBook brbook = null;
 	@Autowired
 	IServiceBook svrbook;
 	
@@ -40,6 +41,7 @@ public class BookController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	// 메인 페이지
 	@RequestMapping(value = "/mainpage", method = {RequestMethod.GET,RequestMethod.POST})
 	public String mainpage(Model model) {
 		List<ModelBook> list = null;
@@ -62,7 +64,7 @@ public class BookController {
 		
 		return "bmgr/mainpage";
 	}
-	
+	// 도서 등록
 	@RequestMapping(value = "/newbook", method = RequestMethod.GET)
     public String newBook(Model model) {
         
@@ -86,7 +88,7 @@ public class BookController {
         return "bmgr/newbookcmp";
     }
     
-
+    // 도서페이지
     @RequestMapping(value = "/bseach", method = RequestMethod.POST)
     public String bseach(Model model
             , @RequestParam(value="searchtext") String srh) {
@@ -138,6 +140,8 @@ public class BookController {
         pageSelector = "#bookpage";
         return "redirect:/bmgr/mainpage";
     }
+    
+    // 멤버 페이지
     @RequestMapping(value = "/joinmember", method = RequestMethod.GET)
     public String joinmember(Model model) {
         
@@ -221,6 +225,7 @@ public class BookController {
         return "redirect:/bmgr/mainpage";
     }
     
+    // 대여 페이지
     @RequestMapping(value = "/brrcmp", method = RequestMethod.POST)
     public String brrcmp(Model model
             , @ModelAttribute ModelBorrow borrow) {
@@ -238,6 +243,7 @@ public class BookController {
     @RequestMapping(value = "/borrowbook", method = {RequestMethod.POST,RequestMethod.GET})
     public String borrowbook(Model model
             , @ModelAttribute ModelBook book) {
+        brbook = book;
         model.addAttribute("brrbook", book);
         return "bmgr/borrowbook";
     }
@@ -283,8 +289,7 @@ public class BookController {
     
     @RequestMapping(value = "/brmseach", method = {RequestMethod.POST,RequestMethod.GET})
     public String brmseach(Model model
-            , @RequestParam(value="memNo") String memNo
-            , @ModelAttribute ModelBook book) {
+            , @RequestParam(value="memNo") String memNo) {
         List<ModelMember> lis = null;
         ModelMember member = new ModelMember();
         member.setMemNo(Integer.valueOf(memNo));
@@ -297,7 +302,7 @@ public class BookController {
             
         }
         model.addAttribute("brlistm", lis);
-        //model.addAttribute("brrbook", book);
+        model.addAttribute("brrbook", brbook);
         
         
         

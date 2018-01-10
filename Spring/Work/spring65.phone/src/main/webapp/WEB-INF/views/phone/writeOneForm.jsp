@@ -26,6 +26,9 @@ th {
 		$('#writeone3').click(function(e) {
             $('form').attr('action', '/phone/writeone3').submit();
         });
+		$('#writeone4').click(function(e) {
+            $('form').attr('action', '/phone/writeone4').submit();
+        });
 	});
 </script>
 </head>
