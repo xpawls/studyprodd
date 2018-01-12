@@ -16,7 +16,7 @@ import com.spring61.mvc.model.*;
 import com.spring61.mvc.service.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestServicePhone {
+public class TestService {
     
     private static ApplicationContext context = null;
     private static IServicePhone service = null;
