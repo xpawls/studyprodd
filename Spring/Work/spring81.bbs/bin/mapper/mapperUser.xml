@@ -51,9 +51,15 @@
 	        UPDATE TB_USER 
 	           SET retireYN=1            
 	        WHERE 1 = 1
-	        <if test="userid != null">
+	        <if test="userid != null and userid != ''">
 	            AND userid = #{userid}
 	        </if>
+            <if test="email != null and email != ''">
+                AND email = #{email}
+            </if>
+            <if test="passwd != null and passwd != ''">
+                AND passwd = #{passwd}
+            </if>
 	</update>
 
 
@@ -92,6 +98,11 @@
             SELECT count(userid)
             FROM TB_USER
             where userid = #{userid}
+    </select>
+    
+    <select id="checkpassword" parameterType="java.util.Map" resultType="int">
+        select count(*) from TB_USER
+         where userid = #{id} and passwd = #{pw}
     </select>
 
 </mapper>

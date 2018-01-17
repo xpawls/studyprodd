@@ -161,9 +161,9 @@ public class RestController {
     @RequestMapping(value = "/getboardlist", method = { RequestMethod.GET,
             RequestMethod.POST })
     @ResponseBody
-    public List<ModelBoard> getBoardList() {
+    public List<ModelBoard> getBoardList(String searchWord) {
         logger.info("/rest/getBoardList");
-        return boardsvr.getBoardList();
+        return boardsvr.getBoardList(searchWord);
     }
     
     @RequestMapping(value = "/getboardtotalrecord", method = { RequestMethod.GET,

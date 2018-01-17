@@ -288,25 +288,31 @@ public class BookController {
     }
     
     @RequestMapping(value = "/brmseach", method = {RequestMethod.POST,RequestMethod.GET})
-    public String brmseach(Model model
-            , @RequestParam(value="memNo") String memNo) {
+    public Object[] brmseach(String memNo) {
         List<ModelMember> lis = null;
         ModelMember member = new ModelMember();
         member.setMemNo(Integer.valueOf(memNo));
         try {
-            lis = svrmem.selectAll();
+            lis = svrmem.selectEqual(member);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             // e.printStackTrace();
             logger.error("brmseach" + e.getMessage());
             
         }
-        model.addAttribute("brlistm", lis);
-        model.addAttribute("brrbook", brbook);
+        member = lis.get(0);
+        Object[] obj = new Object[5];
+        
+        obj[0] = member.getMemNo();
+        obj[1] = member.getMemName();
+        obj[2] = member.getMemPriNum();
+        obj[3] = member.getMemPhone();
+        obj[4] = member.getMemEmail();
         
         
         
-        return "/bmgr/borrowbook";
+        
+        return obj;
     }
 	
 }

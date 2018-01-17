@@ -16,10 +16,13 @@
          WHERE boardcd = #{boardcd}
     </select>
     
-    <select id="getBoardList" resultType="ModelBoard">
-        SELECT boardcd, boardnm, UseYN, InsertUID, InsertDT, UpdateUID, UpdateDT
+    <select id="getBoardList" parameterType="String" resultType="ModelBoard">
+        SELECT boardcd, boardnm, UseYN 
           FROM TB_Bbs_Board
-        ORDER BY boardnm
+         WHERE 1 =1 
+           <if test=" _parameter  != null and _parameter  != '' ">
+           AND boardnm LIKE CONCAT( '%' , #{_parameter} , '%' )
+           </if>
     </select>
         
     <insert id="insertBoard" parameterType="ModelBoard">

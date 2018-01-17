@@ -156,4 +156,19 @@ public class ServiceUser implements IServiceUser {
         }
         return rs;
     }
+
+    @Override
+    public int checkpassword(String id, String curpw) {
+        int rs = -1;
+        try {
+            rs = dao.checkpassword(id, curpw);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("checkpassword" + e.getMessage());
+            throw e;
+            
+        }
+        return rs;
+    }
 }

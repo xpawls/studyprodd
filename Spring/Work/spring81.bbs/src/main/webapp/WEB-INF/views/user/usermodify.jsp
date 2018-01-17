@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -8,18 +9,30 @@
     <meta name="Description" content="내 정보 수정" />
     <title>내 정보 수정</title>
     <link rel="stylesheet" href="/resources/css/screen.css" type="text/css"  />
+    <script type="text/javascript" src="/resources/js/jquery-3.1.1.js"></script>
    
 </head>
 <body>
 
 <div id="wrap">
 
+        <div id="header"><%@ include file="../inc/header.jsp"%>
+        </div>
+
+        <div id="main-menu"><%@ include
+                file="../inc/main-menu.jsp"%></div>
     <div id="container">
         <div id="content" style="min-height: 800px;">
         
             <!-- 본문 시작 -->
             <div id="url-navi">회원</div>
             <h1>내 정보 수정</h1>
+            <div id="error_message">
+            
+            <c:if test="${not empty msg }">
+                    <p style="color: red;">정보 수정에 실패했습니다.</p>
+            </c:if>
+            </div>
             <p>
             비밀번호외의 자신의 계정 정보를 수정할 수 있습니다.<br />
             비밀번호는 <a href="./changepassword">비밀번호 변경</a>메뉴를 이용하세요.<br />
@@ -56,6 +69,14 @@
         </div><!-- content 끝 -->
     </div><!--  container 끝 -->
    
+   
+   
+        <div id="sidebar"><%@ include file="../inc/bbs-menu.jsp"%></div>
+
+        <div id="extra"><%@ include file="../inc/extra.jsp"%></div>
+
+        <div id="footer"><%@ include file="../inc/footer.jsp"%>
+        </div>
 </div>
 
 </body>

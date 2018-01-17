@@ -41,9 +41,9 @@ public class DaoBoard implements IBoard {
     }
 
     @Override
-    public List<ModelBoard> getBoardList() {
+    public List<ModelBoard> getBoardList(String searchWord) {
         List<ModelBoard> rs = null;
-        rs = session.selectList("mapper.mapperBoard.getBoardList");
+        rs = session.selectList("mapper.mapperBoard.getBoardList", searchWord);
         return rs;
     }
 

@@ -13,7 +13,7 @@ import com.spring81.bbs.model.ModelComments;
 public interface IBoard {
     String getBoardName(String boardcd);
     ModelBoard getBoardOne(String boardcd);
-    List<ModelBoard> getBoardList();
+    List<ModelBoard> getBoardList(String searchWord);
     int insertBoard(ModelBoard board);
     int updateBoard(ModelBoard searchValue, ModelBoard updateValue);
     int deleteBoard(ModelBoard board);

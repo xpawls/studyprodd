@@ -13,6 +13,7 @@
 
     <div id="wrap">
         <div id="header"><%@ include file="../inc/header.jsp"%>
+        
         </div>
 
         <div id="main-menu"><%@ include

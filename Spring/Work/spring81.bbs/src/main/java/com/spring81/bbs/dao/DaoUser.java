@@ -2,6 +2,7 @@ package com.spring81.bbs.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -91,6 +92,16 @@ public class DaoUser implements IUser {
     public int checkuserid(String userid) {
         int rs = -1;
         rs = session.selectOne("mapper.mapperUser.checkuserid", userid);
+        return rs;
+    }
+
+    @Override
+    public int checkpassword(String id, String curpw) {
+        int rs = -1;
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("pw", curpw);
+        rs = session.selectOne("mapper.mapperUser.checkpassword", map);
         return rs;
     }
 }

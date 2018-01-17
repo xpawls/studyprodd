@@ -35,7 +35,7 @@ $(document).ready(function(event){
 		    if(data===0){
 
                 alert('사용 가능한 아이디 입니다.');
-		    	$('input').attr('disabled', false);
+		    	$('#signUpForm input').attr('disabled', false);
 		    }
 		    else{
 		    	alert('이미 있는 아이디 입니다.');
@@ -48,44 +48,73 @@ $(document).ready(function(event){
 	});
 	
 	$('#regisubmit').click(function(event){
-		if($('input[name="name"]').val()===""){
-			alert("이름을 입력하세요");
-			$('input[name="name"]').focus();
+		var non = 0;
+		var list = $('.req_input');
+		for(var i=0; i<list.length; i++){
+			if($(list[i]).val()==='' ){
+				list[i].focus();
+				$('#signUpForm label').remove();
+				if($(list[i]).prop('disabled')===false){
+
+	                $(list[i]).after('<label>입력하세요</label>');
+	                non++;
+				}
+				return false;
+			}
+		}
+		if(non===0){
+	        $('#signUpForm').submit();
+		} else {
 			return false;
 		}
-		else if($('input[name="email"]').val()===""){
-            alert("메일주소를 입력하세요");
-            $('input[name="email"]').focus();
-            return false;
-        }
-        else if($('input[name="passwd"]').val()===""){
-            alert("패스워드를 입력하세요");
-            $('input[name="passwd"]').focus();
-            return false;
-        }
-        else if($('input[name="confirm"]').val()===""){
-            alert("패스워드 확인을 입력하세요");
-            $('input[name="confirm"]').focus();
-            return false;
-        }
-        else if($('input[name="mobile"]').val()===""){
-            alert("전화번호를 입력하세요");
-            $('input[name="mobile"]').focus();
-            return false;
-        }
-        else{
-        	if($('input[name="passwd"]').val()!=$('input[name="confirm"]').val()){
-        		alert("패스워드가 일치하지 않습니다.");
-        		$('input[name="confirm"]').focus();
-        		return false;
-        		
-        	}
-        	else{
-        		$('#signUpForm').submit();
-        	}
-            
-        }
 	});
+	
+	$('.req_input').keyup(function(event){
+		// 출력된 오류 메세지 삭제
+		if($(this).val() !==''){
+			$(this).next('label').remove(); // label태그 삭제.
+		}
+	});
+	
+// 	$('#regisubmit').click(function(event){
+// 		if($('input[name="name"]').val()===""){
+// 			alert("이름을 입력하세요");
+// 			$('input[name="name"]').focus();
+// 			return false;
+// 		}
+// 		else if($('input[name="email"]').val()===""){
+//             alert("메일주소를 입력하세요");
+//             $('input[name="email"]').focus();
+//             return false;
+//         }
+//         else if($('input[name="passwd"]').val()===""){
+//             alert("패스워드를 입력하세요");
+//             $('input[name="passwd"]').focus();
+//             return false;
+//         }
+//         else if($('input[name="confirm"]').val()===""){
+//             alert("패스워드 확인을 입력하세요");
+//             $('input[name="confirm"]').focus();
+//             return false;
+//         }
+//         else if($('input[name="mobile"]').val()===""){
+//             alert("전화번호를 입력하세요");
+//             $('input[name="mobile"]').focus();
+//             return false;
+//         }
+//         else{
+//         	if($('input[name="passwd"]').val()!=$('input[name="confirm"]').val()){
+//         		alert("패스워드가 일치하지 않습니다.");
+//         		$('input[name="confirm"]').focus();
+//         		return false;
+        		
+//         	}
+//         	else{
+//         		$('#signUpForm').submit();
+//         	}
+            
+//         }
+// 	});
 });
 </script>
 
@@ -113,7 +142,7 @@ $(document).ready(function(event){
                             <td style="width: 200px;">사용자 아이디</td>
                             <td style="width: 390px"><input
                                 type="text" name="userid"
-                                style="width: 70%;" id="userid" /> <input
+                                style="width: 70%;" id="userid" class="req_input"/> <input
                                 type="button" value="아이디 중복 조회"
                                 id="checkuserid" /></td>
                         </tr>
@@ -121,29 +150,29 @@ $(document).ready(function(event){
                             <td style="width: 200px;">이름(Full Name)</td>
                             <td style="width: 390px"><input
                                 type="text" name="name"
-                                style="width: 99%;" disabled="disabled" /></td>
+                                style="width: 99%;" disabled="disabled" class="req_input" /></td>
                         </tr>
                         <tr>
                             <td>Email</td>
                             <td><input type="text" name="email"
-                                style="width: 99%;" disabled="disabled" /></td>
+                                style="width: 99%;" disabled="disabled" class="req_input" /></td>
                         </tr>
                         <tr>
                             <td>비밀번호(Password)</td>
                             <td><input type="password"
                                 name="passwd" style="width: 99%;"
-                                disabled="disabled" /></td>
+                                disabled="disabled"  class="req_input"/></td>
                         </tr>
                         <tr>
                             <td>비밀번호 확인(Confirm)</td>
                             <td><input type="password"
                                 name="confirm" style="width: 99%;"
-                                disabled="disabled" /></td>
+                                disabled="disabled"  class="req_input"/></td>
                         </tr>
                         <tr>
                             <td>이동전화(Mobile)</td>
                             <td><input type="text" name="mobile"
-                                style="width: 99%;" disabled="disabled" /></td>
+                                style="width: 99%;" disabled="disabled"  class="req_input"/></td>
                         </tr>
                     </table>
                     <div

@@ -65,9 +65,12 @@
     
     <ol>
         <li><a href="./board/boardlist"  target="_blank">./board/boardlist </a></li>
+        <li><a href="./board/boardlist?searchWord="  target="_blank">./board/boardlist?searchWord=</a></li>
+        <li><a href="./board/boardlist?searchWord=자유게시판"  target="_blank">./board/boardlist?searchWord=자유게시판</a></li>
         <li><a href="./board/boardview?boardcd=qna" target="_blank">./board/boardview?boardcd=qna </a></li>
         <li><a href="./board/boardview" target="_blank">./board/boardview  == ./board/boardview?boardcd=free</a></li>
-        <li><a href="./board/boardview/qna" target="_blank">./board/boardview/qna</a></li>
+        <li><a href="./board/boardview/qna" target="_blank">./board/boardview/qna</a>
+            <span> delete는 반드시 post로 만들어야 한다, get으로 만들어서는 안된다.</span></li>
         <li><span> boardlist 에 boardview 연결하기 </span> </li>
         <li><span> boardlist의 tr을 클릭하면 boardview 가 열리게 하시오 </span>
             <xmp>

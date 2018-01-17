@@ -55,10 +55,10 @@ public class ServiceBoard implements IServiceBoard {
     }
     
     @Override
-    public List<ModelBoard> getBoardList() {
+    public List<ModelBoard> getBoardList(String searchWord) {
         List<ModelBoard> rs = null;
         try {
-            rs = dao.getBoardList();
+            rs = dao.getBoardList(searchWord);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             // e.printStackTrace();

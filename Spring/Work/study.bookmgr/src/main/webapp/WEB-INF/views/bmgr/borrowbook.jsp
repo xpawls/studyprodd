@@ -18,24 +18,33 @@ div.nblabel {
 </style>
 <script type="text/javascript" src="/resources/js/jquery-3.2.1.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
+	$(document).ready(function(e) {
+		var memNo = $('input[name="memNo"]').val();
 
-        $('body').on('click', '#brmsbtn', function() {
-        	$('#form').attr('action', '/bmgr/brmseach');
-            $('#form').submit();
+        $('body').on('click', '#brmsbtn', function(e) {
+        	$.ajax({
+                url : '/bmgr/brmseach'
+                , data: {'memNo' : memNo}        // 사용하는 경우에는 { data1:'test1', data2:'test2' }
+                , type: 'post'       // get, post
+                , timeout: 30000    // 30초
+                , dataType: 'json'  // text, html, xml, json, jsonp, script
+                , beforeSend : function() {
+                    // 통신이 시작되기 전에 이 함수를 타게 된다.
+                }
+            }).done( function(data, textStatus, xhr ){
+                // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
+                //$('input[name="memName"]').val(data[1]);
+                alert(data);
+            }).fail( function(xhr, textStatus, error ) {
+                // 통신이 실패했을 때 이 함수를 타게 된다.
+            }).always( function(data, textStatus, xhr ) {
+                // 통신이 실패했어도 성공했어도 이 함수를 타게 된다.
+            });
         });
-        $('body').on('click', '#submit', function() {
+        $('body').on('click', '#submit', function(e) {
             $('#form').attr('action', '/bmgr/brrbookcmp');
             $('#form').submit();
         });
-// 	    $('#brmsbtn').click(function(event){
-// 	    	$('#form').attr('action', '/bmgr/brmseach');
-// 	    	$('#form').submit();
-// 	    });
-// 	    $('#submit').click(function(event){
-//             $('#form').attr('action', '/bmgr/brrbookcmp');
-//             $('#form').submit();
-//         });
 	});
 </script>
 </head>
@@ -53,37 +62,20 @@ div.nblabel {
         <div class="nblabel">작가</div>
         <input name="author" type="text" value="${brrbook.author }"><br>
         <div class="nblabel">회원번호</div>
-        <input name="memNo" type="text" value="${brlistm.memNo }"><br>
-        <input type="button" name="searchbrmem" value="검색" id="brmsbtn">
+        <input name="memNo" type="text"><br>
+        <input type="button" name="searchbrmem" value="검색" id="brmsbtn"><br>
+        <div class="nblabel">이름</div>
+        <input type="text" name="memName"><br>
+        <div class="nblabel">주민번호</div>
+        <input type="text" name="memPriNum"><br>
+        <div class="nblabel">전화번호</div>
+        <input type="text" name="memPhone"><br>
+        <div class="nblabel">이메일</div>
+        <input type="text" name="memEmail"><br>
         <input id="submit" type="button" value="대여">
 
     </form>
     <br>
-
-    <table class="maintable">
-        <thead>
-            <tr>
-                <td>no.</td>
-                <td>이름</td>
-                <td>주민번호</td>
-                <td>전화번호</td>
-                <td>이메일</td>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="brmemlist" items="${brlistm }"
-                varStatus="ind">
-                <tr>
-                    <td class="brmtd">${brmemlist.memNo }</td>
-                    <td class="brmtd">${brmemlist.memName }</td>
-                    <td class="brmtd">${brmemlist.memPriNum }</td>
-                    <td class="brmtd">${brmemlist.memPhone }</td>
-                    <td class="brmtd">${brmemlist.memEmail }</td>
-                </tr>
-            </c:forEach>
-
-        </tbody>
-    </table>
 </body>
 </html>
 
