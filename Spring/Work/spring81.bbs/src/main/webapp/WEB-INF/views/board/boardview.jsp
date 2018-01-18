@@ -26,6 +26,26 @@ $(document).ready(function(e){
         window.location.href = '/board/boardmodify?boardcd=${board.boardcd}';
     });
     $('.boarddelete').click(function(e){
+    	// form 태그 생성, 속성 설정
+    	var f = document.createElement('form');
+    	
+    	f.setAttribute('method', 'post');
+    	f.setAttribute('action', '/board/boarddelete');
+    	f.setAttribute('enctype', 'application/x-www-form-urlencoded');
+    	
+    	// input 태그 생성
+    	var i = document.createElement('input');
+    	
+    	i.setAttribute('type', 'text');
+    	i.setAttribute('name', 'boardcd');
+    	i.setAttribute('value', '${board.boardcd }');
+    	
+    	// input 태그를 form 태그에 속하게 한다.
+    	f.appendChild(i);
+    	
+    	// form 태그 submit
+    	document.body.appendChild(f);
+    	f.submit();
     	
     });
 });

@@ -1,0 +1,6 @@
+0118
+1교시 - boardview 에서 delete버튼 이벤트 작성(동적 form)
+데이터를 변경할 때는 post를 사용하는 것이좋다(CUD)
+2교시 - board 페이징 처리
+spring00 -> bbs 폴더에 있는 자바파일 2개 common패키지에 복사
+alt+shift+r -> rename(변수 이름을 일괄적으로 바꿈)

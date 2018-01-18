@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring81.bbs.common.PagingHelper;
 import com.spring81.bbs.common.WebConstants;
 import com.spring81.bbs.inf.IServiceBoard;
 import com.spring81.bbs.model.ModelBoard;
@@ -37,14 +38,33 @@ public class BoardController {
 	
 
     // /board/boardlist
-    // /board/boardlist?searchWord=
+    // /board/boardlist?searchWord=&curPage=2
 	@RequestMapping(value = "/board/boardlist", method = RequestMethod.GET)
 	public String boardlist( Model model
-	        , @RequestParam(defaultValue="") String searchWord ) {
+	        , @RequestParam(defaultValue="") String searchWord 
+            , @RequestParam(defaultValue="1") Integer curPage) {
 		logger.info("/board/boardlist");
-		List<ModelBoard> result = srvboard.getBoardList(searchWord);
 		
+		// 전체 레코드 수 가져오기.
+		int totalRecord = srvboard.getBoardTotalRecord(null, searchWord);
+        // 페이징을 위한 코드 추가.
+		PagingHelper paging = new PagingHelper(totalRecord, curPage, 5, 5);
+		int start = paging.getStartRecord();
+		int end   = paging.getEndRecord();
+		List<ModelBoard> result = srvboard.getBoardPaging("", searchWord, start, end);
+		
+		// List
 		model.addAttribute("list", result);
+		
+		// 페이징을 위한 변수들 추가
+		model.addAttribute("curPage", curPage);
+		model.addAttribute("searchWord", searchWord);
+		
+		// 페이징을 처리하기 위한 변수 추가
+		model.addAttribute("no", paging.getListNo());
+		model.addAttribute("prevLink", paging.getPrevLink());
+		model.addAttribute("pageLinks", paging.getPageLinks());
+        model.addAttribute("nextLink", paging.getNextLink());
 		return "board/boardlist";
 	}
 	// /board/boardview  ===> /board/boardview?boardcd=free
