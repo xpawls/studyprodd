@@ -15,20 +15,21 @@
 
 <script type="text/javascript" src="/resources/js/jquery-3.1.1.js"></script>
 <script type="text/javascript">
-$(document).ready( function(e){
-    
-    //boardlist에서 해당 게시글을 클릭하면 boardview 가 열리게 하시오
-    $('div#bbs > table > tbody > tr').click( function(e){
-        var boardcd = $(this).attr('boardcd');
-        //window.location='/board/boardview?boardcd=' + boardcd ;
-        window.location='/board/boardview/' + boardcd ;
-    });
-    
-});
+	$(document).ready(function(e) {
 
-var goList = function(page){
-    window.location.href = '/board/boardlist?searchWord=${searchWord}&curPage=' + page;
-}
+		//boardlist에서 해당 게시글을 클릭하면 boardview 가 열리게 하시오
+		$('div#bbs > table > tbody > tr').click(function(e) {
+			var boardcd = $(this).attr('boardcd');
+			//window.location='/board/boardview?boardcd=' + boardcd ;
+			window.location = '/board/boardview/' + boardcd;
+		});
+
+	});
+
+	var goList = function(page) {
+		window.location.href = '/board/boardlist?searchWord=${searchWord}&curPage='
+				+ page;
+	}
 </script>
 </head>
 <body>
@@ -77,37 +78,42 @@ var goList = function(page){
                             <!--  반복 구간 끝 -->
                         </tbody>
                     </table>
-                    
+
                     <div id="paging" style="text-align: center;">
-                        
+
                         <c:if test="${prevLink > 0 }">
                             <a href="javascript:goList(${prevLink })">[이전]</a>
                         </c:if>
-                
-                        <c:forEach var="i" items="${pageLinks }" varStatus="stat">
+
+                        <c:forEach var="i" items="${pageLinks }"
+                            varStatus="stat">
                             <c:choose>
-                            <c:when test="${curPage == i}">
-                                <span class="bbs-strong">${i }</span>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="javascript:goList(${i })">${i }</a>
-                            </c:otherwise>
+                                <c:when test="${curPage == i}">
+                                    <span class="bbs-strong">${i }</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="javascript:goList(${i })">${i }</a>
+                                </c:otherwise>
                             </c:choose>
                         </c:forEach>
-                        
+
                         <c:if test="${nextLink > 0 }">
                             <a href="javascript:goList(${nextLink })">[다음]</a>
                         </c:if>
-                        
+
                     </div>
-                    
+
                     <div id="search" style="text-align: center;">
-                        <form id="searchForm" action="./boardlist" method="get" style="margin: 0;padding: 0;">
-                            <p style="margin: 0;padding: 0;">
-                                <input type="hidden" name="curPage" value="${curPage }" />
-                                <input type="text" name="searchWord"  value="${searchWord }" size="15" maxlength="30" />
-                                <input type="submit" value="검색" />
-                            </p>    
+                        <form id="searchForm" action="./boardlist"
+                            method="get" style="margin: 0; padding: 0;">
+                            <p style="margin: 0; padding: 0;">
+                                <input type="hidden" name="curPage"
+                                    value="${curPage }" /> <input
+                                    type="text" name="searchWord"
+                                    value="${searchWord }" size="15"
+                                    maxlength="30" /> <input
+                                    type="submit" value="검색" />
+                            </p>
                         </form>
                     </div>
                 </div>
@@ -124,7 +130,9 @@ var goList = function(page){
             <!-- content 끝 -->
         </div>
         <!--  container 끝 -->
-        <div id="sidebar"><%@ include file="../inc/bbs-menu.jsp"%></div>
+        <div id="sidebar">
+            <%@ include file="bbs-menu.jsp"%>
+        </div>
 
         <div id="extra"><%@ include file="../inc/extra.jsp"%></div>
 

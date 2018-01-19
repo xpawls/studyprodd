@@ -2,6 +2,7 @@ package com.spring81.bbs.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,20 +209,22 @@ public class ServiceBoard implements IServiceBoard {
     
     @Override
     public List<ModelArticle> getArticle(int articleno) {
-        List<ModelArticle> rs = null;
-        int rr = -1;
-        //rr = increaseHit(articleno);
-        try {
-            
-            rs = dao.getArticle(articleno);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-            logger.error("getArticle" + e.getMessage());
-            throw e;
-            
-        }
-        return rs;
+//        List<ModelArticle> rs = null;
+//        int rr = -1;
+//        //rr = increaseHit(articleno);
+//        try {
+//            
+//            rs = dao.getArticle(articleno);
+//        } catch (Exception e) {
+//            // TODO Auto-generated catch block
+//            // e.printStackTrace();
+//            logger.error("getArticle" + e.getMessage());
+//            throw e;
+//            
+//        }
+//        return rs;
+        
+        throw new NotImplementedException("transArticle 메서드를 사용하시오.");
     }
     
     @Override
@@ -451,5 +454,24 @@ public class ServiceBoard implements IServiceBoard {
             
         }
         return rs;
+    }
+
+    @Override
+    public ModelArticle transArticle(int articleno) {
+        List<ModelArticle> rs = null;
+        int rr = -1;
+        //rr = increaseHit(articleno);
+        try {
+                 dao.increaseHit(articleno);
+            rs = dao.getArticle(articleno);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("getArticle" + e.getMessage());
+            throw e;
+            
+        }
+        ModelArticle result = rs.get(0);
+        return result;
     }
 }

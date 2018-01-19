@@ -19,7 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.spring81.bbs.common.PagingHelper;
 import com.spring81.bbs.common.WebConstants;
 import com.spring81.bbs.inf.IServiceBoard;
+import com.spring81.bbs.model.ModelArticle;
+import com.spring81.bbs.model.ModelAttachFile;
 import com.spring81.bbs.model.ModelBoard;
+import com.spring81.bbs.model.ModelComments;
 
 /**
  * Handles requests for the application home page.
@@ -207,5 +210,106 @@ public class BoardController {
             return "redirect:/board/boardwrite";
             
         }
+    }
+    
+ // /board/articlelist/free?curPage=1&searchWord=&start=&end=
+    @RequestMapping(value = "/board/articlelist", method = RequestMethod.GET)
+    public String articlelist( Model model
+            , @RequestParam(defaultValue="free") String boardcd ) {
+        logger.info("/board/articlelist");
+        
+        
+        return "redirect:/board/articlelist/"+boardcd;
+    }
+    
+    // /board/articlelist/free?curPage=1&searchWord=&start=&end=
+    @RequestMapping(value = "/board/articlelist/{boardcd}", method = RequestMethod.GET)
+    public String articlelist( Model model
+            , @PathVariable String boardcd
+            , @RequestParam(defaultValue="1") Integer curPage
+            , @RequestParam(defaultValue="") String searchWord
+            , HttpServletRequest request
+            ) {
+        logger.info("/board/articlelist");
+
+        int totalRecord = srvboard.getArticleTotalRecord(boardcd, searchWord);
+        
+        // boardnm
+        // boardcd
+        // searchWord
+        // articleList
+        // curPage
+        
+        
+        // no
+        // prevLink
+        // pageLinks
+        // nextLink
+        PagingHelper paging = new PagingHelper(totalRecord, curPage);
+        int start = paging.getStartRecord();
+        int end = paging.getEndRecord();
+        
+        List<ModelArticle> result = srvboard.getArticleList(boardcd, searchWord, start, end);
+        
+        model.addAttribute("boardnm", srvboard.getBoardName(boardcd));
+        model.addAttribute("boardcd", boardcd);
+        model.addAttribute("searchWord", searchWord);
+        model.addAttribute("articleList", result);
+        model.addAttribute("curPage", curPage);
+        
+        // 페이징 처리
+        
+        model.addAttribute("no", paging.getListNo());
+        model.addAttribute("prevLink", paging.getPrevLink());
+        model.addAttribute("pageLinks", paging.getPageLinks());
+        model.addAttribute("nextLink", paging.getNextLink());
+        model.addAttribute("url", request.getRequestURL().toString());
+        return "board/articlelist";
+    }
+    
+
+    // /board/boardview  ===> /board/boardview?boardcd=free
+    // /board/articleview?boardcd=qna
+    @RequestMapping(value = "/board/articleview/{boardcd}/{articleno}", method = RequestMethod.GET)
+    public String articleview( Model model
+            , @PathVariable String boardcd
+            , @PathVariable Integer articleno 
+            , @RequestParam(defaultValue="1") Integer curPage
+            , @RequestParam(defaultValue="") String searchWord) {
+        logger.info("/board/articleview");
+        
+        // searchWord
+        // boardcd
+        // articleno
+        // curPage
+        model.addAttribute("articleno",articleno);
+        model.addAttribute("boardcd", boardcd);
+        model.addAttribute("searchWord", searchWord);
+        model.addAttribute("curPage", curPage);
+        // boardNm
+        model.addAttribute("boardNm", srvboard.getBoardName(boardcd));
+        // thisArticle
+        ModelArticle thisArticle = srvboard.transArticle(articleno);
+        model.addAttribute("thisArticle", thisArticle);
+        // attachFileList --> 첨부파일이 있는 경우.
+        List<ModelAttachFile> attachFileList = srvboard.getAttachFileList(articleno);
+        model.addAttribute("attachFileList", attachFileList);
+        
+        // commentList --> 댓글 목록을 출력하는 경우.
+        List<ModelComments> commentList = srvboard.getCommentList(articleno);
+        model.addAttribute("commentList", commentList);
+        // nextArticle
+        List<ModelArticle> nextArticle = srvboard.getNextArticle(boardcd, articleno, searchWord);
+        model.addAttribute("nextArticle", nextArticle.get(0));
+        // prevArticle
+        List<ModelArticle> prevArticle = srvboard.getPrevArticle(boardcd, articleno, searchWord);
+        model.addAttribute("prevArticle", prevArticle.get(0));
+        // articleList
+        // no
+        // prevPage
+        // pageLinks
+        // nextLink
+        // actionurl
+        return "board/articleview";
     }
 }

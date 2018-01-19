@@ -137,11 +137,11 @@
     
     <h2>article 게시판 만들기</h2>  
     <ul>
-        <li><a href="./board/articlelist"  target="_blank">./board/articlelist</a> </li>
-        <li><a href="./board/articleview?boardcd=free&articleno=17&curPage=1&searchWord="   target="_blank">/board/articleview?boardcd=free&amp;articleno=17&amp;curPage=1&amp;searchWord=  </a></li>
-        <li><a href="./board/articlewrite?boardcd=free"                                     target="_blank">/board/articlewrite?boardcd=free                                                </a></li>
-        <li><a href="./board/articlemodify?boardcd=free&articleno=17&curPage=1&searchWord=" target="_blank">/board/articlemodify?boardcd=free&amp;articleno=17&amp;curPage=1&amp;searchWord=</a></li>
-        <li><a href="./board/articledelete?boardcd=free&articleno=17&curPage=1&searchWord=" target="_blank">/board/articledelete?boardcd=free&amp;articleno=17&amp;curPage=1&amp;searchWord=</a></li>
+        <li><a href="./board/articlelist/free"  target="_blank">./board/articlelist</a> </li>
+        <li><a href="./board/articleview/free/17?curPage=1&searchWord="   target="_blank">./board/articleview/free/17?curPage=1&searchWord= (GET) </a></li>
+        <li><a href="./board/articlewrite?boardcd=free"                                     target="_blank">/board/articlewrite?boardcd=free                                                (GET, POST) </a></li>
+        <li><a href="./board/articlemodify?boardcd=free&articleno=17&curPage=1&searchWord=" target="_blank">/board/articlemodify?boardcd=free&amp;articleno=17&amp;curPage=1&amp;searchWord=(GET, POST)</a></li>
+        <li><a href="./board/articledelete?boardcd=free&articleno=17&curPage=1&searchWord=" target="_blank">/board/articledelete?boardcd=free&amp;articleno=17&amp;curPage=1&amp;searchWord=(POST)</a></li>
     </ul>
     <br />
     <hr />

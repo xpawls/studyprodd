@@ -19,6 +19,11 @@
 
 <div id="wrap">
 
+        <div id="header"><%@ include file="../inc/header.jsp"%>
+        </div>
+
+        <div id="main-menu"><%@ include
+                file="../inc/main-menu.jsp"%></div>
 	<div id="container">
 		<div id="content" style="min-height: 800px;">
 			<div id="url-navi">BBS</div>
@@ -130,7 +135,7 @@
             		
             	<div id="paging" style="text-align: center;">            		
             		<c:if test="${prevPage > 0 }">
-            			<a href="javascript:goList('${prevPage }')">[이전]</a>
+            			<a href="javascript:goList(${prevPage })">[이전]</a>
             		</c:if>
             		
             		<c:forEach var="i" items="${pageLinks }" varStatus="stat">
@@ -139,13 +144,13 @@
             				<span class="bbs-strong">${i }</span>
             			</c:when>
             			<c:otherwise>
-            				<a href="javascript:goList('${i }')">${i }</a>
+            				<a href="javascript:goList(${i })">${i }</a>
             			</c:otherwise>
             			</c:choose>
             		</c:forEach>
             		
             		<c:if test="${nextLink > 0 }">
-            			<a href="javascript:goList('${nextPage }')">[다음]</a>
+            			<a href="javascript:goList(${nextLink })">[다음]</a>
             		</c:if>            		
             	</div>
    
@@ -155,10 +160,10 @@
             	</div>
             
             	<div id="search" style="text-align: center;">
-            		<form id="searchForm" action="./articlelist" method="get" style="margin: 0;padding: 0;">
+            		<form id="searchForm" action="${actionurl }" method="get" style="margin: 0;padding: 0;">
             			<p style="margin: 0;padding: 0;">
             				<input type="hidden" name="boardcd" value="${boardcd }" />
-            				<input type="text" name="searchWord" size="15" maxlength="30" />
+            				<input type="text" name="searchWord" size="15" maxlength="30"  value="${searchWord }" />
             				<input type="submit" value="검색" />
             			</p>	
             		</form>
@@ -172,6 +177,14 @@
         
 	</div>
     <!--  container 끝 -->
+<div id="sidebar">
+            <%@ include file="bbs-menu.jsp"%>
+        </div>
+
+        <div id="extra"><%@ include file="../inc/extra.jsp"%></div>
+
+        <div id="footer"><%@ include file="../inc/footer.jsp"%>
+        </div>
 
 </div>
 

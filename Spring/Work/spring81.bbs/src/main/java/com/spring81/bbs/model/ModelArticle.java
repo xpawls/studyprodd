@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class ModelArticle {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    
     private Integer        articleno = null;        //`articleno` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     private String         boardcd   = "";        //`boardcd`   VARCHAR(20) NULL DEFAULT NULL,
     private String         title     = "";        //`title`     VARCHAR(200) NOT NULL,
@@ -21,6 +22,9 @@ public class ModelArticle {
     private java.util.Date InsertDT  = null;        //`InsertDT`  DATETIME NULL DEFAULT NULL,
     private String         UpdateUID = "";        //`UpdateUID` VARCHAR(40) NULL DEFAULT NULL,
     private java.util.Date UpdateDT  = null;        //`UpdateDT`  DATETIME NULL DEFAULT NULL,
+    private Integer        attachFileNum = null; 
+    private Integer        commentNum = null;
+    
     public Integer getArticleno() {
         return articleno;
     }
@@ -106,15 +110,55 @@ public class ModelArticle {
         UpdateDT = updateDT;
     }
     
+    
+    
+    
+    public Integer getAttachFileNum() {
+        return attachFileNum;
+    }
+    public void setAttachFileNum(Integer attachFileNum) {
+        this.attachFileNum = attachFileNum;
+    }
+    public Integer getCommentNum() {
+        return commentNum;
+    }
+    public void setCommentNum(Integer commentNum) {
+        this.commentNum = commentNum;
+    }
     @Override
     public String toString() {
-        return "ModelArticle [articleno=" + articleno + ", boardcd=" + boardcd
-                + ", title=" + title + ", content=" + content + ", email="
-                + email + ", hit=" + hit + ", regdate=" + regdate
-                + ", countgood=" + countgood + ", countbad=" + countbad
-                + ", UseYN=" + UseYN + ", InsertUID=" + InsertUID
+        return "ModelArticle [articleno=" + articleno
+                + ", boardcd=" + boardcd + ", title=" + title + ", content="
+                + content + ", email=" + email + ", hit=" + hit + ", regdate="
+                + regdate + ", countgood=" + countgood + ", countbad="
+                + countbad + ", UseYN=" + UseYN + ", InsertUID=" + InsertUID
                 + ", InsertDT=" + InsertDT + ", UpdateUID=" + UpdateUID
-                + ", UpdateDT=" + UpdateDT + "]";
+                + ", UpdateDT=" + UpdateDT + ", attachfileno=" + attachFileNum
+                + "]";
+    }
+    
+    public ModelArticle(Integer articleno, String boardcd, String title,
+            String content, String email, Integer hit, Date regdate,
+            Integer countgood, Integer countbad, Boolean useYN,
+            String insertUID, Date insertDT, String updateUID, Date updateDT,
+            Integer attachFileNum, Integer commentNum) {
+        super();
+        this.articleno = articleno;
+        this.boardcd = boardcd;
+        this.title = title;
+        this.content = content;
+        this.email = email;
+        this.hit = hit;
+        this.regdate = regdate;
+        this.countgood = countgood;
+        this.countbad = countbad;
+        UseYN = useYN;
+        InsertUID = insertUID;
+        InsertDT = insertDT;
+        UpdateUID = updateUID;
+        UpdateDT = updateDT;
+        this.attachFileNum = attachFileNum;
+        this.commentNum = commentNum;
     }
     public ModelArticle(Integer articleno, String boardcd, String title,
             String content, String email, Integer hit, Date regdate,
