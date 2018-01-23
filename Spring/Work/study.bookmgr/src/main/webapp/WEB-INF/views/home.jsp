@@ -2,14 +2,17 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Home</title>
+	<title>도서관</title>
+    <link rel="stylesheet" type="text/css"
+    href="/resources/stylesheet/bookcss.css">
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
-
-<P>  The time on the server is ${serverTime}. </P>
-<a href="bmgr/mainpage">도서관리 페이지</a>
+    <jsp:include page="bmgr/header.jsp"></jsp:include>
+    <jsp:include page="bmgr/aside.jsp"></jsp:include>
+    <div id="container">
+        <h1>여기는 메인 페이지 입니다</h1>
+        
+    </div>
+    <jsp:include page="bmgr/footer.jsp"></jsp:include>
 </body>
 </html>

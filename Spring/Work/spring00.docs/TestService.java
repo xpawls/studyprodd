@@ -8,14 +8,13 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.spring61.mvc.model.*;
 import com.spring61.mvc.service.*;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@FixMethodOrder(org.junit.runners.MethodSorters.NAME_ASCENDING)
 public class TestService {
     
     private static ApplicationContext context = null;
