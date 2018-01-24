@@ -28,8 +28,8 @@ public interface IBoard {
     int updateArticle(ModelArticle updateValue, ModelArticle searchValue);
     int deleteArticle(ModelArticle article);
     int increaseHit(int articleno);
-    List<ModelArticle> getNextArticle(String boardcd, int articleno, String searchWord);
-    List<ModelArticle> getPrevArticle(String boardcd, int articleno, String searchWord);
+    ModelArticle getNextArticle(String boardcd, int articleno, String searchWord);
+    ModelArticle getPrevArticle(String boardcd, int articleno, String searchWord);
     List<ModelAttachFile> getAttachFile(int attachFileNo);
     List<ModelAttachFile> getAttachFileList(int articleno);
     int insertAttachFile(ModelAttachFile attachfile);

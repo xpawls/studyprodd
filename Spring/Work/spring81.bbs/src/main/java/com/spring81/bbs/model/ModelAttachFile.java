@@ -10,7 +10,8 @@ public class ModelAttachFile {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     private Integer        attachfileno = null;   // `attachfileno` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    private String         filename     = "";   // `filename`     VARCHAR(50) NOT NULL,
+    private String         filenameorig     = "";   // `filename`     VARCHAR(50) NOT NULL,
+    private String         filenametemp     = "";   // `filename`     VARCHAR(50) NOT NULL,
     private String         filetype     = "";   // `filetype`     VARCHAR(30) NULL DEFAULT NULL,
     private Integer        filesize     = null;   // `filesize`     INT(11) NULL DEFAULT NULL,
     private Integer        articleno    = null;   // `articleno`    INT(11) NULL DEFAULT NULL,
@@ -20,17 +21,29 @@ public class ModelAttachFile {
     private String         UpdateUID    = "";   // `UpdateUID`    VARCHAR(40) NULL DEFAULT NULL,
     private java.util.Date UpdateDT     = null;   // `UpdateDT`     DATETIME NULL DEFAULT NULL,
     private Byte[]         imageData    = null;   // `imageData`    LONGBLOB NULL,
+    public Logger getLogger() {
+        return logger;
+    }
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
     public Integer getAttachfileno() {
         return attachfileno;
     }
     public void setAttachfileno(Integer attachfileno) {
         this.attachfileno = attachfileno;
     }
-    public String getFilename() {
-        return filename;
+    public String getFilenameorig() {
+        return filenameorig;
     }
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setFilenameorig(String filenameorig) {
+        this.filenameorig = filenameorig;
+    }
+    public String getFilenametemp() {
+        return filenametemp;
+    }
+    public void setFilenametemp(String filenametemp) {
+        this.filenametemp = filenametemp;
     }
     public String getFiletype() {
         return filetype;
@@ -88,20 +101,23 @@ public class ModelAttachFile {
     }
     @Override
     public String toString() {
-        return "ModelAttachfile [attachfileno=" + attachfileno + ", filename="
-                + filename + ", filetype=" + filetype + ", filesize=" + filesize
-                + ", articleno=" + articleno + ", UseYN=" + UseYN
-                + ", InsertUID=" + InsertUID + ", InsertDT=" + InsertDT
-                + ", UpdateUID=" + UpdateUID + ", UpdateDT=" + UpdateDT
-                + ", imageData=" + Arrays.toString(imageData) + "]";
+        return "ModelAttachFile [logger=" + logger + ", attachfileno="
+                + attachfileno + ", filenameorig=" + filenameorig
+                + ", filenametemp=" + filenametemp + ", filetype=" + filetype
+                + ", filesize=" + filesize + ", articleno=" + articleno
+                + ", UseYN=" + UseYN + ", InsertUID=" + InsertUID
+                + ", InsertDT=" + InsertDT + ", UpdateUID=" + UpdateUID
+                + ", UpdateDT=" + UpdateDT + ", imageData="
+                + Arrays.toString(imageData) + "]";
     }
-    public ModelAttachFile(Integer attachfileno, String filename,
-            String filetype, Integer filesize, Integer articleno, Boolean useYN,
-            String insertUID, Date insertDT, String updateUID, Date updateDT,
-            Byte[] imageData) {
+    public ModelAttachFile(Integer attachfileno, String filenameorig,
+            String filenametemp, String filetype, Integer filesize,
+            Integer articleno, Boolean useYN, String insertUID, Date insertDT,
+            String updateUID, Date updateDT, Byte[] imageData) {
         super();
         this.attachfileno = attachfileno;
-        this.filename = filename;
+        this.filenameorig = filenameorig;
+        this.filenametemp = filenametemp;
         this.filetype = filetype;
         this.filesize = filesize;
         this.articleno = articleno;
@@ -112,9 +128,11 @@ public class ModelAttachFile {
         UpdateDT = updateDT;
         this.imageData = imageData;
     }
+    
     public ModelAttachFile() {
         super();
     }
+    
     
     
 }

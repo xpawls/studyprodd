@@ -289,9 +289,9 @@ public class ServiceBoard implements IServiceBoard {
     }
     
     @Override
-    public List<ModelArticle> getNextArticle(String boardcd, int articleno,
+    public ModelArticle getNextArticle(String boardcd, int articleno,
             String searchWord) {
-        List<ModelArticle> rs = null;
+        ModelArticle rs = null;
         try {
             rs = dao.getNextArticle(boardcd, articleno, searchWord);
         } catch (Exception e) {
@@ -305,9 +305,9 @@ public class ServiceBoard implements IServiceBoard {
     }
     
     @Override
-    public List<ModelArticle> getPrevArticle(String boardcd, int articleno,
+    public ModelArticle getPrevArticle(String boardcd, int articleno,
             String searchWord) {
-        List<ModelArticle> rs = null;
+        ModelArticle rs = null;
         try {
             rs = dao.getPrevArticle(boardcd, articleno, searchWord);
         } catch (Exception e) {

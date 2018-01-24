@@ -1,5 +1,8 @@
 package com.spring81.bbs.controller;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring81.bbs.common.PagingHelper;
@@ -232,8 +236,6 @@ public class BoardController {
             ) {
         logger.info("/board/articlelist");
 
-        int totalRecord = srvboard.getArticleTotalRecord(boardcd, searchWord);
-        
         // boardnm
         // boardcd
         // searchWord
@@ -245,6 +247,8 @@ public class BoardController {
         // prevLink
         // pageLinks
         // nextLink
+        int totalRecord = srvboard.getArticleTotalRecord(boardcd, searchWord);
+        
         PagingHelper paging = new PagingHelper(totalRecord, curPage);
         int start = paging.getStartRecord();
         int end = paging.getEndRecord();
@@ -275,7 +279,8 @@ public class BoardController {
             , @PathVariable String boardcd
             , @PathVariable Integer articleno 
             , @RequestParam(defaultValue="1") Integer curPage
-            , @RequestParam(defaultValue="") String searchWord) {
+            , @RequestParam(defaultValue="") String searchWord
+            , HttpServletRequest request) {
         logger.info("/board/articleview");
         
         // searchWord
@@ -299,17 +304,104 @@ public class BoardController {
         List<ModelComments> commentList = srvboard.getCommentList(articleno);
         model.addAttribute("commentList", commentList);
         // nextArticle
-        List<ModelArticle> nextArticle = srvboard.getNextArticle(boardcd, articleno, searchWord);
-        model.addAttribute("nextArticle", nextArticle.get(0));
+        ModelArticle nextArticle = srvboard.getNextArticle(boardcd, articleno, searchWord);
+        model.addAttribute("nextArticle", nextArticle);
         // prevArticle
-        List<ModelArticle> prevArticle = srvboard.getPrevArticle(boardcd, articleno, searchWord);
-        model.addAttribute("prevArticle", prevArticle.get(0));
+        ModelArticle prevArticle = srvboard.getPrevArticle(boardcd, articleno, searchWord);
+        model.addAttribute("prevArticle", prevArticle);
         // articleList
         // no
         // prevPage
         // pageLinks
         // nextLink
+        int totalRecord = srvboard.getArticleTotalRecord(boardcd, searchWord);
+        
+        PagingHelper paging = new PagingHelper(totalRecord, curPage);
+        int start = paging.getStartRecord();
+        int end = paging.getEndRecord();
+        List<ModelArticle> articleList = srvboard.getArticleList(boardcd, searchWord, start, end);
+        model.addAttribute("articleList", articleList);
+        model.addAttribute("no", paging.getListNo());
+        model.addAttribute("PrevLink", paging.getPrevLink());
+        model.addAttribute("pageLinks", paging.getPageLinks());
+        model.addAttribute("nextLink", paging.getNextLink());
+
         // actionurl
+        String actionurl = request.getRequestURL().toString();
+        model.addAttribute("actionurl", actionurl);
         return "board/articleview";
+    }
+    
+    @RequestMapping(value = "/board/articlewrite/{boardcd}", method = RequestMethod.GET)
+    public String articlewrite( Model model
+            , @PathVariable String boardcd
+            , @RequestParam(defaultValue="1") Integer curPage
+            , @RequestParam(defaultValue="") String searchWord
+            ) {
+        logger.info("/board/articlewrite :: get");
+        // boardNm
+        // boardcd
+        model.addAttribute("boardNm", srvboard.getBoardName(boardcd));
+        model.addAttribute("boardcd", boardcd);
+        
+        return "board/articlewrite";
+    }
+    
+    @RequestMapping(value = "/board/articlewrite", method = RequestMethod.POST)
+    public String articlewrite( Model model
+            , @RequestParam(defaultValue="1") Integer curPage
+            , @RequestParam(defaultValue="") String searchWord
+            , @ModelAttribute ModelArticle article
+            , @RequestParam(value="upload") MultipartFile upload
+            ) {
+        logger.info("/board/articlewrite :: post");
+        
+        // 1. tb_bbs_article table insert. inserted 된 pk 값을 반환 받아야 한다.
+        // 2. client의 파일을 server로 upload.
+        // 3. tb_bbs_attachfile 테이블에 insert.
+        
+        // tb_bbs_article table insert. inserted 된 pk 값을 반환 받아야 한다.
+        int insertedpk = srvboard.insertArticle(article);
+        
+        // client의 파일을 server로 upload.
+        if(!upload.getOriginalFilename().isEmpty()) {
+            // 서버의 업로드 폴더 존재 여부 체크. 없으면 폴더 생성
+            java.io.File uploadDir = new java.io.File(WebConstants.UPLOAD_PATH);
+            if(!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            
+            // 클라이언트 파일을 서버로 복사
+            String fileName = upload.getOriginalFilename();
+            String tempName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+            String newFile = WebConstants.UPLOAD_PATH + tempName;
+            java.io.File serverfile = new java.io.File(newFile);
+            
+            try {
+                upload.transferTo(serverfile);
+            } catch (IllegalStateException | IOException e) {
+                logger.error("articlewrite" + e.getMessage());
+                
+            }
+            
+
+            // 파일을 서버로 복사 성공 여부 체크 .
+            // 성공한 경우만  tb_bbs_article table에 insert
+            if(serverfile.exists()) {
+
+                // 3. tb_bbs_attachfile 테이블에 insert.
+                ModelAttachFile attachfile = new ModelAttachFile();
+                attachfile.setArticleno(insertedpk);
+                attachfile.setFilenameorig(fileName);
+
+                attachfile.setFilenametemp(newFile);
+                attachfile.setFilesize((int)serverfile.length());
+                attachfile.setFiletype(upload.getContentType());
+                int result = srvboard.insertAttachFile(attachfile);
+            }
+        }
+        
+        String url = String.format("redirect:/board/articleview/%s/%d", article.getBoardcd(), insertedpk);
+        return url;
     }
 }

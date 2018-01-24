@@ -18,9 +18,15 @@
 <script type="text/javascript" src="/resources/js/jquery-3.1.1.js"></script>
 <script type="text/javascript">
 	var goList = function(page) {
-		window.location.href = "/board/articlelist/${boardcd}?searchWord=${searchWord}&curPage="
+		location.href = "/board/articlelist/${boardcd}?searchWord=${searchWord}&curPage="
 				+ page;
-	}
+	};
+
+	var goView= function(articleno){
+	    location.href = '/board/articleview/${boardcd}/' + articleno + location.search;
+	};
+
+	
 </script>
 
 </head>

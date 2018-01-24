@@ -19,6 +19,11 @@
 
 	<div id="wrap">
 
+        <div id="header"><%@ include file="../inc/header.jsp"%>
+        </div>
+
+        <div id="main-menu"><%@ include
+                file="../inc/main-menu.jsp"%></div>
 		<div id="container">
 			<div id="content" style="min-height: 800px;">
 				<div id="url-navi">BBS</div>
@@ -27,7 +32,7 @@
 				<h1>${boardNm }</h1>
 				<div id="bbs">
 					<h2>글쓰기</h2>
-					<form id="writeForm" action="articlewrite" method="post" enctype="multipart/form-data" onsubmit="return check()">
+					<form id="writeForm" action="/board/articlewrite" method="post" enctype="multipart/form-data" onsubmit="return check()">
 						<p style="margin: 0; padding: 0;">
 							<input type="hidden" name="boardcd" value="${boardcd }" />
 						</p>
@@ -48,9 +53,9 @@
 						</table>
 						<div style="text-align: center; padding-bottom: 15px;">
 							<input type="submit" value="전송" />
-							<c:if test="${!empty articleno }">
-								<input type="button" value="상세보기" onclick="goView()" />
-							</c:if>
+<%-- 							<c:if test="${!empty articleno }"> --%>
+<!-- 								<input type="button" value="상세보기" onclick="goView()" /> -->
+<%-- 							</c:if> --%>
 							<input type="button" value="목록" onclick="goList()" />
 						</div>
 					</form>
@@ -62,7 +67,14 @@
             
 		</div>
 		<!--  container 끝 -->
+        <div id="sidebar">
+            <%@ include file="bbs-menu.jsp"%>
+        </div>
 
+        <div id="extra"><%@ include file="../inc/extra.jsp"%></div>
+
+        <div id="footer"><%@ include file="../inc/footer.jsp"%>
+        </div>
 
 	</div>
 

@@ -171,26 +171,26 @@ public class DaoBoard implements IBoard {
     }
 
     @Override
-    public List<ModelArticle> getNextArticle(String boardcd, int articleno,
+    public ModelArticle getNextArticle(String boardcd, int articleno,
             String searchWord) {
-        List<ModelArticle> rs = null;
+        ModelArticle rs = null;
         Map<String, Object> map = new HashMap<>();
         map.put("boardcd", boardcd);
         map.put("articleno", articleno);
         map.put("searchWord", searchWord);
-        rs = session.selectList("mapper.mapperBoard.getNextArticle", map);
+        rs = session.selectOne("mapper.mapperBoard.getNextArticle", map);
         return rs;
     }
 
     @Override
-    public List<ModelArticle> getPrevArticle(String boardcd, int articleno,
+    public ModelArticle getPrevArticle(String boardcd, int articleno,
             String searchWord) {
-        List<ModelArticle> rs = null;
+        ModelArticle rs = null;
         Map<String, Object> map = new HashMap<>();
         map.put("boardcd", boardcd);
         map.put("articleno", articleno);
         map.put("searchWord", searchWord);
-        rs = session.selectList("mapper.mapperBoard.getPrevArticle", map);
+        rs = session.selectOne("mapper.mapperBoard.getPrevArticle", map);
         return rs;}
 
     @Override

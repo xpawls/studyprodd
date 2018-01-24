@@ -14,6 +14,55 @@
     
     <link rel="stylesheet" href="/resources/css/screen.css" type="text/css" media="screen" />
     
+<script type="text/javascript" src="/resources/js/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $('tr[articleno]').click(function(e){
+            var articleno = $(this).attr('articleno');
+            location.href = '/board/articleview/${boardcd}/' + articleno + location.search;
+        })
+    });
+</script>
+<script type="text/javascript">
+var goView= function(articleno){
+	location.href = '/board/articleview/${boardcd}/' + articleno + location.search;
+};
+
+var goModify = function(){
+    location.href = '/board/articlemodify/${boardcd}/${articleno}';
+};
+
+var goDelete = function(){
+	// post 로 처리해야함.
+	// post 처리하는 방법에는 1. ajax 2. form을 이용하는 방법.
+	var f = document.createElement('form');
+	f.setAttribute('method', 'post');
+	f.setAttribute('action', '/board/articledelete/${boardcd}/${articleno}');
+    f.setAttribute('enctype', 'application/x-www-form-urlencoded');
+    document.body.appendChild(f);
+    
+    f.submit();
+	
+};
+
+
+var goList = function(curPage, redirect) {
+	if(redirect===false){
+        location.href = '/board/articleview/${boardcd}/${articleno}?curPage='+ curPage;
+	}
+	else{
+        location.href = "/board/articlelist/${boardcd}?curPage=" + curPage;
+	}
+		
+	
+    
+};
+
+var goWrite = function(){
+    location.href = "/board/articlewrite/${boardcd}";
+};
+</script>
+    
 </head>
 <body>
 
@@ -45,7 +94,7 @@
             		<p>${thisArticle.content }</p>
             		<p id="file-list" style="text-align: right;">
             			<c:forEach var="file" items="${attachFileList }" varStatus="status">
-            			<a href="javascript:download('${file.filename }')">${file.filename }</a>
+            			<a href="javascript:download('${file.filenametemp }')">${file.filenameorig }</a>
             			<a href="javascript:deleteAttachFile('${file.attachfileno }')">x</a>
             			<br />
             			</c:forEach>	
@@ -81,7 +130,7 @@
             	<div id="view-menu">
             		<div class="fl">
             			<input type="button" value="수정" onclick="goModify();" />
-            			<input type="button" value="삭제" onclick="goDelete()" />
+            			<input type="button" value="삭제" onclick="goDelete();" />
             		</div>
             		
             		<div class="fr">
@@ -96,7 +145,7 @@
             		</div>
             	</div>
             
-            	<table style="clear: both;">
+            	<table id="bbs" style="clear: both;">
                 	<tr>
                 		<th style="width: 60px">NO</th>
                 		<th>TITLE</th>
@@ -106,7 +155,7 @@
                 	
                 	<!--  반복 구간 시작 -->
                 	<c:forEach var="article" items="${articleList }" varStatus="status">
-                	<tr>
+                	<tr articleno="${article.articleno }">
                 		<td style="text-align: center;">
                 			<c:choose>
                 				<c:when test="${articleno == article.articleno }">
@@ -134,8 +183,8 @@
             	</table>
             		
             	<div id="paging" style="text-align: center;">            		
-            		<c:if test="${prevPage > 0 }">
-            			<a href="javascript:goList(${prevPage })">[이전]</a>
+            		<c:if test="${PrevLink > 0 }">
+            			<a href="javascript:goList(${PrevLink }, false)">[이전]</a>
             		</c:if>
             		
             		<c:forEach var="i" items="${pageLinks }" varStatus="stat">
@@ -144,13 +193,13 @@
             				<span class="bbs-strong">${i }</span>
             			</c:when>
             			<c:otherwise>
-            				<a href="javascript:goList(${i })">${i }</a>
+            				<a href="javascript:goList(${i }, false)">${i }</a>
             			</c:otherwise>
             			</c:choose>
             		</c:forEach>
             		
             		<c:if test="${nextLink > 0 }">
-            			<a href="javascript:goList(${nextLink })">[다음]</a>
+            			<a href="javascript:goList(${nextLink }, false)">[다음]</a>
             		</c:if>            		
             	</div>
    

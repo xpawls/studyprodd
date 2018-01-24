@@ -278,7 +278,7 @@ public class RestController {
     @RequestMapping(value = "/getnextarticle", method = { RequestMethod.GET,
             RequestMethod.POST })
     @ResponseBody
-    public List<ModelArticle> getNextArticle(String boardcd, String searchWord, int articleno) {
+    public ModelArticle getNextArticle(String boardcd, String searchWord, int articleno) {
         logger.info("/rest/getNextArticle");
         return boardsvr.getNextArticle(boardcd, articleno, searchWord);
     }
@@ -287,7 +287,7 @@ public class RestController {
     @RequestMapping(value = "/getprevarticle", method = { RequestMethod.GET,
             RequestMethod.POST })
     @ResponseBody
-    public List<ModelArticle> getPrevArticle(String boardcd, String searchWord, int articleno) {
+    public ModelArticle getPrevArticle(String boardcd, String searchWord, int articleno) {
         logger.info("/rest/getPrevArticle");
         return boardsvr.getPrevArticle(boardcd, articleno, searchWord);
     }
