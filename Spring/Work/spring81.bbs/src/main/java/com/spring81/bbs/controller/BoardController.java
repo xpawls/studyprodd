@@ -1,6 +1,7 @@
 package com.spring81.bbs.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -361,6 +363,8 @@ public class BoardController {
         // 3. tb_bbs_attachfile 테이블에 insert.
         
         // tb_bbs_article table insert. inserted 된 pk 값을 반환 받아야 한다.
+        java.util.Date date1 = new java.util.Date();
+        article.setRegdate(date1);
         int insertedpk = srvboard.insertArticle(article);
         
         // client의 파일을 server로 upload.
@@ -394,7 +398,7 @@ public class BoardController {
                 attachfile.setArticleno(insertedpk);
                 attachfile.setFilenameorig(fileName);
 
-                attachfile.setFilenametemp(newFile);
+                attachfile.setFilenametemp(tempName);
                 attachfile.setFilesize((int)serverfile.length());
                 attachfile.setFiletype(upload.getContentType());
                 int result = srvboard.insertAttachFile(attachfile);
@@ -403,5 +407,131 @@ public class BoardController {
         
         String url = String.format("redirect:/board/articleview/%s/%d", article.getBoardcd(), insertedpk);
         return url;
+    }
+    
+
+    @RequestMapping(value = "/board/articlemodify/{boardcd}/{articleno}", method = RequestMethod.GET)
+    public String articlemodify( Model model
+            , @PathVariable String boardcd
+            , @PathVariable Integer articleno
+            
+            , @RequestParam(defaultValue="1") Integer curPage
+            , @RequestParam(defaultValue="") String searchWord
+            , @ModelAttribute ModelArticle article
+            , HttpServletRequest request
+            ) {
+        logger.info("/board/articlemodify :: get");
+        
+        //boardNm
+        //articleno
+        //boardcd
+        //curPage
+        //searchWord
+        //thisArticle
+        model.addAttribute("actionurl", request.getRequestURL().toString());
+        model.addAttribute("boardNm", srvboard.getBoardName(boardcd));
+        model.addAttribute("articleno", articleno);
+        model.addAttribute("boardcd", boardcd);
+        model.addAttribute("curPage", curPage);
+        model.addAttribute("searchWord", searchWord);
+        
+        model.addAttribute("thisArticle", srvboard.getArticle(articleno));
+        model.addAttribute("attachFileList", srvboard.getAttachFileList(articleno));
+        
+        
+        return "board/articlemodify";
+    }
+    
+
+    @RequestMapping(value = "/board/articlemodify/{boardcd}/{articleno}", method = RequestMethod.POST)
+    public String articlemodify( Model model
+            , @RequestParam(defaultValue="1") Integer curPage
+            , @RequestParam(defaultValue="") String searchWord
+            , @ModelAttribute ModelArticle setValue
+            , @RequestParam(value="upload") MultipartFile upload
+            ) {
+        logger.info("/board/articlewrite :: post");
+        
+        // 1. tb_bbs_article table insert. inserted 된 pk 값을 반환 받아야 한다.
+        // 2. client의 파일을 server로 upload.
+        // 3. tb_bbs_attachfile 테이블에 insert.
+        
+        
+        // client의 파일을 server로 upload.
+        if(!upload.getOriginalFilename().isEmpty()) {
+            // 서버의 업로드 폴더 존재 여부 체크. 없으면 폴더 생성
+            java.io.File uploadDir = new java.io.File(WebConstants.UPLOAD_PATH);
+            if(!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            
+            // 클라이언트 파일을 서버로 복사
+            String fileName = upload.getOriginalFilename();
+            String tempName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+            String newFile = WebConstants.UPLOAD_PATH + tempName;
+            java.io.File serverfile = new java.io.File(newFile);
+            
+            try {
+                upload.transferTo(serverfile);
+            } catch (IllegalStateException | IOException e) {
+                logger.error("articlewrite" + e.getMessage());
+                
+            }
+            
+
+            // 파일을 서버로 복사 성공 여부 체크 .
+            // 성공한 경우만  tb_bbs_article table에 insert
+            if(serverfile.exists()) {
+
+                // 3. tb_bbs_attachfile 테이블에 insert.
+                ModelAttachFile attachfile = new ModelAttachFile();
+                attachfile.setArticleno(setValue.getArticleno());
+                attachfile.setFilenameorig(fileName);
+
+                attachfile.setFilenametemp(tempName);
+                attachfile.setFilesize((int)serverfile.length());
+                attachfile.setFiletype(upload.getContentType());
+                int result = srvboard.insertAttachFile(attachfile);
+            }
+            
+        }
+
+        // tb_bbs_article table update
+        ModelArticle searchValue = new ModelArticle(setValue.getArticleno());
+        int insertedpk = srvboard.updateArticle(setValue, searchValue);
+        
+        String url = String.format("redirect:/board/articleview/%s/%d", setValue.getBoardcd(), setValue.getArticleno());
+        return url;
+    }
+    
+    // REST 서비스
+    @RequestMapping(value = "/board/deleteattachfile", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteattachfile( Model model
+            , @RequestParam Integer attachfileno
+            ) {
+        logger.info("/board/deleteattachfile :: post");
+        
+        
+        ModelAttachFile attachfile = new ModelAttachFile(attachfileno);
+        int result = srvboard.deleteAttachFile(attachfile );
+        
+        return "board/articlemodify";
+    }
+
+    // REST 서비스
+    @RequestMapping(value = "/board/articledelete/{boardcd}/{articleno}", method = RequestMethod.POST)
+    @ResponseBody
+    public String articledelete( Model model
+            , @PathVariable String boardcd
+            , @PathVariable Integer articleno 
+            , @RequestParam(defaultValue="1") Integer curPage
+            , @RequestParam(defaultValue="") String searchWord
+            ) {
+        logger.info("/board/articledelete :: post");
+        
+        // transaction 을 이용하여 삭제를 묶는 것이 좋다.
+        srvboard.transDeleteArticle(articleno);
+        return "board/articlemodify";
     }
 }

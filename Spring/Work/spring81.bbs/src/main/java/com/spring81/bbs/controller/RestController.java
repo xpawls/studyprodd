@@ -236,7 +236,7 @@ public class RestController {
     @RequestMapping(value = "/getarticle", method = { RequestMethod.GET,
             RequestMethod.POST })
     @ResponseBody
-    public List<ModelArticle> getArticle(int articleno) {
+    public ModelArticle getArticle(int articleno) {
         logger.info("/rest/getArticle");
         return boardsvr.getArticle(articleno);
     }

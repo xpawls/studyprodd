@@ -132,9 +132,9 @@ public class DaoBoard implements IBoard {
     }
 
     @Override
-    public List<ModelArticle> getArticle(int articleno) {
-        List<ModelArticle> rs = null;
-        rs = session.selectList("mapper.mapperBoard.getArticle", articleno);
+    public ModelArticle getArticle(int articleno) {
+        ModelArticle rs = null;
+        rs = session.selectOne("mapper.mapperBoard.getArticle", articleno);
         return rs;
     }
 

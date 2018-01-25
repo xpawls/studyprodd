@@ -23,7 +23,7 @@ public interface IBoard {
     int insertBoardList(List<ModelBoard> list);
     int getArticleTotalRecord(String boardcd, String searchWord);
     List<ModelArticle> getArticleList(String boardcd, String searchWord, int start, int end);
-    List<ModelArticle> getArticle(int articleno);
+    ModelArticle getArticle(int articleno);
     int insertArticle(ModelArticle article);
     int updateArticle(ModelArticle updateValue, ModelArticle searchValue);
     int deleteArticle(ModelArticle article);

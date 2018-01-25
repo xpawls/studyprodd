@@ -184,6 +184,11 @@ public class ModelArticle {
     public ModelArticle() {
         super();
     }
+
+    public ModelArticle(Integer articleno) {
+        super();
+        this.articleno = articleno;
+    }
     
     
     

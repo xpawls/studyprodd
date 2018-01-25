@@ -10,8 +10,10 @@
 <link rel="stylesheet" type="text/css"
     href="/resources/stylesheet/bookcss.css">
 <script type="text/javascript" src="/resources/js/jquery-3.2.1.js"></script>
+
+<script type="text/javascript" src="/resources/js/bookjs.js"></script>
 <script type="text/javascript">
-	var page = '${open}';
+	/* var page = '${open}';
 	$(document)
 			.ready(
 					function() {
@@ -192,7 +194,7 @@
 											'td').eq(0).text();
 									$('input[name="brno"]').val(brno);
 								});
-					});
+					}); */
 </script>
 </head>
 <body>
@@ -201,14 +203,6 @@
     
     <div id="container">
 
-        <div id="mainhead">
-            <input type="button" name="joinmember" value="회원가입"
-                id="joinmember"> <input type="button"
-                name="newbook" value="도서등록" id="newbook"> <input
-                type="button" name="refresh" value="새로고침"> <input
-                type="button" name="exit" value="종료">
-            <br>
-        </div>
         <div id="mainaside">
             <table id="renttableS">
                 <thead>
@@ -233,11 +227,7 @@
             </table>
         </div>
         <div id="mainbody">
-            <ul id="maintab">
-                <li><a href="#" name="#bookpage">도서</a></li>
-                <li><a href="#" name="#memberpage">회원</a></li>
-                <li><a href="#" name="#rentpage">대여목록</a></li>
-            </ul>
+            
             <div id="bookpage" class="maintabpage">
                 <form action="" method="post" id="btxtbox">
                     <div class="label">no</div>

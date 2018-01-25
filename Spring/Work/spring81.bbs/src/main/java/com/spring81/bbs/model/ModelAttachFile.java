@@ -132,7 +132,11 @@ public class ModelAttachFile {
     public ModelAttachFile() {
         super();
     }
-    
+
+    public ModelAttachFile(Integer attachfileno) {
+        super();
+        this.attachfileno = attachfileno;
+    }
     
     
 }

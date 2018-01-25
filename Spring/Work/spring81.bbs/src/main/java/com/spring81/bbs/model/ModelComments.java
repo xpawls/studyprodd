@@ -104,6 +104,10 @@ public class ModelComments {
     public ModelComments() {
         super();
     }
+    public ModelComments(Integer articleno) {
+        super();
+        this.articleno = articleno;
+    }
     
     
 }

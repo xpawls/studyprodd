@@ -13,7 +13,34 @@
     <title>${boardNm }</title>
     
     <link rel="stylesheet" href="/resources/css/screen.css" type="text/css" media="screen" />
-   
+<script type="text/javascript" src="/resources/js/jquery-3.1.1.js"></script>
+<script type="text/javascript" src="/resources/js/ajaxsetup.js"></script>
+   <script type="text/javascript">
+    $(document).ready(function(event){
+    	$('div[attachfileno]').click(function(event){
+    		var attachfileno = $(this).attr('attachfileno');
+    		
+    	    if(confirm("정말로 삭제하시겠습니까?")){
+                $.ajax({
+                    url : '/board/deleteattachfile'
+                    , data: {'attachfileno' : attachfileno}        // 사용하는 경우에는 { data1:'test1', data2:'test2' }
+                    , type: 'post'       // get, post
+                    , timeout: 30000    // 30초
+                    , dataType: 'json'  // text, html, xml, json, jsonp, script
+                }).done( function(data, textStatus, xhr ){
+                    // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
+                    if(data==1){// 삭제 성공
+                        $('div[attachfileno="'+ attachfileno + '" ]').remove();
+                    }
+                    else{// 삭제 실패
+                        alert('삭제 실패');
+                    }
+                });
+    	    	
+    	    }
+    	});
+    });
+   </script>
 </head>
 <body>
 
@@ -27,7 +54,7 @@
 				<h1>${boardNm }</h1>
 				<div id="bbs">
 					<h2>수정</h2>
-					<form id="modifyForm" action="articlemodify" method="post" enctype="multipart/form-data" onsubmit="return check()">
+					<form id="modifyForm" action="${actionurl }" method="post" enctype="multipart/form-data" >
 						<p style="margin: 0; padding: 0;">
 							<input type="hidden" name="articleno" value="${articleno }" />
 							<input type="hidden" name="boardcd" value="${boardcd }" />
@@ -44,6 +71,14 @@
 								<td colspan="2"><textarea name="content" rows="17">${thisArticle.content }</textarea>
 								</td>
 							</tr>
+                            <tr>
+                            <td>첨부 파일 목록</td>
+                            <td>
+                                <c:forEach var="file" items="${attachFileList }" varStatus="status">
+                                <div attachfileno="${file.attachfileno }">${file.filenameorig }<b>X</b></div>
+                                </c:forEach>    
+                                </td>
+                            </tr>
 							<tr>
 								<td>파일첨부</td>
 								<td><input type="file" name="upload" /></td>

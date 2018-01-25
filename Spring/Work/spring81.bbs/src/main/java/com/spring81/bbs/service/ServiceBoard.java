@@ -208,23 +208,23 @@ public class ServiceBoard implements IServiceBoard {
     }
     
     @Override
-    public List<ModelArticle> getArticle(int articleno) {
-//        List<ModelArticle> rs = null;
-//        int rr = -1;
-//        //rr = increaseHit(articleno);
-//        try {
-//            
-//            rs = dao.getArticle(articleno);
-//        } catch (Exception e) {
-//            // TODO Auto-generated catch block
-//            // e.printStackTrace();
-//            logger.error("getArticle" + e.getMessage());
-//            throw e;
-//            
-//        }
-//        return rs;
-        
-        throw new NotImplementedException("transArticle 메서드를 사용하시오.");
+    public ModelArticle getArticle(int articleno) {
+        ModelArticle rs = null;
+        int rr = -1;
+        //rr = increaseHit(articleno);
+        try {
+            
+            rs = dao.getArticle(articleno);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("getArticle" + e.getMessage());
+            throw e;
+            
+        }
+        return rs;
+//        
+//        throw new NotImplementedException("transArticle 메서드를 사용하시오.");
     }
     
     @Override
@@ -458,7 +458,7 @@ public class ServiceBoard implements IServiceBoard {
 
     @Override
     public ModelArticle transArticle(int articleno) {
-        List<ModelArticle> rs = null;
+        ModelArticle rs = null;
         int rr = -1;
         //rr = increaseHit(articleno);
         try {
@@ -471,7 +471,28 @@ public class ServiceBoard implements IServiceBoard {
             throw e;
             
         }
-        ModelArticle result = rs.get(0);
-        return result;
+       
+        return rs;
+    }
+
+    @Override
+    public int transDeleteArticle(int articleno) {
+        
+        int rs = -1;
+        
+        try {
+            ModelAttachFile attachfile = new ModelAttachFile();
+            attachfile.setArticleno(articleno);
+            dao.deleteAttachFile(attachfile);
+            dao.deleteComment(new ModelComments(articleno));
+            dao.deleteArticle(new ModelArticle(articleno));
+            rs = 1;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("transDeleteArticle" + e.getMessage());
+            
+        }
+        return rs;
     }
 }

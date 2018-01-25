@@ -56,7 +56,7 @@
                         <!--  반복 구간 시작 -->
                         <c:forEach var="article" items="${articleList }"
                             varStatus="status">
-                            <tr>
+                            <tr articleno="${article.articleno }">
                                 <td style="text-align: center;">${no - status.index}</td>
                                 <td><a
                                     href="javascript:goView('${article.articleno }')">${article.title }</a>

@@ -46,17 +46,12 @@ body {
 #footer li { display: inline-block;}
 
 /* header */
-#mainhead input {
-    width: 100px;
-    height: 25px;
-    text-align: center;
-}
 
 #mainaside {
     float: left;
     width: 250px;
-    height: 675px;
-    border: 1px solid black;
+    height: 700px;
+    border-right: 1px solid black;
 }
 
 #renttableS {
@@ -67,13 +62,9 @@ body {
 #mainbody {
     float: left;
     width: 845px;
-    height: 675px;
+    height: 700px;
 }
 
-#maintab>li {
-    display: inline-block;
-    background-color: grey;
-}
 
 #renttableS td {
     border: 1px solid grey;
@@ -96,13 +87,10 @@ body {
     margin: 10px;
 }
 
-#mainbody {
-    border: 1px black solid;
-}
 
 .maintabpage {
     background-color: skyblue;
-    height: 645px;
+    height: 700px;
 }
 
 .maintable {

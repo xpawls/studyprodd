@@ -26,6 +26,11 @@ div.nblabel {
 </script>
 </head>
 <body>
+
+
+    <jsp:include page="header.jsp"></jsp:include>
+    <jsp:include page="aside.jsp"></jsp:include>
+    <div id="container">
     <form action="newbookcmp" method="post">
         <div class="nblabel">제목</div><input name="bookname"
             type="text"><br> <div class="nblabel">출판사</div><input
@@ -36,6 +41,9 @@ div.nblabel {
             name="price" type="text"><br> <input
             id="submit" type="submit" value="등록">
     </form>
+    </div>
+    
+    <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
 

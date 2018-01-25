@@ -61,6 +61,31 @@ var goList = function(curPage, redirect) {
 var goWrite = function(){
     location.href = "/board/articlewrite/${boardcd}";
 };
+
+var download = function(filetemp, fileorig){
+	// post 로 요청. ajax/form
+	var f = document.createElement('form');
+	f.setAttribute('method', 'post');
+    f.setAttribute('action', '/download');
+    f.setAttribute('enctype', 'application/x-www-form-urlencoded');
+
+    var file = document.createElement('input');
+    file.setAttribute('type', 'hidden');
+    file.setAttribute('name', 'filetemp');
+    file.setAttribute('value', filetemp);
+    f.appendChild(file);
+
+    var file = document.createElement('input');
+    file.setAttribute('type', 'hidden');
+    file.setAttribute('name', 'fileorig');
+    file.setAttribute('value', fileorig);
+    
+    f.appendChild(file);
+    
+    document.body.appendChild(f);
+    
+    f.submit();
+};
 </script>
     
 </head>
@@ -94,7 +119,7 @@ var goWrite = function(){
             		<p>${thisArticle.content }</p>
             		<p id="file-list" style="text-align: right;">
             			<c:forEach var="file" items="${attachFileList }" varStatus="status">
-            			<a href="javascript:download('${file.filenametemp }')">${file.filenameorig }</a>
+            			<a href="javascript:download('${file.filenametemp }', '${file.filenameorig }')">${file.filenameorig }</a>
             			<a href="javascript:deleteAttachFile('${file.attachfileno }')">x</a>
             			<br />
             			</c:forEach>	

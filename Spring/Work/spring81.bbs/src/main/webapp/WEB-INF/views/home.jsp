@@ -176,16 +176,21 @@
         
         <li><a href="/board/articleview/free/1"   target="_blank">/board/articleview/free/1  (GET)</a></li>
         <li><a href="/board/articleview/free/1?curPage=1&searchWord="   target="_blank">/board/articleview/free/1?curPage=1&amp;searchWord=   (GET)</a></li>
-        <li><span> /board/articleview/free/1 에서 쿠키를 이용하여 조회수 1일동 증가 막기 </span></li>
+        <li><span> /board/articleview/free/1?curPage=1&searchWord= 에 페이징 기능 추가 </span></li>
+        <li><span> /board/articleview/free/1?curPage=1&searchWord= 에 searchWord를 이용한 검색 기능 추가 </span></li>
+        <li><span>articleview 의 게시글 목록에서 tr을 클릭하면 해당 게시글이 열리게 하시오</span></li>
+        <li><span>articleview 의 버튼 기능 추가. "수정", "삭제", "다음글", "이전글", "목록", "새글쓰기"</span></li>
+        
+        <li><span>articleview 에서 쿠키를 이용하여 조회수를 1일 동안 증가시키는 것을 막으시오. </span></li>
         <br />
         
-        <li><a href="/board/articlewrite?boardcd=free"  target="_blank">/board/articlewrite/free                                                 (GET,POST)</a></li>
+        <li><a href="/board/articlewrite/free"  target="_blank">/board/articlewrite/free                                                 (GET,POST)</a></li>
         <br />
         
-        <li><a href="/board/articlemodify?boardcd=free&articleno=17&curPage=1&searchWord=" target="_blank">/board/articlemodify/free?articleno=17&amp;curPage=1&amp;searchWord= (GET,POST)</a></li>
+        <li><a href="/board/articlemodify/free/1?curPage=1&searchWord=" target="_blank">/board/articlemodify/free/1?curPage=1&amp;searchWord= (GET,POST)</a></li>
         <br />
         
-        <li><a href="/board/articledelete?boardcd=free&articleno=17&curPage=1&searchWord=" target="_blank">/board/articledelete/free?articleno=17&amp;curPage=1&amp;searchWord= (POST)</a></li>
+        <li><a href="/board/articledelete/free/1?curPage=1&searchWord=" target="_blank">/board/articledelete/free/1?curPage=1&amp;searchWord= (POST)</a></li>
         <br />
         
         <li>jsp 파일에 layout include 하기
