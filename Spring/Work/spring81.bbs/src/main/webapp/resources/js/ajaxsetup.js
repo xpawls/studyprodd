@@ -15,5 +15,6 @@ $(document).ajaxComplete(function(data, textStatus, xhr){
 $(document).ajaxError(function(xhr, textStatus, error){
     // 통신이 실패했을 때 이 함수를 타게된다.
 	// fail 메서드와 같은것
+	alert(error);
 	console.log(error);
 });

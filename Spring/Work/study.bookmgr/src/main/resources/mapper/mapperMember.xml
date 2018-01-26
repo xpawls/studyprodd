@@ -7,6 +7,12 @@
     <select id="selectAll" resultType="ModelMember">
         select * from memberd
     </select>
+    <select id="newID" resultType="int" parameterType="String">
+        select count(*) from memberd where memID = #{memID}
+    </select>
+    <select id="Login" resultType="ModelMember" parameterType="java.util.Map">
+        select * from memberd where memID = #{memID} and memPW = #{memPW}
+    </select>
     
     <select id="selectLike" parameterType="ModelMember" resultType="ModelMember">
         select * from memberd
@@ -30,8 +36,8 @@
     
     <insert id="insertMember" parameterType="ModelMember" keyProperty="memNo">
         <!-- select @authid := max(authid)+1 from auth ; -->
-        insert into memberd (memNo, memName, memPriNum, memPhone, memEmail)
-                   values( #{memNo}, #{memName},#{memPriNum}, #{memPhone},#{memEmail}) ;
+        insert into memberd (memNo, memName, memPriNum, memPhone, memEmail, memID, memPW)
+                   values( #{memNo}, #{memName},#{memPriNum}, #{memPhone},#{memEmail}, #{memID}, #{memPW}) ;
     </insert>
     
     <update id="updateMember" parameterType="java.util.Map">

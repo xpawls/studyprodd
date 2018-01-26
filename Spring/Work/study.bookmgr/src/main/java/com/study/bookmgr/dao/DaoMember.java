@@ -74,4 +74,23 @@ public class DaoMember implements IMember {
         rs = session.insert("mapper.mapperMember.deleteMember", member);
         return rs;
     }
+
+    @Override
+    public int newID(String memID) throws SQLException {
+        int rs = -1;
+        rs = session.selectOne("mapper.mapperMember.newID", memID);
+        return rs;
+    }
+
+    @Override
+    public ModelMember Login(String memID, String memPW) throws SQLException {
+        ModelMember rs = null;
+        Map<String, String> map = new HashMap<>();
+        
+        map.put("memID", memID);
+        map.put("memPW", memPW);
+        
+        rs = session.selectOne("mapper.mapperMember.Login", map);
+        return rs;
+    }
 }

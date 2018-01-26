@@ -13,5 +13,6 @@ public class WebConstants {
     public static final String MSG_FAIL_INSERT_TABLE = "테이블 삽입 실패";
     public static final String MSG_FAIL_DELETE_TABLE = "테이블 삭제 실패";
     public static final String UPLOAD_PATH = "c:/upload/";
+    public static final String MSG_FAIL_DELETE_ARTICLE = "게시글 삭제 실패";
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 }

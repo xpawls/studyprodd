@@ -9,6 +9,9 @@ import com.study.bookmgr.model.ModelMember;
 public interface IMember {
     List<ModelMember> selectAll() throws SQLException;
     
+    int newID(String memID) throws SQLException;
+    ModelMember Login(String memID, String memPW) throws SQLException;
+    
     List<ModelMember> selectLike(ModelMember member) throws SQLException; 
     
     List<ModelMember> selectEqual(ModelMember member) throws SQLException; 

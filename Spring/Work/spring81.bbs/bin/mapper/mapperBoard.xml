@@ -335,7 +335,7 @@
     </select>
     
     
-    <insert id="insertComment" parameterType="ModelComments">
+    <insert id="insertComment" parameterType="ModelComments" useGeneratedKeys="true" keyProperty="commentno" >
         INSERT INTO TB_BBS_Comments ( articleno   , email   , memo   , regdate   , InsertUID   , InsertDT   , UpdateUID   , UpdateDT    )
                              VALUES ( #{articleno}, #{email}, #{memo}, #{regdate}, #{InsertUID}, #{InsertDT}, #{UpdateUID}, #{UpdateDT} )
     </insert>

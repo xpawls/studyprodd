@@ -521,17 +521,28 @@ public class BoardController {
 
     // REST 서비스
     @RequestMapping(value = "/board/articledelete/{boardcd}/{articleno}", method = RequestMethod.POST)
-    @ResponseBody
     public String articledelete( Model model
             , @PathVariable String boardcd
             , @PathVariable Integer articleno 
             , @RequestParam(defaultValue="1") Integer curPage
             , @RequestParam(defaultValue="") String searchWord
+            , RedirectAttributes rttr
             ) {
         logger.info("/board/articledelete :: post");
         
         // transaction 을 이용하여 삭제를 묶는 것이 좋다.
-        srvboard.transDeleteArticle(articleno);
-        return "board/articlemodify";
+        int result = srvboard.transDeleteArticle(articleno);
+        String url = "";
+        
+        if(result==1) {
+            url = String.format("redirect:/board/articlelist/%s?curPage=%d&searchWord=%s", boardcd, curPage, searchWord);
+        }
+        else {
+            rttr.addFlashAttribute("msg", WebConstants.MSG_FAIL_DELETE_ARTICLE);
+            rttr.addAttribute("curPage", curPage);
+            rttr.addAttribute("searchWord", searchWord);
+            url = String.format("redirect:/board/boardview/%s/%d", boardcd, articleno);
+        }
+        return url;
     }
 }

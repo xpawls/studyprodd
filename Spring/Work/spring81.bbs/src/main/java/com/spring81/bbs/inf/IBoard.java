@@ -34,7 +34,7 @@ public interface IBoard {
     List<ModelAttachFile> getAttachFileList(int articleno);
     int insertAttachFile(ModelAttachFile attachfile);
     int deleteAttachFile(ModelAttachFile attachfile);
-    List<ModelComments> getComment(int commentNo);
+    ModelComments getComment(int commentNo);
     List<ModelComments> getCommentList(int articleno);
     int insertComment(ModelComments comments);
     int updateComment(ModelComments updateValue, ModelComments searchValue);

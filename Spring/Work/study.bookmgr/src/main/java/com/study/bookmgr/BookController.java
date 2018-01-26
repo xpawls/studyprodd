@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.study.bookmgr.inf.IServiceBook;
 import com.study.bookmgr.inf.IServiceBorrow;
@@ -141,89 +142,6 @@ public class BookController {
         return "redirect:/bmgr/mainpage";
     }
     
-    // 멤버 페이지
-    @RequestMapping(value = "/joinmember", method = RequestMethod.GET)
-    public String joinmember(Model model) {
-        
-        return "bmgr/joinmember";
-    }
-    @RequestMapping(value = "/joinmembercmp", method = RequestMethod.POST)
-    public String joinmembercomp(Model model
-            , @RequestParam(value="memName") String memName
-            , @RequestParam(value="memPriNum1") String memPriNum1
-            , @RequestParam(value="memPriNum2") String memPriNum2
-            , @RequestParam(value="memPhone1") String memPhone1
-            , @RequestParam(value="memPhone2") String memPhone2
-            , @RequestParam(value="memPhone3") String memPhone3
-            , @RequestParam(value="memEmail") String memEmail) {
-        String memPriNum = memPriNum1+"-"+memPriNum2;
-        String memPhone = memPhone1+"-"+memPhone2+"-"+memPhone3;
-        ModelMember member = new ModelMember(null, memName, memPriNum, memPhone, memEmail);
-        try {
-            int rs = svrmem.insertMember(member);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-            logger.error("joinmembercomp" + e.getMessage());
-            
-        }
-        
-        String bookname = member.getMemName();
-        model.addAttribute("bookname", bookname);
-        return "bmgr/joinmembercmp";
-    }
-    
-    @RequestMapping(value = "/mseach", method = RequestMethod.POST)
-    public String mseach(Model model
-            , @RequestParam(value="msearchtext") String srh) {
-        ModelMember member = new ModelMember();
-        member.setMemNo(Integer.valueOf(srh));
-        List<ModelMember> listm = null;
-        try {
-            listm = svrmem.selectEqual(member);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-            logger.error("mseach" + e.getMessage());
-            
-        }
-        model.addAttribute("listm", listm);
-        model.addAttribute("open", "#memberpage");
-        return "bmgr/mainpage";
-    }
-    @RequestMapping(value = "/modimem", method = RequestMethod.POST)
-    public String modimem(Model model
-            , @ModelAttribute ModelMember setmember
-            , @RequestParam(value="memNo") int no) {
-        setmember.setMemNo(null);
-        ModelMember wheremember = new ModelMember();
-        wheremember.setMemNo(no);
-        try {
-            int rs = svrmem.updateMember(wheremember, setmember);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-            logger.error("modimem" + e.getMessage());
-            
-        }
-        pageSelector = "#memberpage";
-        return "redirect:/bmgr/mainpage";
-    }
-    
-    @RequestMapping(value = "/delmem", method = RequestMethod.POST)
-    public String delmem(Model model
-            , @ModelAttribute ModelMember member) {
-        try {
-            int rs = svrmem.deleteMember(member);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-            logger.error("delmem" + e.getMessage());
-            
-        }
-        pageSelector = "#memberpage";
-        return "redirect:/bmgr/mainpage";
-    }
     
     // 대여 페이지
     @RequestMapping(value = "/brrcmp", method = RequestMethod.POST)
@@ -314,5 +232,8 @@ public class BookController {
         
         return obj;
     }
+    
+    
+    
 	
 }

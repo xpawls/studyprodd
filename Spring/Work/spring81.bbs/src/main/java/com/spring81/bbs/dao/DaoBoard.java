@@ -222,9 +222,9 @@ public class DaoBoard implements IBoard {
     }
 
     @Override
-    public List<ModelComments> getComment(int commentNo) {
-        List<ModelComments> rs = null;
-        rs = session.selectList("mapper.mapperBoard.getComment", commentNo);
+    public ModelComments getComment(int commentNo) {
+        ModelComments rs = null;
+        rs = session.selectOne("mapper.mapperBoard.getComment", commentNo);
         return rs;
     }
 
@@ -239,7 +239,7 @@ public class DaoBoard implements IBoard {
     public int insertComment(ModelComments comments) {
         int rs = -1;
         rs = session.insert("mapper.mapperBoard.insertComment", comments);
-        return rs;
+        return comments.getCommentno();
     }
 
     @Override

@@ -13,11 +13,13 @@ var page = '${open}';
 							var name = $(this).children('a').attr('name');
 							$(name).show();
 						});
+						// header
+						$('body').on('click', '#headLoginBtn', function(e){
+							location.href="/bmgr/login";
+						});
 						
 						$('body').on('click', '#joinmember', function(event) {
-									window.open('joinmember',
-											'width=300px,height=300px',
-											'_blank');
+							location.href="/bmgr/register";
 								});
 
 						// 도서 페이지 도구툴

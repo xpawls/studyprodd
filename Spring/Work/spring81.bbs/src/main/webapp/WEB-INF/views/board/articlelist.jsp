@@ -26,6 +26,10 @@
 	    location.href = '/board/articleview/${boardcd}/' + articleno + location.search;
 	};
 
+	var goWrite = function(){
+	    location.href = "/board/articlewrite/${boardcd}";
+	};
+
 	
 </script>
 

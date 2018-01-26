@@ -381,8 +381,8 @@ public class ServiceBoard implements IServiceBoard {
     }
     
     @Override
-    public List<ModelComments> getComment(int commentNo) {
-        List<ModelComments> rs = null;
+    public ModelComments getComment(int commentNo) {
+        ModelComments rs = null;
         try {
             rs = dao.getComment(commentNo);
         } catch (Exception e) {

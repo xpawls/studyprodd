@@ -15,12 +15,38 @@
     <link rel="stylesheet" href="/resources/css/screen.css" type="text/css" media="screen" />
     
 <script type="text/javascript" src="/resources/js/jquery-3.1.1.js"></script>
+<script type="text/javascript" src="/resources/js/ajaxsetup.js"></script>
 <script type="text/javascript">
     $(document).ready(function(e){
         $('tr[articleno]').click(function(e){
             var articleno = $(this).attr('articleno');
             location.href = '/board/articleview/${boardcd}/' + articleno + location.search;
-        })
+        });
+        
+        $('#addComment input[type="button"]').click(function(){
+        	var memo = $('#addComment textarea').val();
+        	var articleno = ${articleno};  // 컨트롤러에서 넘겨 받는 값.
+        	
+        	// ajax 호출
+        	
+            $.ajax({
+                url : '/rest/insertcomment'
+                , data: JSON.stringify(  {'articleno':articleno, 'memo': memo}  )       // 사용하는 경우에는 { data1:'test1', data2:'test2' }
+                , type: 'post'       // get, post
+                , timeout: 30000    // 30초
+                , dataType: 'html'  // text, html, xml, json, jsonp, script
+                , headers: {'Accept': 'application/json', 'Content-Type':'application/json'}
+            }).done( function(data, textStatus, xhr ){
+                // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
+                alert(data);
+                
+                $('#commentlist').prepend(data);
+                $('#addComment textarea').val('');
+            }).fail( function(xhr, textStatus, error ) {
+                // 통신이 실패했을 때 이 함수를 타게 된다.
+                alert(error);
+            });
+        });
     });
 </script>
 <script type="text/javascript">
@@ -43,6 +69,28 @@ var goDelete = function(){
     
     f.submit();
 	
+};
+
+var commentdelete = function(commentno){
+	if(confirm("정말로 삭제하시겠습니까?")){
+		$.ajax({
+		    url : '/rest/deletecomment'
+		    , data: JSON.stringify( {'commentno':commentno } )        // 사용하는 경우에는 JSON.stringify( { 'data1':'test1', 'data2':'test2' } )
+		    , type: 'post'       // get, post
+		    , timeout: 30000    // 30초
+		    , dataType: 'json'  // text, html, xml, json, jsonp, script
+		    , headers: {  'Accept': 'application/json', 'Content-Type': 'application/json' }
+		}).done( function(data, textStatus, xhr ){
+		    // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
+		    
+		    if(data === 1){// 삭제 성공
+		    	$('div.comments[commentno="'+commentno+'"]').remove();
+		    }
+		    else {// 삭제 실패
+		    	
+		    }
+		})
+	}
 };
 
 
@@ -86,6 +134,26 @@ var download = function(filetemp, fileorig){
     
     f.submit();
 };
+
+var commentModifyShowHide = function(commentno){
+	$('div[commentno="'+commentno+'"] div.modify-comment').toggle();
+};
+var commentupdate = function(commentno){
+	var memo = $('div[commentno="'+commentno+'"] .modify-comment-ta').val();
+	
+	$.ajax({
+	    url : '/rest/updatecomment'
+	    , data: JSON.stringify( {'commentno':commentno , 'memo' : memo} )        // 사용하는 경우에는 JSON.stringify( { 'data1':'test1', 'data2':'test2' } )
+	    , type: 'post'       // get, post
+	    , timeout: 30000    // 30초
+	    , dataType: 'json'  // text, html, xml, json, jsonp, script
+	    , headers: {  'Accept': 'application/json', 'Content-Type': 'application/json' }
+	}).done( function(data, textStatus, xhr ){
+		if(data===1){
+			$('#comment'+commentno).html(memo);
+		}
+	})
+};
 </script>
     
 </head>
@@ -99,11 +167,18 @@ var download = function(filetemp, fileorig){
         <div id="main-menu"><%@ include
                 file="../inc/main-menu.jsp"%></div>
 	<div id="container">
+    
+        
 		<div id="content" style="min-height: 800px;">
 			<div id="url-navi">BBS</div>
             
             <!-- 본문 시작 -->
             <h1>${boardNm }</h1>
+            
+            <c:if test="${not empty msg }">
+        <!--  오류 message출력 -->
+                    <div><p style="color: red;">"${msg }"</p></div>
+                </c:if>
             <div id="bbs">
             	<table>
             	<tr>
@@ -136,7 +211,7 @@ var download = function(filetemp, fileorig){
                 
             	<div id="addComment">
             		<div>
-            			<textarea name="memo" rows="7" cols="50" articleno="${articleno}" ></textarea>
+            			<textarea name="memo" rows="7" cols="50"></textarea>
             		</div>
             		<div style="text-align: right;">
             			<input type="button" value="덧글남기기" />

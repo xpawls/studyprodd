@@ -129,4 +129,34 @@ public class ServiceMember implements IServiceMember {
         }
         return rs;
     }
+
+    @Override
+    public int newID(String memID) throws SQLException {
+        int rs = -1;
+        try {
+            rs = dao.newID(memID);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("newID" + e.getMessage());
+            throw e;
+            
+        }
+        return rs;
+    }
+
+    @Override
+    public ModelMember Login(String memID, String memPW) throws SQLException {
+        ModelMember rs = null;
+        try {
+            rs = dao.Login(memID, memPW);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("Login" + e.getMessage());
+            throw e;
+            
+        }
+        return rs;
+    }
 }

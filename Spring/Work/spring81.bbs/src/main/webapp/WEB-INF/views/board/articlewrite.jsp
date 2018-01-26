@@ -13,6 +13,7 @@
     <title>${boardNm }</title>
     
     <link rel="stylesheet" href="/resources/css/screen.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/resources/js/jquery-3.1.1.js"></script>
    
 </head>
 <body>

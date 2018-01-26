@@ -328,7 +328,7 @@ public class RestController {
     @RequestMapping(value = "/getComment", method = { RequestMethod.GET,
             RequestMethod.POST })
     @ResponseBody
-    public List<ModelComments> getComment(int commentNo) {
+    public ModelComments getComment(int commentNo) {
         logger.info("/rest/getComment");
         return boardsvr.getComment(commentNo);
     }
@@ -342,31 +342,42 @@ public class RestController {
     }
     
 
-    @RequestMapping(value = "/insertcomment", method = { RequestMethod.GET,
-            RequestMethod.POST })
-    @ResponseBody
-    public int insertComment(ModelComments comments) {
+    @RequestMapping(value = "/insertcomment", method = RequestMethod.POST)
+    // @ResponseBody
+    public String insertComment(Model model, @RequestBody ModelComments comments) {
         logger.info("/rest/insertComment");
-        return boardsvr.insertComment(comments);
+        // inserted된 pk값 : commentno
+        int commentno = boardsvr.insertComment(comments);
+        
+        // comment
+        ModelComments result = boardsvr.getComment(commentno);
+        
+        model.addAttribute("comment", result);
+        return "board/articleview-commentlistbody";
     }
     
 
 
-    @RequestMapping(value = "/deletecomment", method = { RequestMethod.GET,
-            RequestMethod.POST })
+    @RequestMapping(value = "/deletecomment", method =
+            RequestMethod.POST )
     @ResponseBody
-    public int deleteComment(ModelComments comments) {
+    public int deleteComment( @RequestBody ModelComments comments) {
         logger.info("/rest/deleteComment");
         return boardsvr.deleteComment(comments);
     }
     
 
-    @RequestMapping(value = "/updatecomment", method = { RequestMethod.GET,
-            RequestMethod.POST })
+    @RequestMapping(value = "/updatecomment", method =  RequestMethod.POST )
     @ResponseBody
-    public int updateComment(ModelComments updateValue, ModelComments searchValue) {
+    public int updateComment(@RequestBody ModelComments comment) {
         logger.info("/rest/updateComment");
-        return boardsvr.updateComment(updateValue, searchValue);
+        
+        ModelComments setvalue = new ModelComments();
+        setvalue.setMemo(comment.getMemo());
+        
+        ModelComments where = new ModelComments();
+        where.setCommentno(comment.getCommentno());
+        return boardsvr.updateComment(setvalue, where);
     }
     
     
