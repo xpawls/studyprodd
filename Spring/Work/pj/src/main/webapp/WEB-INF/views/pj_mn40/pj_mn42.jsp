@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -19,6 +20,14 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/demo.css" />
     <link rel="stylesheet" type="text/css" href="/resources/css/set1.css" />
     <link href="/resources/css/style.css" rel="stylesheet">
+    
+    <style type="text/css">
+        table { margin-left: 292.500px; width: 555px;}
+        table tr {background: #36CBD4; }
+        table td { text-align: center;}
+        .sthead {  border-top: solid, 2px, black;  border-bottom: solid, 2px, black; }
+    </style>
+    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -35,10 +44,21 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="portfolios">
                     <div class="text-center">
-                        <h2>Portfolio</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit Cras suscipit arcu<br>
-                        vestibulum volutpat libero sollicitudin vitae Curabitur ac aliquam <br>
+                        <h2>자주 묻는 질문</h2>
+                        <p>자주 물으시는 질문 <br>
                         </p>
+                        <div class="QnA">01</div>
+                        <span class="answer">01 내용</span>
+                        <div class="QnA">02</div>
+                        <span class="answer">02 내용</span>
+                        <div class="QnA">03</div>
+                        <span class="answer">03 내용</span>
+                        <div class="QnA">04</div>
+                        <span class="answer">04 내용</span>
+                        <div class="QnA">05</div>
+                        <span class="answer">05 내용</span>
+                        <div class="QnA">06</div>
+                        <span class="answer">06 내용</span>
                     </div>
                     <hr>
                 </div>
@@ -46,61 +66,7 @@
         </div>
     </div>
     
-    <div class="portfolio">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <a href="/resources/img/26.jpg" class="flipLightBox">
-                        <img src="/resources/img/26.jpg" width="230" height="230" alt="Image 1" />
-                        <span><b>LightBox Group 1, Image 1</b> Text to accompany first lightbox image</span>
-                    </a>
-
-                    <a href="/resources/img/27.jpg" class="flipLightBox">
-                        <img src="/resources/img/27.jpg" width="230" height="230" alt="Image 2" />
-                        <span><b>LightBox Group 1, Image 2</b><br />Text to accompany 2nd lightbox image</span>
-                    </a>
-
-                    <a href="/resources/img/28.jpg" class="flipLightBox">
-                        <img src="/resources/img/28.jpg" width="230" height="230" alt="Image 3" />
-                        <span><b>LightBox Group 1, Three</b> Text to accompany the third lightbox image</span>
-                    </a>
-
-                    <a href="img/29.jpg" class="flipLightBox">
-                        <img src="/resources/img/29.jpg" width="230" height="230" alt="Image 4" />
-                        <span><b>The Group 1 Final LightBox</b> Text to accompany the last of the lighboxes</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
     
-    <div class="portfolio-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <a href="/resources/img/30.jpg" class="flipLightBox">
-                        <img src="/resources/img/30.jpg" width="250" height="250" alt="Image 1" />
-                        <span><b>LightBox Group 1, Image 1</b> Text to accompany first lightbox image</span>
-                    </a>
-
-                    <a href="/resources/img/31.jpg" class="flipLightBox">
-                        <img src="/resources/img/31.jpg" width="250" height="250" alt="Image 2" />
-                        <span><b>LightBox Group 1, Image 2</b><br />Text to accompany 2nd lightbox image</span>
-                    </a>
-
-                    <a href="/resources/img/32.jpg" class="flipLightBox">
-                        <img src="/resources/img/32.jpg" width="250" height="250" alt="Image 3" />
-                        <span><b>LightBox Group 1, Three</b> Text to accompany the third lightbox image</span>
-                    </a>
-
-                    <a href="/resources/img/33.jpg" class="flipLightBox">
-                        <img src="/resources/img/33.jpg" width="250" height="250" alt="Image 4" />
-                        <span><b>The Group 1 Final LightBox</b> Text to accompany the last of the lighboxes</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
     
       <%@ include file="../footer.jsp"%>
     
