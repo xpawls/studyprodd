@@ -8,8 +8,15 @@ public class ModelMember {
     private String  memEmail  = "";
     private String  memID     = "";
     private String  memPW     = "";
+    private Integer level     = null;
     
     
+    public Integer getLevel() {
+        return level;
+    }
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
     public String getMemID() {
         return memID;
     }
@@ -78,8 +85,17 @@ public class ModelMember {
         this.memPhone = memPhone;
         this.memEmail = memEmail;
     }
+    
+    
     public ModelMember() {
         super();
+    }
+    @Override
+    public String toString() {
+        return "ModelMember [memNo=" + memNo + ", memName=" + memName
+                + ", memPriNum=" + memPriNum + ", memPhone=" + memPhone
+                + ", memEmail=" + memEmail + ", memID=" + memID + ", memPW="
+                + memPW + ", level=" + level + "]";
     }
     
     
