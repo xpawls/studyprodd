@@ -27,8 +27,12 @@ public class DaoBoard implements IDaoBoard {
     }
 
     @Override
-    public int getBoardTotalRecord(String searchWord) {
-        return session.selectOne("mapper.mapperBoard.getBoardTotalRecord", searchWord);
+    public int getBoardTotalRecord(String searchWord,String boardcd) {
+        Map<String, String> map = new HashMap<>();
+        
+        map.put("boardcd", boardcd);
+        map.put("searchWord", searchWord);
+        return session.selectOne("mapper.mapperBoard.getBoardTotalRecord", map);
     }
 
     @Override
@@ -52,9 +56,10 @@ public class DaoBoard implements IDaoBoard {
     }
 
     @Override
-    public List<ModelBoard> getBoardList(String searchWord, int start,
+    public List<ModelBoard> getBoardList(String searchWord, String boardcd, int start,
             int end) {
         Map<String, Object> map = new HashMap<>();
+        map.put("boardcd", boardcd);
         map.put("searchWord", searchWord);
         map.put("start", start);
         map.put("end", end);
@@ -67,16 +72,18 @@ public class DaoBoard implements IDaoBoard {
     }
 
     @Override
-    public ModelBoard getNextBoard(int bno, String searchWord) {
+    public ModelBoard getNextBoard(int bno,String boardcd, String searchWord) {
         Map<String, Object> map = new HashMap<>();
+        map.put("boardcd", boardcd);
         map.put("searchWord", searchWord);
         map.put("bno", bno);
         return session.selectOne("mapper.mapperBoard.getNextBoard", map);
     }
 
     @Override
-    public ModelBoard getPrevBoard(int bno, String searchWord) {
+    public ModelBoard getPrevBoard(int bno,String boardcd, String searchWord) {
         Map<String, Object> map = new HashMap<>();
+        map.put("boardcd", boardcd);
         map.put("searchWord", searchWord);
         map.put("bno", bno);
         return session.selectOne("mapper.mapperBoard.getPrevBoard", map);

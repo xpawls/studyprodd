@@ -29,6 +29,11 @@ body {
     }
 
 /*container*/
+#maincontainer {
+    float: left;
+    width: 1300px;
+    height: 700px;
+    }
 #container {
     float: left;
     width: 1100px;

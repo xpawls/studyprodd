@@ -9,14 +9,23 @@ public class ModelBoard {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     
-    private Integer       bno   = null;// `bno    `    INT(11) NOT NULL,
-    private String        title = "";// `title ` VARCHAR(50) NULL DEFAULT NULL,
+    private Integer       bno     = null;// `bno    `    INT(11) NOT NULL,
+    private String        boardcd = "";// `title ` VARCHAR(50) NULL DEFAULT NULL,
+    private String        title   = "";// `title ` VARCHAR(50) NULL DEFAULT NULL,
     private String        content = "";
-    private String        memid    = "";// `id     `     VARCHAR(50) NULL DEFAULT NULL,
-    private Integer       hit   = null;
-    private java.sql.Date updatedt  = null;// `date   `    DATE NULL DEFAULT NULL,
-    private Boolean       useyn = null;
-    private Integer        commentNum = null;
+    private String        memid   = "";// `id     `     VARCHAR(50) NULL DEFAULT NULL,
+    private Integer       hit     = null;
+    private java.sql.Date updatedt = null;// `date   `    DATE NULL DEFAULT NULL,
+    private Integer       useyn   = null;
+    private Integer       commentNum = null;
+    
+    
+    public String getBoardcd() {
+        return boardcd;
+    }
+    public void setBoardcd(String boardcd) {
+        this.boardcd = boardcd;
+    }
     public String getContent() {
         return content;
     }
@@ -35,10 +44,10 @@ public class ModelBoard {
     public void setUpdatedt(java.sql.Date updatedt) {
         this.updatedt = updatedt;
     }
-    public Boolean getUseyn() {
+    public Integer getUseyn() {
         return useyn;
     }
-    public void setUseyn(Boolean useyn) {
+    public void setUseyn(Integer useyn) {
         this.useyn = useyn;
     }
     public Logger getLogger() {
@@ -87,7 +96,7 @@ public class ModelBoard {
     
     
     public ModelBoard(Integer bno, String title, String content,
-            String memid, Integer hit, Date updatedt, Boolean useyn,
+            String memid, Integer hit, Date updatedt, Integer useyn,
             Integer commentNum) {
         super();
         this.bno = bno;

@@ -8,10 +8,10 @@
     </select>
     
         
-    <select id="getBoardTotalRecord" resultType="int" parameterType="String">
+    <select id="getBoardTotalRecord" resultType="int" parameterType="java.util.Map">
         SELECT count(*) FROM board
         where 1=1
-            
+             and boardcd = #{boardcd}
              AND ( title LIKE CONCAT('%', #{searchWord}, '%') OR content LIKE CONCAT('%', #{searchWord}, '%') )
              AND useYN = 1
     </select>
@@ -26,8 +26,8 @@
     
     <insert id="insertBoard" parameterType="ModelBoard" useGeneratedKeys="true" keyProperty="bno" >
         INSERT INTO 
-        board  (     title   , content   , memid   , hit , updatedt     )
-            VALUES     (  #{title}, #{content}, #{memid}, 0  , #{updatedt}  )
+        board  (    boardcd, title   , content   , memid   , hit , updatedt     )
+            VALUES     (  #{boardcd},  #{title}, #{content}, #{memid}, 0  , #{updatedt}  )
     </insert>   
     
     <update id="updateBoard" parameterType="java.util.Map">
@@ -72,11 +72,12 @@
     
     
     <select id="getBoardList" parameterType="java.util.Map" resultType="ModelBoard">
-        SELECT bno, title, memid, updatedt, hit, commentNum 
+        SELECT bno, boardcd, title, memid, updatedt, hit, commentNum 
         FROM (
             SELECT @RNUM := @RNUM + 1 AS r, a.* 
             FROM (
                     SELECT a.bno bno, 
+                           a.boardcd,
                            a.title, 
                            a.memid, 
                            a.updatedt, 
@@ -84,7 +85,7 @@
                            count(distinct(c.commentno)) commentNum
                     FROM 
                         (select * from board where 
-                        useYN = 1 ) a
+                        useYN = 1 and boardcd = #{boardcd}) a
                         LEFT OUTER JOIN (select * from comments where 
                         UseYN = 1 )   c ON a.bno = c.bno
                     WHERE
@@ -102,7 +103,7 @@
 
     
     <select id="getBoard" parameterType="int" resultType="ModelBoard">
-        SELECT bno, title, content, memid, hit, updatedt
+        SELECT bno, boardcd, title, content, memid, hit, updatedt
         FROM board
         WHERE bno = #{bno}
     </select>
@@ -115,7 +116,8 @@
             FROM
                 (SELECT bno, title 
                    FROM board 
-                  WHERE  bno   &gt;  #{bno}
+                  WHERE  boardcd = #{boardcd}
+                    and  bno   &gt;  #{bno}
                     <if test="searchWord != null">
                         AND ( title LIKE CONCAT('%', #{searchWord}, '%') OR content LIKE CONCAT('%', #{searchWord}, '%') )
                     </if> 
@@ -134,7 +136,8 @@
             FROM
             (SELECT bno, title 
                FROM board 
-              WHERE bno  &lt;  #{bno}
+              WHERE  boardcd = #{boardcd}
+                    and bno  &lt;  #{bno}
                 <if test="searchWord != null">
                 AND ( title LIKE CONCAT('%', #{searchWord}, '%')
                        OR content LIKE CONCAT('%', #{searchWord}, '%') )

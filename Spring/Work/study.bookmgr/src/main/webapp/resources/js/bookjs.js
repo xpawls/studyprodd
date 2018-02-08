@@ -17,10 +17,15 @@ var page = '${open}';
 						$('body').on('click', '#headLoginBtn', function(e){
 							location.href="/bmgr/login";
 						});
+						$('body').on('click', '#headLogoutBtn', function(e){
+							if(confirm('로그아웃 하시겠습니까?')){
+								location.href="/bmgr/logout";
+							}
+						});
 						
 						$('body').on('click', '#joinmember', function(event) {
 							location.href="/bmgr/register";
-								});
+						});
 
 						// 도서 페이지 도구툴
 						$('#bsbtn').click(function(event) {

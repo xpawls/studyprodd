@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,8 @@ public class BookController {
 	 */
 	// 메인 페이지
 	@RequestMapping(value = "/mainpage", method = {RequestMethod.GET,RequestMethod.POST})
-	public String mainpage(Model model) {
+	public String mainpage(Model model
+	        , HttpSession session) {
 		List<ModelBook> list = null;
 		List<ModelMember> listm = null;
 		List<ModelBorrow> listbrr = null;
@@ -58,23 +61,34 @@ public class BookController {
             logger.error("mainpage" + e.getMessage());
             
         }
+		ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        model.addAttribute(WebConstants.SESSION_NAME, mem);
 		model.addAttribute("list", list);
         model.addAttribute("listm", listm);
         model.addAttribute("listbrr", listbrr);
         model.addAttribute("open", pageSelector);
+        model.addAttribute("bookaside", "bookaside");
+        
+        if(mem!=null&&mem.getLevel()==0) {
+            model.addAttribute("mgr", mem.getMemName());
+        }
 		
 		return "bmgr/mainpage";
 	}
 	// 도서 등록
 	@RequestMapping(value = "/newbook", method = RequestMethod.GET)
-    public String newBook(Model model) {
+    public String newBook(Model model
+            , HttpSession session) {
+        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        model.addAttribute(WebConstants.SESSION_NAME, mem);
         
         return "bmgr/newbook";
     }
 
     @RequestMapping(value = "/newbookcmp", method = RequestMethod.POST)
     public String newBookcomp(Model model
-            , @ModelAttribute ModelBook book) {
+            , @ModelAttribute ModelBook book
+            , HttpSession session) {
         try {
             int rs = svrbook.insertBook(book);
         } catch (SQLException e) {
@@ -83,7 +97,9 @@ public class BookController {
             logger.error("newBookcomp" + e.getMessage());
             
         }
-        
+
+        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        model.addAttribute(WebConstants.SESSION_NAME, mem);
         String bookname = book.getBookname();
         model.addAttribute("bookname", bookname);
         return "bmgr/newbookcmp";
@@ -92,7 +108,8 @@ public class BookController {
     // 도서페이지
     @RequestMapping(value = "/bseach", method = RequestMethod.POST)
     public String bseach(Model model
-            , @RequestParam(value="searchtext") String srh) {
+            , @RequestParam(value="searchtext") String srh
+            , HttpSession session) {
         ModelBook book = new ModelBook();
         book.setNo(Integer.valueOf(srh));
         List<ModelBook> list = null;
@@ -106,12 +123,15 @@ public class BookController {
         }
         model.addAttribute("list", list);
         model.addAttribute("open", "#bookpage");
+        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        model.addAttribute(WebConstants.SESSION_NAME, mem);
         return "bmgr/mainpage";
     }
     @RequestMapping(value = "/modibook", method = RequestMethod.POST)
     public String modibook(Model model
             , @ModelAttribute ModelBook book
-            , @RequestParam(value="no") int no) {
+            , @RequestParam(value="no") int no
+            , HttpSession session) {
         book.setNo(null);
         ModelBook wherebook = new ModelBook();
         wherebook.setNo(no);
@@ -158,18 +178,22 @@ public class BookController {
         pageSelector = "#rentpage";
         return "redirect:/bmgr/mainpage";
     }
-    @RequestMapping(value = "/borrowbook", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/borrowbook", method = {RequestMethod.GET})
     public String borrowbook(Model model
-            , @ModelAttribute ModelBook book) {
+            , @ModelAttribute ModelBook book
+            , HttpSession session) {
         brbook = book;
+        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        model.addAttribute(WebConstants.SESSION_NAME, mem);
         model.addAttribute("brrbook", book);
         return "bmgr/borrowbook";
     }
     
-    @RequestMapping(value = "/brrbookcmp", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/brrbookcmp", method = {RequestMethod.POST})
     public String brrbookcmp(Model model
             , @ModelAttribute ModelBook book
-            , @RequestParam(value="memNo") int memNo) {
+            , @RequestParam(value="memNo") int memNo
+            , HttpSession session) {
         List<ModelMember> mlist = null;
         ModelMember member = new ModelMember();
         member.setMemNo(memNo);
@@ -201,6 +225,8 @@ public class BookController {
             logger.error("brrbookcmp" + e.getMessage());
             
         }
+        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        model.addAttribute(WebConstants.SESSION_NAME, mem);
         model.addAttribute("bookname", book.getBookname());
         return "bmgr/borrowbookcmp";
     }

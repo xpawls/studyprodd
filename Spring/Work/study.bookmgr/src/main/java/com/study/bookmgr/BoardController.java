@@ -45,22 +45,35 @@ public class BoardController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	
-	@RequestMapping(value = "pj_mn30/pj_mn31", method = RequestMethod.GET)
-    public String pj_mn31( Model model
+	@RequestMapping(value = "bmgr/bookboard/{boardcd}", method = RequestMethod.GET)
+    public String bookBoard( Model model
+            , @PathVariable String boardcd
             , @RequestParam(defaultValue="1") Integer curPage
             , @RequestParam(defaultValue="") String searchWord
             , HttpServletRequest request
             , HttpSession session
             ) {
-        logger.info("pj_mn30/pj_mn31");
+        logger.info("bmgr/bookBoard");
+
+        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        model.addAttribute(WebConstants.SESSION_NAME, mem);
         
-        int totalRecord = svrboard.getBoardTotalRecord(searchWord);
+
+        if(mem!=null&&mem.getLevel()==0) {
+            model.addAttribute("mgr", mem.getMemName());
+        }
+
+        model.addAttribute("asidetype", boardcd);
+        
+        int totalRecord = svrboard.getBoardTotalRecord(searchWord, boardcd);
+        
+        
         
         PagingHelper paging = new PagingHelper(totalRecord, curPage);
         int start = paging.getStartRecord();
         int end = paging.getEndRecord();
         
-        List<ModelBoard> rs = svrboard.getBoardList(searchWord, start, end);
+        List<ModelBoard> rs = svrboard.getBoardList(searchWord, boardcd, start, end);
 
         model.addAttribute(WebConstants.SESSION_NAME, session.getAttribute(WebConstants.SESSION_NAME));
         model.addAttribute("boardlist", rs);
@@ -71,23 +84,18 @@ public class BoardController {
         model.addAttribute("nextLink", paging.getNextLink());
         model.addAttribute("searchWord", searchWord);
         model.addAttribute("url", request.getRequestURL().toString());
-        return "pj_mn30/pj_mn31";
+        return "bmgr/bookBoard";
     }
 	
-	@RequestMapping(value = "pj_mn30/pj_mn32", method = RequestMethod.GET)
-    public String pj_mn32( Model model) {
-        logger.info("/pj_mn30/pj_mn32");
-        return "pj_mn30/pj_mn32";
-    }
-	
-	@RequestMapping(value = "pj_mn30/pj_mn31view/{bno}", method = RequestMethod.GET)
-    public String pj_mn31view( Model model
+	@RequestMapping(value = "bmgr/bookboardview/{bno}", method = RequestMethod.GET)
+    public String bookBoardview( Model model
             , @PathVariable Integer bno 
+            , @RequestParam(defaultValue="free") String boardcd
             , @RequestParam(defaultValue="1") Integer curPage
             , @RequestParam(defaultValue="") String searchWord
             , HttpServletRequest request
             , HttpSession session) {
-        logger.info("/pj_mn30/pj_mn31_view");
+        logger.info("/bmgr/bookBoardview");
         svrboard.increaseBoardHit(bno);
         
         // searchWord
@@ -109,22 +117,22 @@ public class BoardController {
         List<ModelComments> commentList = srvboard.getCommentList(articleno);
         model.addAttribute("commentList", commentList);*/
         // nextArticle
-        ModelBoard nextBoard = svrboard.getNextBoard(bno, searchWord);
+        ModelBoard nextBoard = svrboard.getNextBoard(bno, boardcd,  searchWord);
         model.addAttribute("nextBoard", nextBoard);
         // prevArticle
-        ModelBoard prevBoard = svrboard.getPrevBoard(bno, searchWord);
+        ModelBoard prevBoard = svrboard.getPrevBoard(bno, boardcd,  searchWord);
         model.addAttribute("prevBoard", prevBoard);
         // articleList
         // no
         // prevPage
         // pageLinks
         // nextLink
-        int totalRecord = svrboard.getBoardTotalRecord(searchWord);
+        int totalRecord = svrboard.getBoardTotalRecord(searchWord, boardcd);
         
         PagingHelper paging = new PagingHelper(totalRecord, curPage);
         int start = paging.getStartRecord();
         int end = paging.getEndRecord();
-        List<ModelBoard> boardlist = svrboard.getBoardList(searchWord, start, end);
+        List<ModelBoard> boardlist = svrboard.getBoardList(searchWord, boardcd, start, end);
         model.addAttribute("boardlist", boardlist);
         model.addAttribute("no", paging.getListNo());
         model.addAttribute("PrevLink", paging.getPrevLink());
@@ -144,49 +152,49 @@ public class BoardController {
         // actionurl
         String url = request.getRequestURL().toString();
         model.addAttribute("url", url);
-        return "pj_mn30/pj_mn31view";
+        return "bmgr/bookBoardview";
     }
 	
 
-    @RequestMapping(value = "pj_mn30/pj_mn31write", method = RequestMethod.GET)
-    public String pj_mn31write( Model model
+    @RequestMapping(value = "bmgr/bookboardwrite", method = RequestMethod.GET)
+    public String bookBoardwrite( Model model
             , HttpSession session) {
-        logger.info("/pj_mn30/pj_mn31write");
+        logger.info("/bmgr/bookBoardwrite");
         
 
         model.addAttribute(WebConstants.SESSION_NAME, session.getAttribute(WebConstants.SESSION_NAME));
         
-        return "pj_mn30/pj_mn31write";
+        return "bmgr/bookBoardwrite";
     }
 
 
-    @RequestMapping(value = "pj_mn30/pj_mn31write", method = RequestMethod.POST)
-    public String pj_mn31write( Model model
+    @RequestMapping(value = "bmgr/bookboardwrite", method = RequestMethod.POST)
+    public String bookBoardwrite( Model model
             , @RequestParam(value="title") String title
             , @RequestParam(value="content") String content
             , HttpSession session) {
-        logger.info("/pj_mn30/pj_mn31write");
+        logger.info("/bmgr/bookBoardwrite");
         
-        ModelMember Mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        ModelMember member = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
         long date = new Date().getTime();
         
         java.sql.Date updatedt = new java.sql.Date(date);
         
-        ModelBoard Board = new ModelBoard(null, title, content, Mem.getMemID(), null, updatedt, null, null);
+        ModelBoard Board = new ModelBoard(null, title, content, member.getMemID(), null, updatedt, null, null);
         
         int rs = svrboard.insertBoard(Board);
         
         
-        return "redirect:/pj_mn30/pj_mn31view/" + Board.getBno();
+        return "redirect:/bmgr/bookboardview/" + Board.getBno();
     }
-    @RequestMapping(value = "pj_mn30/pj_mn31modify/{bno}", method = RequestMethod.GET)
-    public String pj_mn31modify( Model model
+    @RequestMapping(value = "bmgr/bookboardmodify/{bno}", method = RequestMethod.GET)
+    public String bookBoardmodify( Model model
             , @PathVariable Integer bno
             , @RequestParam(defaultValue="1") Integer curPage
             , @RequestParam(defaultValue="") String searchWord
             , HttpSession session
             , HttpServletRequest request) {
-        logger.info("/pj_mn30/pj_mn31modify : get");
+        logger.info("/bmgr/bookBoardmodify : get");
         
         ModelBoard thisBoard = svrboard.getBoard(bno);
         
@@ -196,17 +204,17 @@ public class BoardController {
         model.addAttribute(WebConstants.SESSION_NAME, session.getAttribute(WebConstants.SESSION_NAME));
         model.addAttribute("actionurl", request.getRequestURL().toString());
         
-        return "pj_mn30/pj_mn31modify";
+        return "bmgr/bookBoardmodify";
     }
 
 
-    @RequestMapping(value = "pj_mn30/pj_mn31modify/{bno}", method = RequestMethod.POST)
-    public String pj_mn31modify( Model model
+    @RequestMapping(value = "bmgr/bookboardmodify/{bno}", method = RequestMethod.POST)
+    public String bookBoardmodify( Model model
             , @RequestParam(defaultValue="1") Integer curPage
             , @RequestParam(defaultValue="") String searchWord
             , @ModelAttribute ModelBoard updateValue
             , HttpSession session) {
-        logger.info("/pj_mn30/pj_mn31modify : post");
+        logger.info("/bmgr/bookBoardmodify : post");
         
         ModelBoard searchValue = new ModelBoard();
         searchValue.setBno(updateValue.getBno());
@@ -214,13 +222,13 @@ public class BoardController {
         int rs = svrboard.updateBoard(searchValue, updateValue);
         
         
-        return "redirect:/pj_mn30/pj_mn31view/" + searchValue.getBno();
+        return "redirect:/bmgr/bookboardview/" + searchValue.getBno();
     }
     
-    @RequestMapping(value = "pj_mn30/pj_mn31delete", method = RequestMethod.POST)
+    @RequestMapping(value = "bmgr/bookboarddelete", method = RequestMethod.POST)
     @ResponseBody
-    public int pj_mn31delete( @RequestBody ModelBoard board) {
-        logger.info("/pj_mn30/pj_mn31delete : post");
+    public int bookBoarddelete( @RequestBody ModelBoard board) {
+        logger.info("/bmgr/bookBoarddelete : post");
         
         int rs = svrboard.deleteBoard(board.getBno());
         
@@ -228,13 +236,13 @@ public class BoardController {
         return rs;
     }
 
-    @RequestMapping(value = "pj_mn30/pj_mn31match", method = RequestMethod.POST)
+    @RequestMapping(value = "bmgr/bookboardmatch", method = RequestMethod.POST)
     @ResponseBody
-    public int pj_mn31match(
+    public int bookBoardmatch(
               @RequestBody ModelBoard board
             , HttpSession session
             ) {
-        logger.info("/pj_mn30/pj_mn31match : post");
+        logger.info("/bmgr/bookBoardmatch : post");
         board = svrboard.getBoard(board.getBno());
         ModelMember sq = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
         if(sq.getMemID().equals(board.getMemid())||sq.getLevel()==0) {
@@ -245,13 +253,13 @@ public class BoardController {
         }
     }
     
-    @RequestMapping(value = "pj_mn30/pj_mn31matchc", method = RequestMethod.POST)
+    @RequestMapping(value = "bmgr/bookboardmatchc", method = RequestMethod.POST)
     @ResponseBody
-    public int pj_mn31matchc(
+    public int bookBoardmatchc(
               @RequestBody ModelComments comment
             , HttpSession session
             ) {
-        logger.info("/pj_mn30/pj_mn31matchc : post");
+        logger.info("/bmgr/bookBoardmatchc : post");
         comment = svrcomment.getCommentOne(comment.getCommentno());
         ModelMember sq = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
         if(sq.getMemID().equals(comment.getMemid())||sq.getLevel()==0) {
@@ -264,13 +272,13 @@ public class BoardController {
     
     
     //코멘트
-    @RequestMapping(value = "pj_mn30/pj_mn31insertc", method = RequestMethod.POST)
+    @RequestMapping(value = "bmgr/bookboardinsertc", method = RequestMethod.POST)
     //@ResponseBody
-    public String pj_mn31insertc( Model model
+    public String bookBoardinsertc( Model model
             , @RequestBody ModelComments comment
             , HttpSession session
             ) {
-        logger.info("/pj_mn30/pj_mn31insertc : post");
+        logger.info("/bmgr/bookBoardinsertc : post");
         ModelMember Mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
         long date = new Date().getTime();
         
@@ -286,15 +294,15 @@ public class BoardController {
         model.addAttribute("comment", result);
         
         
-        return "pj_mn30/Boardview-commentlistbody" ;
+        return "bmgr/bookBoardview-commentlistbody" ;
     }
     
-    @RequestMapping(value = "pj_mn30/pj_mn31updatec", method = RequestMethod.POST)
+    @RequestMapping(value = "bmgr/bookboardupdatec", method = RequestMethod.POST)
     @ResponseBody
-    public int pj_mn31updatec( Model model
+    public int bookBoardupdatec( Model model
             , @RequestBody ModelComments setValue
             ) {
-        logger.info("/pj_mn30/pj_mn31updatec : post");
+        logger.info("/bmgr/bookBoardupdatec : post");
         
         int rs = -1;
         
@@ -302,12 +310,12 @@ public class BoardController {
         return rs ;
     }
     
-    @RequestMapping(value = "pj_mn30/pj_mn31deletec", method = RequestMethod.POST)
+    @RequestMapping(value = "bmgr/bookboarddeletec", method = RequestMethod.POST)
     @ResponseBody
-    public int pj_mn31deletec( Model model
+    public int bookBoarddeletec( Model model
             , @RequestBody ModelComments comment
             ) {
-        logger.info("/pj_mn30/pj_mn31deletec : post");
+        logger.info("/bmgr/bookBoarddeletec : post");
         
         int rs = -1;
         

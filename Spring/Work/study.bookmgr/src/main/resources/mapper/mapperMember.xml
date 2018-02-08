@@ -7,8 +7,8 @@
     <select id="selectAll" resultType="ModelMember">
         select * from memberd
     </select>
-    <select id="selectMemOne" resultType="ModelMember">
-        select * from memberd
+    <select id="selectMemOne" resultType="ModelMember" parameterType="String">
+        select * from memberd where memID = #{memID}
     </select>
     <select id="newID" resultType="int" parameterType="String">
         select count(*) from memberd where memID = #{memID}

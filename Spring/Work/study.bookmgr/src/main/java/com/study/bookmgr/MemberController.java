@@ -188,7 +188,7 @@ public class MemberController {
 
         if (result != null) {
             // 로그인 성공
-            session.setAttribute(/* 세션명 */"user",
+            session.setAttribute(WebConstants.SESSION_NAME,
                     /* 세션값 */result);
             if (url.isEmpty())
                 return "redirect:/"; // --> http://localhost/ 페이지가 열림.
@@ -201,5 +201,15 @@ public class MemberController {
             return "redirect:/bmgr/login"; // views/user/login.jsp
         }
         
+    }
+    
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+
+        logger.info("/bmgr/logout : get");
+        
+        session.removeAttribute(WebConstants.SESSION_NAME);
+        
+        return "redirect:/";
     }
 }

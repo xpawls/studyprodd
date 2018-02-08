@@ -35,10 +35,10 @@ public class ServiceBoard implements IServiceBoard {
     }
 
     @Override
-    public int getBoardTotalRecord(String searchWord) {
+    public int getBoardTotalRecord(String searchWord, String boardcd) {
         int rs = -1;
         try {
-            rs = dao.getBoardTotalRecord(searchWord);
+            rs = dao.getBoardTotalRecord(searchWord, boardcd);
         } catch (Exception e) {
             logger.error("getBoardTotalRecord" + e.getMessage());
             throw e;
@@ -86,11 +86,11 @@ public class ServiceBoard implements IServiceBoard {
     }
 
     @Override
-    public List<ModelBoard> getBoardList(String searchWord, int start,
+    public List<ModelBoard> getBoardList(String searchWord, String boardcd, int start,
             int end) {
         List<ModelBoard> rs = null;
         try {
-            rs = dao.getBoardList(searchWord, start, end);
+            rs = dao.getBoardList(searchWord, boardcd, start, end);
         } catch (Exception e) {
             logger.error("getBoardList" + e.getMessage());
             throw e;
@@ -114,11 +114,11 @@ public class ServiceBoard implements IServiceBoard {
     }
 
     @Override
-    public ModelBoard getNextBoard(int bno, String searchWord) {
+    public ModelBoard getNextBoard(int bno,String boardcd, String searchWord) {
         ModelBoard rs = null;
         
         try {
-            rs = dao.getNextBoard(bno, searchWord);
+            rs = dao.getNextBoard(bno,boardcd , searchWord);
         } catch (Exception e) {
             logger.error("getNextBoard" + e.getMessage());
             throw e;
@@ -128,11 +128,11 @@ public class ServiceBoard implements IServiceBoard {
     }
 
     @Override
-    public ModelBoard getPrevBoard(int bno, String searchWord) {
+    public ModelBoard getPrevBoard(int bno,String boardcd, String searchWord) {
         ModelBoard rs = null;
         
         try {
-            rs = dao.getPrevBoard(bno, searchWord);
+            rs = dao.getPrevBoard(bno, boardcd, searchWord);
         } catch (Exception e) {
             logger.error("getPrevBoard" + e.getMessage());
             throw e;

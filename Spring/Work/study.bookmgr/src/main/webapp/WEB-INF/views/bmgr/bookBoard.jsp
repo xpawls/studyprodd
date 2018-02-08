@@ -19,7 +19,7 @@
 /*         table td { text-align: center;} */
 /*         .sthead {  border-top: solid, 2px, black;  border-bottom: solid, 2px, black; } */
         
-        table { margin-left: auto; width: 1143px;}
+        table { margin-left: auto; width: 1100px;}
         table tr th {
         text-align: center;
          background:#ebf5fc;
@@ -32,36 +32,27 @@
          }
         .sthead {  border-top: solid, 2px, black;  border-bottom: solid, 2px, black; }
         .select{float: right;}
-          hr {width: 1413px;} 
-          .btu1{
-          overflow:visible; 
-          border: 0px;
-          padding: 0px;
-          margin: 0px;
-          cursor: pointer;
-          vertical-align: middle;
-          text-align: left;
-          background: none;}
+          hr {width: 1100px;} 
     </style>
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/resources/js/jquery-3.2.1.js"></script>
-    <script type="text/javascript">$('.portfolio').flipLightBox()</script> -->
+    <script type="text/javascript" src="/resources/js/bookjs.js"></script>
     <script type="text/javascript">
     var goList = function(page) {
-        location.href = "/pj_mn30/pj_mn31?searchWord=${searchWord}&curPage="
+        location.href = "/bmgr/bookboard/${boardcd}?searchWord=${searchWord}&curPage="
                 + page;
     };
 
     var goView= function(bno){
-        location.href = '/pj_mn30/pj_mn31view/' + bno;
+        location.href = '/bmgr/bookboardview/${boardcd}/' + bno;
     };
     var goWrite = function(){
     	if(${empty user}===true){
             alert('로그인하세요');
-            location.href = "/login";
+            location.href = "/bmgr/login";
         }
         else {
-            location.href = "/pj_mn30/pj_mn31write";
+            location.href = "/bmgr/bookboardwrite/${boardcd}";
         }
     };
     </script>
@@ -82,8 +73,8 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="portfolios">
                     <div class="text-center">
-                        <h2>Support</h2>
-                        <p>이용에 궁금한 사항이나 문의 사항에 대해 <br>
+                        <h2>${boardcd }</h2>
+                        <p><br>
                         </p>
                     </div>
                     <hr>
@@ -108,7 +99,7 @@
                             <c:if test="${board.commentNum > 0 }">
                                 <span class="bbs-strong">[${board.commentNum }]</span>
                             </c:if></td>
-                        <td>${board.userid }</td>
+                        <td>${board.memid }</td>
                         <td>${board.hit }</td>
                         <td>${board.updatedt }</td>
                     </tr>

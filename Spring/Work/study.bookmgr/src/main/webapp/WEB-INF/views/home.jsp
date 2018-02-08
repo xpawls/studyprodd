@@ -10,8 +10,7 @@
 </head>
 <body>
     <jsp:include page="bmgr/header.jsp"></jsp:include>
-    <jsp:include page="bmgr/aside.jsp"></jsp:include>
-    <div id="container">
+    <div id="maincontainer">
         <h1>여기는 메인 페이지 입니다</h1>
         
     </div>
