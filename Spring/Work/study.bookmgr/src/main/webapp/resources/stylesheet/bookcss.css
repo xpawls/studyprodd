@@ -4,6 +4,10 @@ body {
     width: 1300px;
     height: 900px;
 }
+body a{
+    color: grey;
+    text-decoration: none;
+}
 /* header.jsp*/
 #header {
     background: lightgreen;
@@ -25,8 +29,20 @@ body {
     float: left;
     width: 200px;
     height: 700px;
-    background: skyblue;
+    background: #1a589d;
     }
+
+.asidebar {
+    list-style: none;
+    padding: 0px;
+}
+
+.asidebar li {
+    width: 200px;
+    height: 30px;
+    background: #5096e2;
+    padding: 0px;
+}
 
 /*container*/
 #maincontainer {
@@ -37,7 +53,7 @@ body {
 #container {
     float: left;
     width: 1100px;
-    height: 700px;
+    height: auto;
     }
 #container li { float: left; display: inline-block;}
 

@@ -5,7 +5,7 @@
 
 
 <div class="comments" commentno="${comment.commentno }">
-    <h5 id="commentId"><b>${comment.userid }</b>>><fmt:formatDate pattern="yyyy-MM-dd" value="${comment.regdate }" /></h5>
+    <h5 id="commentId"><b>${comment.memid }</b>>><fmt:formatDate pattern="yyyy-MM-dd" value="${comment.regdate }" /></h5>
     <p id="comment${comment.commentno}">${comment.memo }</p>
     <h6>
         <a href="javascript:commentModifyShowHide('${comment.commentno }')">수정</a> 

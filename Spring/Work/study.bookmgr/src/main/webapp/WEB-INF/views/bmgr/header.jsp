@@ -23,6 +23,6 @@
             <li>ㅣ</li>
             <li><a href="/bmgr/bookboard/free">게시판</a></li>
             <li>ㅣ</li>
-            <li><a href="/">도움</a></li>
+            <li><a href="/bmgr/bookboard/complain">도움</a></li>
         </ul>
     </div>

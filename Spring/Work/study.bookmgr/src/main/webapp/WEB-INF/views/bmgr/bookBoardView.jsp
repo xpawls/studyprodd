@@ -21,7 +21,7 @@
         .sthead {  border-top: solid, 2px, black;  border-bottom: solid, 2px, black; }
         hr {width: 555px;} */
         
-        table { margin-left: auto; width: 1143px;}
+        table { margin-left: auto; width: 1100px;}
         table tr th {
         text-align: center;
          background:#ebf5fc;
@@ -34,7 +34,7 @@
          }
         .sthead {  border-top: solid, 2px, black;  border-bottom: solid, 2px, black; }
         .select{float: right;}
-          hr {width: 1413px;} 
+          hr {width: 1100px;} 
           .btu1{
           overflow:visible; 
           border: 0px;
@@ -52,23 +52,25 @@
     </style>
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/resources/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="/resources/js/bookjs.js"></script>
     <script type="text/javascript">
     // 게시판기능
     var goList = function(page) {
-        location.href = "/pj_mn30/pj_mn31?searchWord=${searchWord}&curPage="
+        location.href = "/bmgr/bookboard/${boardcd}?searchWord=${searchWord}&curPage="
                 + page;
     };
 
     var goView= function(bno){
-        location.href = '/pj_mn30/pj_mn31view/' + bno;
+        location.href = '/bmgr/bookboardview/${boardcd}/' + bno;
     };
     var goWrite = function(){
     	if(${empty user}===true){
     		alert('로그인하세요');
-            location.href = "/login";
+            location.href = "/bmgr/login";
     	}
     	else {
-            location.href = "/pj_mn30/pj_mn31write";
+    		
+            location.href = "/bmgr/bookboardwrite/${boardcd}";
     	}
     };
     var goModify = function(){
@@ -76,12 +78,12 @@
     	var bno = ${bno};
         if(${empty user}){
             alert('권한이 없습니다. 로그인 하세요.');
-            location.href = "/login";
+            location.href = "/bmgr/login";
         }
         else {
 
             $.ajax({
-                url : '/pj_mn30/pj_mn31match'
+                url : '/bmgr/bookboardmatch'
                 , data: JSON.stringify( {'bno':bno } )        // 사용하는 경우에는 JSON.stringify( { 'data1':'test1', 'data2':'test2' } )
                 , type: 'post'       // get, post
                 , timeout: 30000    // 30초
@@ -89,7 +91,7 @@
                 , headers: {  'Accept': 'application/json', 'Content-Type': 'application/json' }
             }).done( function(data, textStatus, xhr ){
                 if(data===1){
-                    location.href = "/pj_mn30/pj_mn31modify/${bno}";
+                    location.href = "/bmgr/bookboardmodify/${bno}";
                 }
                 else {
                     alert('권한이 없습니다.');
@@ -107,12 +109,12 @@
     	var bno = ${bno};
     	if(${empty user}){
     		alert('권한이 없습니다. 로그인 하세요.');
-            location.href = "/login";
+            location.href = "/bmgr/login";
     	}
     	else {
 
             $.ajax({
-                url : '/pj_mn30/pj_mn31match'
+                url : '/bmgr/bookboardmatch'
                 , data: JSON.stringify( {'bno':bno } )        // 사용하는 경우에는 JSON.stringify( { 'data1':'test1', 'data2':'test2' } )
                 , type: 'post'       // get, post
                 , timeout: 30000    // 30초
@@ -121,7 +123,7 @@
             }).done( function(data, textStatus, xhr ){
                 if(data===1){
                     $.ajax({
-                        url : '/pj_mn30/pj_mn31delete'
+                        url : '/bmgr/bookboarddelete'
                         , data: JSON.stringify( {'bno':bno } )        // 사용하는 경우에는 JSON.stringify( { 'data1':'test1', 'data2':'test2' } )
                         , type: 'post'       // get, post
                         , timeout: 30000    // 30초
@@ -162,12 +164,12 @@
         
         if(${empty user}){
             alert('권한이 없습니다. 로그인 하세요.');
-            location.href = "/login";
+            location.href = "/bmgr/login";
         }
         else {
 
             $.ajax({
-                url : '/pj_mn30/pj_mn31matchc'
+                url : '/bmgr/bookboardmatchc'
                 , data: JSON.stringify( {'commentno':commentno } )        // 사용하는 경우에는 JSON.stringify( { 'data1':'test1', 'data2':'test2' } )
                 , type: 'post'       // get, post
                 , timeout: 30000    // 30초
@@ -176,7 +178,7 @@
             }).done( function(data, textStatus, xhr ){
                 if(data===1){
                 	 $.ajax({
-                         url : '/pj_mn30/pj_mn31updatec'
+                         url : '/bmgr/bookboardupdatec'
                          , data: JSON.stringify( {'commentno':commentno , 'memo' : memo} )        // 사용하는 경우에는 JSON.stringify( { 'data1':'test1', 'data2':'test2' } )
                          , type: 'post'       // get, post
                          , timeout: 30000    // 30초
@@ -212,12 +214,12 @@
     	
     	if(${empty user}){
             alert('권한이 없습니다. 로그인 하세요.');
-            location.href = "/login";
+            location.href = "/bmgr/login";
         }
         else {
 
             $.ajax({
-                url : '/pj_mn30/pj_mn31matchc'
+                url : '/bmgr/bookboardmatchc'
                 , data: JSON.stringify( {'commentno':commentno } )        // 사용하는 경우에는 JSON.stringify( { 'data1':'test1', 'data2':'test2' } )
                 , type: 'post'       // get, post
                 , timeout: 30000    // 30초
@@ -227,7 +229,7 @@
                 if(data===1){
                 	if(confirm("정말로 삭제하시겠습니까?")){
                         $.ajax({
-                            url : '/pj_mn30/pj_mn31deletec'
+                            url : '/bmgr/bookboarddeletec'
                             , data: JSON.stringify( {'commentno':commentno } )        // 사용하는 경우에는 JSON.stringify( { 'data1':'test1', 'data2':'test2' } )
                             , type: 'post'       // get, post
                             , timeout: 30000    // 30초
@@ -264,7 +266,6 @@
         
     };
 
-    
     $(document).ready(function(e){
 
         $('#insertc').click(function(e){
@@ -275,11 +276,11 @@
             // ajax 호출
             if(${empty user}){
             	alert('권한이 없습니다. 로그인 하세요.');
-                location.href = "/login";
+                location.href = "/bmgr/login";
             }
             else {
             	$.ajax({
-                    url : '/pj_mn30/pj_mn31insertc'
+                    url : '/bmgr/bookboardinsertc'
                     , data: JSON.stringify(  {'bno':bno, 'memo': memo}  )       // 사용하는 경우에는 { data1:'test1', data2:'test2' }
                     , type: 'post'       // get, post
                     , timeout: 30000    // 30초
@@ -299,6 +300,7 @@
             }
             
         });
+        
     });
     </script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -313,12 +315,12 @@
       <%@ include file="header.jsp"%>
       <%@ include file="aside.jsp"%>
     
-    <div class="container">
+    <div id="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div >
                 <div class="portfolios">
                     <div class="text-center">
-                        <h2>Support</h2>
+                        <h2>${boardcd } </h2>
                         <p>이용에 궁금한 사항이나 문의 사항에 대해 <br>
                         </p>
                     </div>
@@ -326,7 +328,7 @@
                 </div>
             </div>
         </div>
-    </div>
+        
     
     <div class="portfolio">
         <div class="container">
@@ -340,7 +342,7 @@
                 </table>
             
                 <div id="gul-content">
-                    <h6>작성자 ${board.userid } ㅣ 조회수 ${board.hit }</h6>
+                    <h6>작성자 ${board.memid } ㅣ 조회수 ${board.hit }</h6>
                     <p>${board.content }</p>
                 </div>
                 <hr>
@@ -363,11 +365,11 @@
                 </div>
                 
                 <div id="next-prev">
-                    <c:if test="${nextQna != null }">
-                        <p>다음글 : <a href="javascript:goView('${nextQna.bno }')">${nextQna.title }</a></p>
+                    <c:if test="${nextBoard != null }">
+                        <p>다음글 : <a href="javascript:goView('${nextBoard.bno }')">${nextBoard.title }</a></p>
                     </c:if>
-                    <c:if test="${prevQna != null }">
-                        <p>이전글 : <a href="javascript:goView('${prevQna.bno }')">${prevQna.title }</a></p>
+                    <c:if test="${prevBoard != null }">
+                        <p>이전글 : <a href="javascript:goView('${prevBoard.bno }')">${prevBoard.title }</a></p>
                     </c:if>
                 </div>
                 
@@ -378,11 +380,11 @@
                     </div>
                     
                     <div class="fr">
-                    <c:if test="${nextQna != null }">       
-                        <input type="button" value="다음글" onclick="goView('${nextQna.bno }')" />
+                    <c:if test="${nextBoard != null }">       
+                        <input type="button" value="다음글" onclick="goView('${nextBoard.bno }')" />
                     </c:if>
-                    <c:if test="${prevQna != null }">           
-                        <input type="button" value="이전글" onclick="goView('${prevQna.bno }')" />
+                    <c:if test="${prevBoard != null }">           
+                        <input type="button" value="이전글" onclick="goView('${prevBoard.bno }')" />
                     </c:if>
                         <input type="button" value="목록" onclick="goList('${curPage }')" />
                         <input type="button" value="새글쓰기" onclick="goWrite()" />
@@ -418,7 +420,7 @@
                                 <span class="bbs-strong">[${board.commentNum }]</span>
                             </c:if>
                         </td>
-                        <td style="text-align: center;">${board.userid }</td>
+                        <td style="text-align: center;">${board.memid }</td>
                         <td style="text-align: center;">${board.hit }</td>
                         <td style="text-align: center;"><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updatedt }" /></td>
                     </tr>
@@ -468,11 +470,13 @@
                             </p>
                         </form>
                     </div>
+                    <br>
                     
             </div>
         </div>
    
     
+    </div>
     
       <%@ include file="footer.jsp"%>
     

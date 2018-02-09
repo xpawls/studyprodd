@@ -23,6 +23,7 @@
     </style>
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/resources/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="/resources/js/bookjs.js"></script>
     <script type="text/javascript">
     var goList = function(page) {
         location.href = "/pj_mn30/pj_mn31?searchWord=${searchWord}&curPage="
@@ -54,7 +55,9 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="portfolios">
                     <div class="text-center">
-                        <h2>Support</h2>
+                        <h2>${boardcd }
+                        <input type="hidden" name="boardcd" value="${boardcd }">
+                        </h2>
                         <p>이용에 궁금한 사항이나 문의 사항에 대해 <br>
                         </p>
                     </div>
@@ -73,7 +76,7 @@
                 <!-- 본문 시작 -->
                 <div id="bbs">
                     <h2>글쓰기</h2>
-                    <form id="writeForm" action="/pj_mn30/pj_mn31write" method="post" enctype="multipart/form-data" onsubmit="return check()">
+                    <form id="writeForm" action="/bmgr/bookboardwrite" method="post" enctype="multipart/form-data" onsubmit="return check()">
                         <p style="margin: 0; padding: 0;">
                             <input type="hidden" name="boardcd" value="${boardcd }" />
                         </p>

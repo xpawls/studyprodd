@@ -108,6 +108,21 @@ public class ModelBoard {
         this.useyn = useyn;
         this.commentNum = commentNum;
     }
+    
+    public ModelBoard(Integer bno, String boardcd, String title, String content,
+            String memid, Integer hit, Date updatedt, Integer useyn,
+            Integer commentNum) {
+        super();
+        this.bno = bno;
+        this.boardcd = boardcd;
+        this.title = title;
+        this.content = content;
+        this.memid = memid;
+        this.hit = hit;
+        this.updatedt = updatedt;
+        this.useyn = useyn;
+        this.commentNum = commentNum;
+    }
     public ModelBoard() {
         super();
     }

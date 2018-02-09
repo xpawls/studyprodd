@@ -81,7 +81,11 @@ public class BookController {
             , HttpSession session) {
         ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
         model.addAttribute(WebConstants.SESSION_NAME, mem);
-        
+
+        if(mem!=null&&mem.getLevel()==0) {
+            model.addAttribute("mgr", mem.getMemName());
+        }
+        model.addAttribute("bookaside", "bookaside");
         return "bmgr/newbook";
     }
 
@@ -102,6 +106,9 @@ public class BookController {
         model.addAttribute(WebConstants.SESSION_NAME, mem);
         String bookname = book.getBookname();
         model.addAttribute("bookname", bookname);
+        if(mem!=null&&mem.getLevel()==0) {
+            model.addAttribute("mgr", mem.getMemName());
+        }
         return "bmgr/newbookcmp";
     }
     

@@ -87,10 +87,10 @@ public class BoardController {
         return "bmgr/bookBoard";
     }
 	
-	@RequestMapping(value = "bmgr/bookboardview/{bno}", method = RequestMethod.GET)
+	@RequestMapping(value = "bmgr/bookboardview/{boardcd}/{bno}", method = RequestMethod.GET)
     public String bookBoardview( Model model
+            , @PathVariable String  boardcd 
             , @PathVariable Integer bno 
-            , @RequestParam(defaultValue="free") String boardcd
             , @RequestParam(defaultValue="1") Integer curPage
             , @RequestParam(defaultValue="") String searchWord
             , HttpServletRequest request
@@ -138,6 +138,9 @@ public class BoardController {
         model.addAttribute("PrevLink", paging.getPrevLink());
         model.addAttribute("pageLinks", paging.getPageLinks());
         model.addAttribute("nextLink", paging.getNextLink());
+        model.addAttribute("asidetype", boardcd);
+        model.addAttribute("boardcd", boardcd);
+        
         List<ModelComments> commentList = svrcomment.getComment(bno);
         
         if(commentList!=null) {
@@ -152,19 +155,20 @@ public class BoardController {
         // actionurl
         String url = request.getRequestURL().toString();
         model.addAttribute("url", url);
-        return "bmgr/bookBoardview";
+        return "bmgr/bookBoardView";
     }
 	
 
-    @RequestMapping(value = "bmgr/bookboardwrite", method = RequestMethod.GET)
+    @RequestMapping(value = "bmgr/bookboardwrite/{boardcd}", method = RequestMethod.GET)
     public String bookBoardwrite( Model model
+            , @PathVariable String boardcd
             , HttpSession session) {
         logger.info("/bmgr/bookBoardwrite");
         
 
         model.addAttribute(WebConstants.SESSION_NAME, session.getAttribute(WebConstants.SESSION_NAME));
         
-        return "bmgr/bookBoardwrite";
+        return "bmgr/bookBoardWrite";
     }
 
 
@@ -172,6 +176,7 @@ public class BoardController {
     public String bookBoardwrite( Model model
             , @RequestParam(value="title") String title
             , @RequestParam(value="content") String content
+            , @RequestParam(value="boardcd") String boardcd
             , HttpSession session) {
         logger.info("/bmgr/bookBoardwrite");
         
@@ -180,12 +185,12 @@ public class BoardController {
         
         java.sql.Date updatedt = new java.sql.Date(date);
         
-        ModelBoard Board = new ModelBoard(null, title, content, member.getMemID(), null, updatedt, null, null);
+        ModelBoard Board = new ModelBoard(null,boardcd, title, content, member.getMemID(), null, updatedt, null, null);
         
         int rs = svrboard.insertBoard(Board);
         
         
-        return "redirect:/bmgr/bookboardview/" + Board.getBno();
+        return "redirect:/bmgr/bookboardview/"+boardcd+"/" + Board.getBno();
     }
     @RequestMapping(value = "bmgr/bookboardmodify/{bno}", method = RequestMethod.GET)
     public String bookBoardmodify( Model model
@@ -204,7 +209,7 @@ public class BoardController {
         model.addAttribute(WebConstants.SESSION_NAME, session.getAttribute(WebConstants.SESSION_NAME));
         model.addAttribute("actionurl", request.getRequestURL().toString());
         
-        return "bmgr/bookBoardmodify";
+        return "bmgr/bookBoardModify";
     }
 
 
@@ -294,7 +299,7 @@ public class BoardController {
         model.addAttribute("comment", result);
         
         
-        return "bmgr/bookBoardview-commentlistbody" ;
+        return "bmgr/bookBoardView-commentlistbody" ;
     }
     
     @RequestMapping(value = "bmgr/bookboardupdatec", method = RequestMethod.POST)
