@@ -51,26 +51,51 @@ public class BookController {
 		List<ModelBook> list = null;
 		List<ModelMember> listm = null;
 		List<ModelBorrow> listbrr = null;
+		ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+		if(mem==null) {
+		    listbrr = null;
+		}
+		else if(mem.getLevel()==0) {
+		    try {
+                listbrr = svrbor.selectAll();
+            } catch (SQLException e) {
+                logger.error("mainpage" + e.getMessage());
+                
+            }
+
+	        model.addAttribute("listbrr", listbrr);
+		}
+		else {
+		    try {
+                listbrr = svrbor.selectMemID(mem.getMemID());
+            } catch (SQLException e) {
+                logger.error("mainpage" + e.getMessage());
+            }
+		    model.addAttribute("listbrr", listbrr);
+		}
 		try {
             list = svrbook.selectAll();
             listm = svrmem.selectAll();
-            listbrr = svrbor.selectAll();
+            
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             // e.printStackTrace();
             logger.error("mainpage" + e.getMessage());
             
         }
-		ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
-        model.addAttribute(WebConstants.SESSION_NAME, mem);
+		
 		model.addAttribute("list", list);
         model.addAttribute("listm", listm);
-        model.addAttribute("listbrr", listbrr);
         model.addAttribute("open", pageSelector);
         model.addAttribute("bookaside", "bookaside");
         
         if(mem!=null&&mem.getLevel()==0) {
             model.addAttribute("mgr", mem.getMemName());
+        }
+        
+        if(mem!=null) {
+
+            model.addAttribute(WebConstants.SESSION_NAME, mem);
         }
 		
 		return "bmgr/mainpage";
@@ -174,8 +199,20 @@ public class BookController {
     @RequestMapping(value = "/brrcmp", method = RequestMethod.POST)
     public String brrcmp(Model model
             , @ModelAttribute ModelBorrow borrow) {
+        
+        ModelBorrow rr = null;
+        try {
+            rr = svrbor.selectBrrno(borrow.getBrno());
+        } catch (SQLException e1) {
+            // TODO Auto-generated catch block
+            // e1.printStackTrace();
+            logger.error("brrcmp" + e1.getMessage());
+            
+        }
         try {
             int rs = svrbor.deleteBorrow(borrow);
+            
+            svrbor.brrbookN(rr.getBookno());
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             // e.printStackTrace();
@@ -185,7 +222,7 @@ public class BookController {
         pageSelector = "#rentpage";
         return "redirect:/bmgr/mainpage";
     }
-    @RequestMapping(value = "/borrowbook", method = {RequestMethod.GET})
+    @RequestMapping(value = "/borrowbook", method = {RequestMethod.POST})
     public String borrowbook(Model model
             , @ModelAttribute ModelBook book
             , HttpSession session) {
@@ -199,43 +236,36 @@ public class BookController {
     @RequestMapping(value = "/brrbookcmp", method = {RequestMethod.POST})
     public String brrbookcmp(Model model
             , @ModelAttribute ModelBook book
-            , @RequestParam(value="memNo") int memNo
             , HttpSession session) {
-        List<ModelMember> mlist = null;
-        ModelMember member = new ModelMember();
-        member.setMemNo(memNo);
-        try {
-            mlist = svrmem.selectEqual(member);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-            logger.error("brrbookcmp" + e.getMessage());
-        }
-        member = mlist.get(0);
+        long dd = new Date().getTime();
+        java.sql.Date date = new java.sql.Date(dd);
         
+        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
         ModelBorrow brr = new ModelBorrow();
         brr.setBookname(book.getBookname());
         brr.setBookno(book.getNo());
         brr.setAuthor(book.getAuthor());
         brr.setCategory(book.getCategory());
         brr.setPublisher(book.getPublisher());
-        brr.setMemname(member.getMemName());
-        brr.setMemphone(member.getMemPhone());
-        brr.setMememail(member.getMemEmail());
-        brr.setMemprinum(member.getMemPriNum());
-        brr.setBorrowdate(null);
+        brr.setMemid(mem.getMemID());
+        brr.setMemname(mem.getMemName());
+        brr.setMemphone(mem.getMemPhone());
+        brr.setMememail(mem.getMemEmail());
+        brr.setMemprinum(mem.getMemPriNum());
+        brr.setBorrowdate(date);
         try {
             int rs = svrbor.insertBorrow(brr);
+            svrbor.brrbookY(book.getNo());
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             // e.printStackTrace();
             logger.error("brrbookcmp" + e.getMessage());
             
         }
-        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        
         model.addAttribute(WebConstants.SESSION_NAME, mem);
         model.addAttribute("bookname", book.getBookname());
-        return "bmgr/borrowbookcmp";
+        return "bmgr/brrbookcmp";
     }
     
     @RequestMapping(value = "/brmseach", method = {RequestMethod.POST,RequestMethod.GET})

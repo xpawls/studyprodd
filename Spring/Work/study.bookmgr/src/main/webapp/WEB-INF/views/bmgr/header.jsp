@@ -4,16 +4,7 @@
         <h2>도서도서관</h2>
         
         
-        <c:choose>
-        <c:when test="${empty user }">
-            <input type="button" value="로그인" id="headLoginBtn">
-            <input type="button" value="회원가입"  name="joinmember"  id="joinmember">
-        </c:when>
-        <c:otherwise>
-            <input type="button" value="로그아웃" id="headLogoutBtn">
-            <input type="button" value="회원정보"  name="memberinfo"  id="memberinfo">
-        </c:otherwise>
-        </c:choose>
+        
         <ul id="headmenu">
             <li><a href="/">메인</a></li>
             <li>ㅣ</li>
@@ -25,4 +16,17 @@
             <li>ㅣ</li>
             <li><a href="/bmgr/bookboard/complain">도움</a></li>
         </ul>
+        
+        <c:choose>
+        <c:when test="${empty user }">
+            <input type="button" value="로그인" id="headLoginBtn">
+            <input type="button" value="회원가입"  name="joinmember"  id="joinmember">
+        </c:when>
+        <c:otherwise>
+            <span> ${user.memName }님</span>
+            <br>
+            <input type="button" value="로그아웃" id="headLogoutBtn">
+            <input type="button" value="회원정보"  name="memberinfo"  id="memberinfo">
+        </c:otherwise>
+        </c:choose>
     </div>

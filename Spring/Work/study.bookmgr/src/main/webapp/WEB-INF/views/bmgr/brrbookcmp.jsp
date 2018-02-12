@@ -19,8 +19,8 @@ div.nblabel {
 <script type="text/javascript" src="/resources/js/jquery-3.2.1.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		#('#cmpclose').click(function(event){
-			$(window).self.close();
+		$('#cmpclose').click(function(event){
+			window.open("about:blank","_self").close();
 		});
 	});
 </script>

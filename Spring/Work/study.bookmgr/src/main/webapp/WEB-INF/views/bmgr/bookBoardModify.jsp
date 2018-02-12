@@ -20,42 +20,26 @@
         .sthead {  border-top: solid, 2px, black;  border-bottom: solid, 2px, black; }
         
         #qnatexta { width: 550px;}
+        
+         #texta { width: 550px;}
     </style>
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/resources/js/jquery-3.2.1.js"></script>
     <script type="text/javascript">
     var goList = function() {
-        location.href = "/pj_mn30/pj_mn31?searchWord=${searchWord}&curPage=${curPage}";
+        location.href = "/bmgr/bookboardview/${boardcd}?searchWord=${searchWord}&curPage=${curPage}";
                 
     };
 
     </script>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    
   </head>
   <body>
     
       <%@ include file="header.jsp"%>
       <%@ include file="aside.jsp"%>
     
-    <div id="container">
-        <div class="row">
-            <div class="port">
-                <div class="portfolios">
-                    <div class="text-center">
-                        <h2>Support</h2>
-                        <p>이용에 궁금한 사항이나 문의 사항에 대해 <br>
-                        </p>
-                    </div>
-                    <hr>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     
     <div class="portfolio">
         <div class="container">
@@ -65,8 +49,12 @@
 
                 <!-- 본문 시작 -->
                 <div id="bbs">
-                    <h2>수정</h2>
+                    <h2>${boardcd }</h2>
+                    
                     <form id="modifyForm" action="${actionurl }" method="post" enctype="multipart/form-data" >
+                        <h2>
+                        <input type="hidden" name="boardcd" value="${boardcd }">
+                        </h2>
                         <p style="margin: 0; padding: 0;">
                             <input type="hidden" name="bno" value="${bno }" />
                             <input type="hidden" name="curPage" value="${curPage }" />
@@ -79,7 +67,7 @@
                                     value="${thisBoard.title }" /></td>
                             </tr>
                             <tr>
-                                <td colspan="2"><textarea name="content" rows="17">${thisBoard.content }</textarea>
+                                <td colspan="2"><textarea name="content" rows="17" id="texta">${thisBoard.content }</textarea>
                                 </td>
                             </tr>
                             

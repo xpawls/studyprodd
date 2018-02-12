@@ -7,11 +7,17 @@
         select * from borrowd
     </select>
     
+    <select id="selectMemID" resultType="ModelBorrow" parameterType="String">
+        select * from borrowd where memid = #{memid}
+    </select>
     
+    <select id="selectBrrno" resultType="ModelBorrow" parameterType="int">
+        select * from borrowd where brno = #{brno}
+    </select>
     <insert id="insertBorrow" parameterType="ModelBorrow" keyProperty="brno">
         <!-- select @authid := max(authid)+1 from auth ; -->
-        insert into borrowd (memname, memphone, memprinum, mememail, bookname, publisher, category, author, bookno, borrowdate)
-                   values(  #{memname},#{memphone},#{memprinum},#{mememail},#{bookname},#{publisher},#{category},#{author},#{bookno},#{borrowdate}) ;
+        insert into borrowd (memname,memid, memphone, memprinum, mememail, bookname, publisher, category, author, bookno, borrowdate)
+                   values(  #{memname},#{memid},#{memphone},#{memprinum},#{mememail},#{bookname},#{publisher},#{category},#{author},#{bookno},#{borrowdate}) ;
     </insert>
     
     <delete id="deleteBorrow" parameterType="ModelBorrow">
@@ -19,6 +25,17 @@
             where 1=1
             and brno = #{brno}
     </delete>
+    
+    <update id="brrbookY" parameterType="int">
+        update bookd set borrow_yn = 1
+                    where no = #{no}
+    </update>
+    
+    
+    <update id="brrbookN" parameterType="int">
+        update bookd set borrow_yn = 0
+                    where no = #{no}
+    </update>
 
     
 

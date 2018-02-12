@@ -66,4 +66,63 @@ public class ServiceBorrow implements IServiceBorrow {
         }
         return rs;
     }
+
+    @Override
+    public List<ModelBorrow> selectMemID(String memid) throws SQLException {
+        List<ModelBorrow> rs = null;
+        
+        try {
+            rs = dao.selectMemID(memid);
+        } catch (Exception e) {
+            logger.error("selectMemID" + e.getMessage());
+            throw e;
+            
+        }
+        return rs;
+    }
+
+    @Override
+    public int brrbookY(int no) throws SQLException {
+        int rs = -1;
+        try {
+            rs = dao.brrbookY(no);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("brrbookY" + e.getMessage());
+            throw e;
+            
+        }
+        return rs;
+    }
+
+    @Override
+    public int brrbookN(int no) throws SQLException {
+        int rs = -1;
+        try {
+            rs = dao.brrbookN(no);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("brrbookN" + e.getMessage());
+            throw e;
+            
+        }
+        return rs;
+    }
+
+    @Override
+    public ModelBorrow selectBrrno(int brno) throws SQLException {
+        ModelBorrow rs = null;
+        try {
+            rs = dao.selectBrrno(brno);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("selectBrrno" + e.getMessage());
+            throw e;
+            
+        }
+        return rs;
+    }
 }

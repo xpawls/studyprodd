@@ -19,7 +19,7 @@
         table td { text-align: center;}
         .sthead {  border-top: solid, 2px, black;  border-bottom: solid, 2px, black; }
         
-        #qnatexta { width: 550px;}
+        #texta { width: 550px;}
     </style>
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/resources/js/jquery-3.2.1.js"></script>
@@ -50,22 +50,7 @@
       <%@ include file="header.jsp"%>
       <%@ include file="aside.jsp"%>
     
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="portfolios">
-                    <div class="text-center">
-                        <h2>${boardcd }
-                        <input type="hidden" name="boardcd" value="${boardcd }">
-                        </h2>
-                        <p>이용에 궁금한 사항이나 문의 사항에 대해 <br>
-                        </p>
-                    </div>
-                    <hr>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     
     <div class="portfolio">
         <div class="container">
@@ -75,9 +60,12 @@
 
                 <!-- 본문 시작 -->
                 <div id="bbs">
-                    <h2>글쓰기</h2>
+                    <h2>${boardcd }</h2>
                     <form id="writeForm" action="/bmgr/bookboardwrite" method="post" enctype="multipart/form-data" onsubmit="return check()">
                         <p style="margin: 0; padding: 0;">
+                        <h2>
+                        <input type="hidden" name="boardcd" value="${boardcd }">
+                        </h2>
                             <input type="hidden" name="boardcd" value="${boardcd }" />
                         </p>
                         <table id="write-form">
@@ -86,7 +74,7 @@
                                 <td><input type="text" name="title" size="50" /></td>
                             </tr>
                             <tr>
-                                <td colspan="2"><textarea name="content" rows="17" id="qnatexta"></textarea>
+                                <td colspan="2"><textarea name="content" rows="17" id="texta"></textarea>
                                 </td>
                             </tr>
 

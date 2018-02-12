@@ -202,7 +202,8 @@ public class BoardController {
         logger.info("/bmgr/bookBoardmodify : get");
         
         ModelBoard thisBoard = svrboard.getBoard(bno);
-        
+
+        model.addAttribute("boardcd", thisBoard.getBoardcd());
         model.addAttribute("thisBoard", thisBoard);
         model.addAttribute("curPage", curPage);
         model.addAttribute("searchWord", searchWord);
@@ -217,6 +218,7 @@ public class BoardController {
     public String bookBoardmodify( Model model
             , @RequestParam(defaultValue="1") Integer curPage
             , @RequestParam(defaultValue="") String searchWord
+            , @RequestParam String boardcd
             , @ModelAttribute ModelBoard updateValue
             , HttpSession session) {
         logger.info("/bmgr/bookBoardmodify : post");
@@ -227,7 +229,7 @@ public class BoardController {
         int rs = svrboard.updateBoard(searchValue, updateValue);
         
         
-        return "redirect:/bmgr/bookboardview/" + searchValue.getBno();
+        return "redirect:/bmgr/bookboardview/"+boardcd+"/" + searchValue.getBno();
     }
     
     @RequestMapping(value = "bmgr/bookboarddelete", method = RequestMethod.POST)

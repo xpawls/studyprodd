@@ -14,8 +14,13 @@ body a{
     width: 1300px;
     height: 100px;
 }
+
 #header input { 
     float: right;
+    }
+    
+#header span {
+    float: right; 
     }
 #headmenu li { 
     float: left; 

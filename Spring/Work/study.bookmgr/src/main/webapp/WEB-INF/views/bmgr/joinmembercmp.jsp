@@ -26,7 +26,7 @@ div.nblabel {
 		});
 		
 		$('#logIn').click(function(event){
-            location.href="/bmbr/login";
+            location.href="/bmgr/login";
         });
 		
 	});

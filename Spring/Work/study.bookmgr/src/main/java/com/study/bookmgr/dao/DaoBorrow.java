@@ -41,4 +41,24 @@ public class DaoBorrow implements IBorrow {
         rs = session.insert("mapper.mapperBorrow.deleteBorrow", borrow);
         return rs;
     }
+
+    @Override
+    public List<ModelBorrow> selectMemID(String memid) throws SQLException {
+        return session.selectList("mapper.mapperBorrow.selectMemID", memid);
+    }
+
+    @Override
+    public int brrbookY(int no) throws SQLException {
+        return session.update("mapper.mapperBorrow.brrbookY", no);
+    }
+
+    @Override
+    public int brrbookN(int no) throws SQLException {
+        return session.update("mapper.mapperBorrow.brrbookN", no);
+    }
+
+    @Override
+    public ModelBorrow selectBrrno(int brno) throws SQLException {
+        return session.selectOne("mapper.mapperBorrow.selectBrrno", brno);
+    }
 }

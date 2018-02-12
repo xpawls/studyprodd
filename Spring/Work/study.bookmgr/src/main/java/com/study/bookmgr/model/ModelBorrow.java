@@ -9,6 +9,7 @@ public class ModelBorrow {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private Integer brno       = null;    // `brno`       INT(11) NOT NULL AUTO_INCREMENT,
     private String memname    = "";    //`memname`    VARCHAR(50) NULL DEFAULT NULL,
+    private String memid    = "";    //`memname`    VARCHAR(50) NULL DEFAULT NULL,
     private String memphone   = "";    // `memphone`   VARCHAR(50) NULL DEFAULT NULL,
     private String memprinum  = "";    // `memprinum`  VARCHAR(50) NULL DEFAULT NULL,
     private String mememail   = "";    // `mememail`   VARCHAR(50) NULL DEFAULT NULL,
@@ -18,6 +19,14 @@ public class ModelBorrow {
     private String author     = "";    //`author`     VARCHAR(50) NULL DEFAULT NULL,
     private Integer bookno     = null;    //`bookno`     INT(11) NULL DEFAULT NULL,
     private java.sql.Date borrowdate = null;    //  `borrowdate` DATE NULL DEFAULT NULL,
+    
+    
+    public String getMemid() {
+        return memid;
+    }
+    public void setMemid(String memid) {
+        this.memid = memid;
+    }
     public Integer getBrno() {
         return brno;
     }
@@ -84,22 +93,26 @@ public class ModelBorrow {
     public void setBorrowdate(java.sql.Date borrowdate) {
         this.borrowdate = borrowdate;
     }
+    
     @Override
     public String toString() {
-        return "ModelBorrow [brno=" + brno + ", memname=" + memname
-                + ", memphone=" + memphone + ", memprinum=" + memprinum
-                + ", mememail=" + mememail + ", bookname=" + bookname
-                + ", publisher=" + publisher + ", category=" + category
-                + ", author=" + author + ", bookno=" + bookno + ", borrowdate="
-                + borrowdate + "]";
+        return "ModelBorrow [logger=" + logger + ", brno=" + brno + ", memname="
+                + memname + ", memid=" + memid + ", memphone=" + memphone
+                + ", memprinum=" + memprinum + ", mememail=" + mememail
+                + ", bookname=" + bookname + ", publisher=" + publisher
+                + ", category=" + category + ", author=" + author + ", bookno="
+                + bookno + ", borrowdate=" + borrowdate + "]";
     }
-    public ModelBorrow(Integer brno, String memname, String memphone,
-            String memprinum, String mememail, String bookname,
+    
+    
+    public ModelBorrow(Integer brno, String memname, String memid,
+            String memphone, String memprinum, String mememail, String bookname,
             String publisher, String category, String author, Integer bookno,
             Date borrowdate) {
         super();
         this.brno = brno;
         this.memname = memname;
+        this.memid = memid;
         this.memphone = memphone;
         this.memprinum = memprinum;
         this.mememail = mememail;

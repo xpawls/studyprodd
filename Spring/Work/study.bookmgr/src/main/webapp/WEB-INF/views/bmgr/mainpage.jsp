@@ -255,11 +255,16 @@
                             id="searchtext">
                     </form>
                     <input type="button" name="searchbook" value="검색"
-                        id="bsbtn"> <input type="button"
+                        id="bsbtn"> 
+                        <c:if test="${not empty mgr }"><input type="button"
                         name="modifybook" value="수정" id="bmbtn">
                     <input type="button" name="deletebook" value="삭제"
-                        id="bdbtn"> <input type="button"
+                        id="bdbtn">
+                        </c:if>
+                        <c:if test="${not empty user }">
+                         <input type="button"
                         name="rentbook" value="대여" id="brrbtn">
+                        </c:if>
                 </div>
                 <table class="maintable">
                     <thead>
@@ -283,7 +288,16 @@
                                 <td class="btd">${booklist.author }</td>
                                 <td class="btd">${booklist.publisher }</td>
                                 <td class="btd">${booklist.price }</td>
-                                <td class="btd">${booklist.borrow_yn }</td>
+                                <c:choose>
+                                    <c:when test="${booklist.borrow_yn > 0 }">
+                                        <td class="btd">대여중</td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td class="btd">대여가능</td>
+                                    </c:otherwise>
+                                
+                                </c:choose>
+                                
                             </tr>
                         </c:forEach>
 
@@ -376,7 +390,7 @@
                                 <td class="brtd">${brrlist.brno }</td>
                                 <td class="brtd">${brrlist.memname }</td>
                                 <td class="brtd">${brrlist.memphone }</td>
-                                <td class="brtd">${brrlist.memprinum }</td>
+                                <td class="brtd">******-*******</td>
                                 <td class="brtd">${brrlist.mememail }</td>
                                 <td class="brtd">${brrlist.bookname }</td>
                                 <td class="brtd">${brrlist.publisher }</td>

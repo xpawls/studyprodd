@@ -7,10 +7,10 @@ public class ModelBook {
     private String  category  = "";
     private String  author    = "";
     private Integer price     = null;
-    private Boolean borrow_yn = null;
+    private Integer borrow_yn = null;
     
     public ModelBook(Integer no, String bookname, String publisher,
-            String category, String author, Integer price, Boolean borrow_yn) {
+            String category, String author, Integer price, Integer borrow_yn) {
         super();
         this.no = no;
         this.bookname = bookname;
@@ -69,10 +69,10 @@ public class ModelBook {
     public void setPrice(Integer price) {
         this.price = price;
     }
-    public Boolean getBorrow_yn() {
+    public Integer getBorrow_yn() {
         return borrow_yn;
     }
-    public void setBorrow_yn(Boolean borrow_yn) {
+    public void setBorrow_yn(Integer borrow_yn) {
         this.borrow_yn = borrow_yn;
     }
     

@@ -33,8 +33,8 @@
     </select>
     <!-- useGeneratedKeys="true" keyProperty="bookid"(기본키컬럼값 자동리턴)  -->
     <insert id="insertBook" parameterType="ModelBook" useGeneratedKeys="true" keyProperty="no">
-        insert into bookd (  bookname,    publisher,    category,    author,    price,    borrow_yn,    no )
-                   values( #{bookname}, #{publisher}, #{category}, #{author}, #{price}, #{borrow_yn}, #{no})
+        insert into bookd (  bookname,    publisher,    category,    author,    price,     no )
+                   values( #{bookname}, #{publisher}, #{category}, #{author}, #{price},  #{no})
     </insert>
     
     <update id="updateBook" parameterType="java.util.Map">
@@ -76,6 +76,8 @@
          <if test=" no!=null"> and no = #{no}</if>
           
     </select>
+    
+    
 
 </mapper>
 
