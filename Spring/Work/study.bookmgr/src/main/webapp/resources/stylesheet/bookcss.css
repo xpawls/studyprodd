@@ -8,6 +8,9 @@ body a{
     color: grey;
     text-decoration: none;
 }
+body input {
+    margin-bottom: 5px;
+}
 /* header.jsp*/
 #header {
     background: lightgreen;
@@ -119,6 +122,11 @@ body a{
     height: 700px;
 }
 
+.tables {
+    width: 790px;
+    height: 300px;
+    overflow: auto;
+}
 .maintable {
     width: 790px;
 }
@@ -126,6 +134,7 @@ body a{
 .maintable, .maintable td {
     border: 1px solid black;
 }
+
 
 .tablehover {
     background-color: lightgreen;

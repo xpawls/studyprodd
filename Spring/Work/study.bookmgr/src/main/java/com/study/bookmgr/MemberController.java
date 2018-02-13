@@ -212,4 +212,152 @@ public class MemberController {
         
         return "redirect:/";
     }
+    
+
+    @RequestMapping(value = "/idpwfind", method = RequestMethod.GET)
+    public String idpwfind(Model model
+            ,HttpSession session) {
+
+        logger.info("/bmgr/idpwfind : get");
+
+        model.addAttribute(WebConstants.SESSION_NAME, session.getAttribute(WebConstants.SESSION_NAME));
+        
+        return "/bmgr/IdPwFind";
+    }
+    
+    @RequestMapping(value = "/idfind", method = RequestMethod.POST)
+    public String idfind(Model model
+            ,HttpSession session
+            , @RequestParam String memName
+            , @RequestParam String memPriNum1
+            , @RequestParam String memPriNum2) {
+
+        logger.info("/bmgr/idpwfind : get");
+        String memPriNum = memPriNum1+"-"+memPriNum2;
+        ModelMember mem = new ModelMember();
+        mem.setMemName(memName);
+        mem.setMemPriNum(memPriNum);
+        List<ModelMember> rs = null;
+        
+        try {
+            rs = svrmem.selectEqual(mem);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("idfind" + e.getMessage());
+            
+        }
+        if(mem!=null) {
+            model.addAttribute("id", rs.get(0).getMemID());
+        }
+
+        model.addAttribute(WebConstants.SESSION_NAME, session.getAttribute(WebConstants.SESSION_NAME));
+        return "/bmgr/IdPwFind";
+    }
+    
+    @RequestMapping(value = "/pwfind", method = RequestMethod.POST)
+    public String pwfind(Model model
+            ,HttpSession session
+            , @RequestParam String memID
+            , @RequestParam String memName
+            , @RequestParam String memPriNum1
+            , @RequestParam String memPriNum2) {
+
+        logger.info("/bmgr/idpwfind : get");
+        String memPriNum = memPriNum1+"-"+memPriNum2;
+        ModelMember mem = new ModelMember();
+        mem.setMemName(memName);
+        mem.setMemPriNum(memPriNum);
+        mem.setMemID(memID);
+        List<ModelMember> rs = null;
+        
+        try {
+            rs = svrmem.selectEqual(mem);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("idfind" + e.getMessage());
+            
+        }
+        if(mem!=null) {
+            model.addAttribute("pw", rs.get(0).getMemPW());
+        }
+
+        model.addAttribute(WebConstants.SESSION_NAME, session.getAttribute(WebConstants.SESSION_NAME));
+        return "/bmgr/IdPwFind";
+    }
+    
+
+    @RequestMapping(value = "/modifymember", method = RequestMethod.GET)
+    public String modifymember(Model model
+            ,HttpSession session) {
+
+        logger.info("/bmgr/modifymember : get");
+        
+        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        String[] memPriNum = mem.getMemPriNum().split("-");
+        String[] memPhone = mem.getMemPhone().split("-");
+        
+        model.addAttribute("memPriNum1", memPriNum[0]);
+        model.addAttribute("memPriNum2", memPriNum[1]);
+        model.addAttribute("memPhone1", memPhone[0]);
+        model.addAttribute("memPhone2", memPhone[1]);
+        model.addAttribute("memPhone3", memPhone[2]);
+
+        model.addAttribute(WebConstants.SESSION_NAME, mem);
+        return "/bmgr/modifymember";
+    }
+    
+    @RequestMapping(value = "/modifymember", method = RequestMethod.POST)
+    public String modifymember(Model model
+            ,HttpSession session
+            , @ModelAttribute ModelMember setmemeber
+            , @RequestParam String memPriNum1
+            , @RequestParam String memPriNum2
+            , @RequestParam String memPhone1
+            , @RequestParam String memPhone2
+            , @RequestParam String memPhone3) {
+
+        logger.info("/bmgr/modifymember : post");
+        String memPriNum = memPriNum1+"-"+memPriNum2;
+        String memPhone = memPhone1+"-"+memPhone2+"-"+memPhone3;
+        setmemeber.setMemPriNum(memPriNum);
+        setmemeber.setMemPhone(memPhone);
+        ModelMember wheremember = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+        
+        
+        
+        int rs = -1;
+        
+        try {
+            rs = svrmem.updateMember(wheremember, setmemeber);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("modifymember" + e.getMessage());
+            
+        }
+        
+        List<ModelMember> list = null;
+        if(rs>0) {
+            session.removeAttribute(WebConstants.SESSION_NAME);
+            try {
+                list = svrmem.selectEqual(setmemeber);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                // e.printStackTrace();
+                logger.error("pwfind" + e.getMessage());
+                
+            }
+            session.setAttribute(WebConstants.SESSION_NAME, list.get(0));
+            return "redirect:/";
+        }
+        else {
+
+            model.addAttribute(WebConstants.SESSION_NAME, wheremember);
+            return "redirect:/bmgr/modifymember";
+        }
+
+        
+    }
 }

@@ -26,6 +26,9 @@ var page = '${open}';
 						$('body').on('click', '#joinmember', function(event) {
 							location.href="/bmgr/register";
 						});
+						$('body').on('click', '#memberinfo', function(event) {
+							location.href="/bmgr/modifymember";
+						});
 
 						// 도서 페이지 도구툴
 						$('#bsbtn').click(function(event) {

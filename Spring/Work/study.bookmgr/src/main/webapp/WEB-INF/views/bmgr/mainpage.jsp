@@ -266,6 +266,7 @@
                         name="rentbook" value="대여" id="brrbtn">
                         </c:if>
                 </div>
+                <div class="tables">
                 <table class="maintable">
                     <thead>
                         <tr>
@@ -303,6 +304,7 @@
 
                     </tbody>
                 </table>
+                </div>
             </div>
             <div id="memberpage" class="maintabpage">
                 <form action="" method="post" id="mtxtbox">
@@ -335,7 +337,7 @@
                         id="mdbtn">
                 </div>
 
-
+                <div class="tables">
                 <table class="maintable">
                     <thead>
                         <tr>
@@ -360,12 +362,14 @@
 
                     </tbody>
                 </table>
+                </div>
             </div>
             <div id="rentpage" class="maintabpage">
                 <form action="brrcmp" method="post">
                     <input type="text" name="brno"> <input
                         type="submit" value="반납완료" name="brrsubmit">
                 </form>
+                <div class="tables">
                 <table class="maintable">
 
                     <thead>
@@ -403,6 +407,7 @@
 
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

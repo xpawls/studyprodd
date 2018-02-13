@@ -37,20 +37,39 @@ div.nblabel {
     <jsp:include page="header.jsp"></jsp:include>
     <jsp:include page="aside.jsp"></jsp:include>
     <div id="container" class="logregi" >
-    <h2>로그인</h2>
-    <form action="login" method="post"
+    <h2>아이디/비밀번호 찾기</h2>
+    <div><label>아이디 찾기</label>
+    <c:if test="${not empty id }">
+    <div style="color: blue">아이디는 ${id } 입니다</div>
+    </c:if>
+    <form action="/bmgr/idfind" method="post"
                     enctype="application/x-www-form-urlencoded">
-                    <p style="margin: 0; padding: 0;">
-                        <input type="hidden" name="url" value="${url }" />
-                    </p>
+        <div class="nblabel">이름</div><input name="memName" type="text" class="jmip"><br> 
+            <div class="nblabel">주민번호</div><input name="memPriNum1" type="text" class="jmip">-
+            <input name="memPriNum2" type="password" class="jmip"><br>
+             <input
+            id="idfind" type="submit" value="아이디찾기">
+    </form>
+    </div>
+    
+    <div><label>비밀번호 찾기</label>
+    <c:if test="${not empty pw }">
+    <div style="color: blue">비밀번호는 ${pw } 입니다</div>
+    </c:if>
+    <form action="/bmgr/pwfind" method="post"
+                    enctype="application/x-www-form-urlencoded">
         <div class="nblabel">아이디</div>
         <input name="memID" type="text" class="jmip">
         <br> 
-        <div class="nblabel">패스워드</div><input name="memPW" type="password" class="jmip"><br> 
-        <input id="submit" type="submit" value="Login">
+        <div class="nblabel">이름</div><input name="memName" type="text" class="jmip"><br> 
+            <div class="nblabel">주민번호</div><input name="memPriNum1" type="text" class="jmip">-
+            <input name="memPriNum2" type="password" class="jmip"><br>
+             <input
+            id="pwfind" type="submit" value="비밀번호찾기">
         
-        <a href="/bmgr/idpwfind">아이디/비밀번호 찾기</a>
     </form>
+    </div>
+    
     </div>
     
     <jsp:include page="footer.jsp"></jsp:include>

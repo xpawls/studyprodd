@@ -26,7 +26,7 @@
             <span> ${user.memName }님</span>
             <br>
             <input type="button" value="로그아웃" id="headLogoutBtn">
-            <input type="button" value="회원정보"  name="memberinfo"  id="memberinfo">
+            <input type="button" value="회원정보수정"  name="memberinfo"  id="memberinfo">
         </c:otherwise>
         </c:choose>
     </div>

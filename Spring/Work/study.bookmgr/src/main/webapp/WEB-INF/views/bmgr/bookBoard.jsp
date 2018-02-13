@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>eNno Bootstrap Template</title>
+    <title>도서관 : 게시판</title>
     <link rel="stylesheet" type="text/css"
     href="/resources/stylesheet/bookcss.css">
 
@@ -69,8 +69,7 @@
       <%@ include file="aside.jsp"%>
     
     <div id="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+       
                 <div class="portfolios">
                     <div class="text-center">
                         <h2>${boardcd }</h2>
@@ -79,8 +78,7 @@
                     </div>
                     <hr>
                 </div>
-            </div>
-        </div>
+       
         <div class="portfolio">
         <div class="container">
             <table>
