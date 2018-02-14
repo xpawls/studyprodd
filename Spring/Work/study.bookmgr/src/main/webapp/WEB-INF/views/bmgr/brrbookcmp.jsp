@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>도서 등록</title>
+<title>도서 대여완료</title>
 <!-- <link rel="stylesheet" type="text/css" -->
 <!--     href="/resources/stylesheet/bookcss.css"> -->
 <style type="text/css">

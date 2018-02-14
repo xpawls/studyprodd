@@ -7,8 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>도서 대여</title>
-<link rel="stylesheet" type="text/css"
-    href="/resources/stylesheet/bookcss.css">
+<link rel="stylesheet" type="text/css" href="/resources/stylesheet/bookcss.css">
 <style type="text/css">
 /* header */
 div.nblabel {
@@ -26,16 +25,16 @@ div.nblabel {
 <body>
     <form action="/bmgr/brrbookcmp" method="post" id="form">
         <div class="nblabel">번호</div>
-        <input name="no" type="text" value="${brrbook.no }"><br>
+        <input name="no" type="text" value="${brrbook.no }" readonly="readonly"><br>
         <div class="nblabel">제목</div>
-        <input name="bookname" type="text" value="${brrbook.bookname }"><br>
+        <input name="bookname" type="text" value="${brrbook.bookname }" readonly="readonly"><br>
         <div class="nblabel">출판사</div>
         <input name="publisher" type="text"
-            value="${brrbook.publisher }"><br>
+            value="${brrbook.publisher }" readonly="readonly"><br>
         <div class="nblabel">장르</div>
-        <input name="category" type="text" value="${brrbook.category }"><br>
+        <input name="category" type="text" value="${brrbook.category }" readonly="readonly"><br>
         <div class="nblabel">작가</div>
-        <input name="author" type="text" value="${brrbook.author }"><br>
+        <input name="author" type="text" value="${brrbook.author }" readonly="readonly"><br>
         <span>위의 도서를 대여합니다.</span><br>
         <input id="submit" type="submit" value="대여">
 

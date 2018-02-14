@@ -32,7 +32,13 @@ var page = '${open}';
 
 						// 도서 페이지 도구툴
 						$('#bsbtn').click(function(event) {
-							var selec = $('#bsselect>option').val();
+							var selec = 'bookname';
+							if($('#bsselect option:selected').val()!=''){
+								selec = $('#bsselect option:selected').val();
+							}
+							
+							$('#searchtext').attr('name',selec);
+						
 							$('#bsrhform').submit();
 
 						});
@@ -94,18 +100,41 @@ var page = '${open}';
 						$('#brrbtn')
 								.click(
 										function(event) {
-											$('#btxtbox').attr("action",
+											var bookno = $('#bookpage input[name="no"]').val();
+											$.ajax({
+							                    url : '/bmgr/bookbrryn'
+							                    , data: JSON.stringify(  {'no':bookno}  )       // 사용하는 경우에는 { data1:'test1', data2:'test2' }
+							                    , type: 'post'       // get, post
+							                    , timeout: 30000    // 30초
+							                    , dataType: 'html'  // text, html, xml, json, jsonp, script
+							                        , headers: {'Accept': 'application/json', 'Content-Type':'application/json'}
+							                }).done( function(data, textStatus, xhr ){
+							                    // 통신이 성공적으로 이루어졌을 때 이 함수를 타게 된다.
+							                	if(data==1){
+							                		alert('대여중입니다.');
+							                	}
+							                	else {
+							                		$('#btxtbox').attr("action",
 													"/bmgr/borrowbook");
-											$('#btxtbox')
+								                	$('#btxtbox')
 													.attr("method", "post");
-											$('#btxtbox')
+								                	$('#btxtbox')
 													.attr("target", "도서대여");
-											window
+								                	window
 													.open(
 															"",
 															"도서대여",
 															"height=500, width=900, menubar=no, scrollbars=yes, resizable=no, toolbar=no, status=no, left=50, top=50");
-											$('#btxtbox').submit();
+								                	$('#btxtbox').submit();
+							                	}
+							                	
+							                }).fail( function(xhr, textStatus, error ) {
+							                    // 통신이 실패했을 때 이 함수를 타게 된다.
+							                    alert('error');
+							                }).always( function(data, textStatus, xhr ) {
+							                    // 통신이 실패했어도 성공했어도 이 함수를 타게 된다.
+							                }); 
+											
 
 										});
 

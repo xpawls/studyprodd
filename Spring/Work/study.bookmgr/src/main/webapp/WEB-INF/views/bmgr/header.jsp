@@ -1,7 +1,7 @@
  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <div id="header">
-        <h2>도서도서관</h2>
+        <h2>리드도서관</h2>
         
         
         

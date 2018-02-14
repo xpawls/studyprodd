@@ -45,7 +45,7 @@ var goView = function(bno,boardcd){
 <body>
     <jsp:include page="bmgr/header.jsp"></jsp:include>
     <div id="maincontainer">
-        <h1>여기는 메인 페이지 입니다</h1>
+        <h1>환영합니다</h1>
        <div class="miniboard" id="mininoti"><b><a href="/bmgr/bookboard/notice">공지사항</a></b>
         
             <table>

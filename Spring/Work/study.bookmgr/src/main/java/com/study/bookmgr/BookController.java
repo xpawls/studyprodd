@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -140,13 +141,11 @@ public class BookController {
     // 도서페이지
     @RequestMapping(value = "/bseach", method = RequestMethod.POST)
     public String bseach(Model model
-            , @RequestParam(value="searchtext") String srh
+            , @ModelAttribute ModelBook book
             , HttpSession session) {
-        ModelBook book = new ModelBook();
-        book.setNo(Integer.valueOf(srh));
         List<ModelBook> list = null;
         try {
-            list = svrbook.selectEqual(book);
+            list = svrbook.selectLike(book);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             // e.printStackTrace();
@@ -156,7 +155,17 @@ public class BookController {
         model.addAttribute("list", list);
         model.addAttribute("open", "#bookpage");
         ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
-        model.addAttribute(WebConstants.SESSION_NAME, mem);
+
+        model.addAttribute("bookaside", "bookaside");
+        
+        if(mem!=null&&mem.getLevel()==0) {
+            model.addAttribute("mgr", mem.getMemName());
+        }
+        
+        if(mem!=null) {
+
+            model.addAttribute(WebConstants.SESSION_NAME, mem);
+        }
         return "bmgr/mainpage";
     }
     @RequestMapping(value = "/modibook", method = RequestMethod.POST)
@@ -196,6 +205,26 @@ public class BookController {
     
     
     // 대여 페이지
+    
+    @RequestMapping(value = "/bookbrryn", method = RequestMethod.POST)
+    @ResponseBody
+    public int bookbrryn(Model model
+            , @RequestBody ModelBook book) {
+        
+        ModelBook bb = null;
+        
+        try {
+            bb = svrbook.selectEqual(book).get(0);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+            logger.error("bookbrryn" + e.getMessage());
+            
+        }
+        
+        
+        return bb.getBorrow_yn();
+    }
     @RequestMapping(value = "/brrcmp", method = RequestMethod.POST)
     public String brrcmp(Model model
             , @ModelAttribute ModelBorrow borrow) {

@@ -11,11 +11,11 @@
     <select id="selectLike" parameterType="ModelBook" resultType="ModelBook">
         select * from bookd
          where 1=1
-         <if test=" bookname!=null and bookname!='' "  > and bookname  like #{bookname }</if>
-         <if test=" publisher!=null and publisher!='' "> and publisher like #{publisher}</if>
-         <if test=" category!=null and category!='' "  > and category  like #{category }</if>
-         <if test=" author!=null and author!='' "> and author like #{author}</if>
-         <if test=" price!=null "  > and price  like #{price }</if>
+         <if test=" bookname!=null and bookname!='' "  > and bookname  like concat('%',#{bookname },'%')</if>
+         <if test=" publisher!=null and publisher!='' "> and publisher like concat('%',#{publisher },'%')</if>
+         <if test=" category!=null and category!='' "  > and category  like concat('%',#{category },'%')</if>
+         <if test=" author!=null and author!='' "> and author like concat('%',#{author },'%')</if>
+         <if test=" price!=null "  > and price  like concat('%',#{price },'%')</if>
          <if test=" no!=null"> and no like #{no}</if>
     </select>
     

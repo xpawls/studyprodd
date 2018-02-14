@@ -8,6 +8,9 @@ body a{
     color: grey;
     text-decoration: none;
 }
+body a:hover{
+    color: lightgrey;
+}
 body input {
     margin-bottom: 5px;
 }
