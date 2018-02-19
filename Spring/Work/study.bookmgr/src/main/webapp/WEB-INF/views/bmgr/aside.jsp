@@ -15,7 +15,6 @@
     <ul  class="asidebar">
         <li><a href="/bmgr/newbook">도서등록</a></li>
         <li><a href="/bmgr/joinmember">회원등록</a></li>
-        <li>대여</li>
     </ul>
     </c:if>
     </c:if>

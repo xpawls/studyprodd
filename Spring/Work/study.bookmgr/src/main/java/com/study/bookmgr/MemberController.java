@@ -66,7 +66,21 @@ public class MemberController {
     }
     // 멤버 페이지
     @RequestMapping(value = "/joinmember", method = RequestMethod.GET)
-    public String joinmember(Model model) {
+    public String joinmember(Model model
+                           , HttpSession session) {
+
+        ModelMember mem = (ModelMember) session.getAttribute(WebConstants.SESSION_NAME);
+
+        model.addAttribute("bookaside", "bookaside");
+        
+        if(mem!=null&&mem.getLevel()==0) {
+            model.addAttribute("mgr", mem.getMemName());
+        }
+        
+        if(mem!=null) {
+
+            model.addAttribute(WebConstants.SESSION_NAME, mem);
+        }
         
         return "bmgr/joinmember";
     }

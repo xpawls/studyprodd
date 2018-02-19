@@ -321,8 +321,6 @@
                 <div class="portfolios">
                     <div class="text-center">
                         <h2>${boardcd } </h2>
-                        <p>이용에 궁금한 사항이나 문의 사항에 대해 <br>
-                        </p>
                     </div>
                     <hr>
                 </div>

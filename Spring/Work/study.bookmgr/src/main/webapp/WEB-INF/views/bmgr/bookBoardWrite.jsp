@@ -66,7 +66,6 @@
                         <h2>
                         <input type="hidden" name="boardcd" value="${boardcd }">
                         </h2>
-                            <input type="hidden" name="boardcd" value="${boardcd }" />
                         </p>
                         <table id="write-form">
                             <tr>
